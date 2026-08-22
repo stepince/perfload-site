@@ -46,6 +46,11 @@
       font-size: 24px;
       margin-top: 40px;
     }
+    h3 {
+      font-size: 18px;
+      margin-top: 28px;
+      color: var(--text);
+    }
     p, li {
       color: var(--muted);
     }
@@ -82,10 +87,33 @@
   <main>
     <h2>What is curl-load?</h2>
     <p>
-      curl-load is a lightweight local workbench and dashboard for building and running
-      curl-based load tests. It runs as a small self-hosted service (via Docker) that you
-      point tools like the <strong>Curl Load Workspace Launcher</strong> Chrome extension at.
+      curl-load is a self-hosted tool for building and running HTTP load tests from a curl
+      command or a simple form — no scripting required. It runs locally (or on a server you
+      control) via Docker and gives you two views: a Workbench for authoring detailed test
+      definitions, and a Dashboard for quick one-off runs and reviewing past results.
     </p>
+
+    <h3>Workbench</h3>
+    <p>
+      Write or paste a curl command directly, then layer a load profile on top of it:
+    </p>
+    <ul>
+      <li>Save, clone, import, and export named test projects</li>
+      <li>Set duration, peak virtual users, ramp-up period, and pause between requests</li>
+      <li>Define headers, auth, and variables — including auto-extracting values from
+        responses to feed into later requests</li>
+      <li>Validate responses by content type</li>
+    </ul>
+
+    <h3>Dashboard</h3>
+    <p>
+      A lighter-weight form for quick tests without setting up a saved project:
+    </p>
+    <ul>
+      <li>Pick a method, target URL, virtual users, duration, pause, and request timeout</li>
+      <li>Attach JSON headers and body, plus response validation</li>
+      <li>Review past runs alongside the form</li>
+    </ul>
 
     <h2>Curl Load Workspace Launcher (Chrome Extension)</h2>
     <p>
