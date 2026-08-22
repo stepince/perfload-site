@@ -81,7 +81,10 @@
 </head>
 <body>
   <header>
-    <h1>curl-load</h1>
+    <a href="/" style="color: var(--text); text-decoration: none;"><h1>curl-load</h1></a>
+    <nav style="margin-left: auto;">
+      <a href="/extension.html" style="color: var(--muted); font-size: 14px;">Chrome Extension</a>
+    </nav>
   </header>
 
   <main>
@@ -115,17 +118,13 @@
       <li>Review past runs alongside the form</li>
     </ul>
 
-    <h2>Curl Load Workspace Launcher (Chrome Extension)</h2>
+    <h2>Chrome Extension</h2>
     <p>
-      A one-click shortcut that opens your curl-load Workbench and Dashboard together as a
-      grouped tab set in Chrome, so you don't have to open and arrange them manually.
+      The <strong>Curl Load Workspace Launcher</strong> is a one-click shortcut that opens
+      your curl-load Workbench and Dashboard together as a grouped tab set in Chrome.
+      See the <a href="/extension.html">extension page</a> for details, requirements, and
+      permissions used.
     </p>
-    <div class="card">
-      <p><strong>Requires</strong> a running curl-load instance (local or remote) — the
-      extension does not include or host curl-load itself.</p>
-      <p><strong>Run locally:</strong></p>
-      <code>docker run -p 3000:3000 -v curl-load-runs:/app/runs curlload/curl-load-runner:latest</code>
-    </div>
 
     <h2>Support</h2>
     <p>

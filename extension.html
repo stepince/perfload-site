@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Curl Load Workspace Launcher — curl-load</title>
+  <style>
+    :root {
+      --bg: #0b0d14;
+      --panel: #12151f;
+      --text: #e8eaf0;
+      --muted: #9aa0ae;
+      --accent: #4f46e5;
+      --border: #23273a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    header a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    header nav {
+      margin-left: auto;
+    }
+    header nav a {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 14px;
+    }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-size: 22px;
+      margin-top: 40px;
+    }
+    p, li {
+      color: var(--muted);
+    }
+    a {
+      color: #818cf8;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-top: 16px;
+    }
+    code {
+      background: #1a1e2e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 32px;
+      font-size: 14px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">curl-load</a>
+    <nav>
+      <a href="/">Home</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Curl Load Workspace Launcher</h1>
+    <p>A Chrome extension that opens your curl-load Workbench and Dashboard together as a
+      grouped tab set, one click from the toolbar.</p>
+
+    <h2>What it does</h2>
+    <ul>
+      <li>Click the toolbar icon to open the Workbench and Dashboard together, grouped under
+        a labeled "curl-load" tab group</li>
+      <li>Checks that both URLs are reachable first, so you're never left staring at broken
+        tabs if your curl-load instance isn't running</li>
+      <li>Configurable Workbench and Runner Dashboard URLs — works against a local Docker
+        instance or a remote deployment</li>
+      <li>Settings saved locally via <code>chrome.storage.local</code> and persist across
+        browser restarts</li>
+    </ul>
+
+    <h2>Requirements</h2>
+    <div class="card">
+      <p>This extension requires a running curl-load instance (local or remote) — it does not
+        include or host curl-load itself.</p>
+      <p><strong>Run locally:</strong></p>
+      <code>docker run -p 3000:3000 -v curl-load-runs:/app/runs curlload/curl-load-runner:latest</code>
+    </div>
+
+    <h2>Permissions used</h2>
+    <ul>
+      <li><code>tabs</code> — to open and group the Workbench/Dashboard tabs</li>
+      <li><code>tabGroups</code> — to label the group "curl-load"</li>
+      <li><code>storage</code> — to save your configured URLs locally</li>
+    </ul>
+
+    <h2>Support</h2>
+    <p>
+      Questions, bug reports, or feature requests — reach out at
+      <a href="mailto:support@curl-load.com">support@curl-load.com</a>.
+    </p>
+  </main>
+
+  <footer>
+    &copy; 2026 curl-load
+  </footer>
+</body>
+</html>
