@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy Policy — curl-load</title>
+  <style>
+    :root {
+      --bg: #0b0d14;
+      --panel: #12151f;
+      --text: #e8eaf0;
+      --muted: #9aa0ae;
+      --border: #23273a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    header a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    header nav {
+      margin-left: auto;
+    }
+    header nav a {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 14px;
+    }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-size: 20px;
+      margin-top: 32px;
+    }
+    p, li {
+      color: var(--muted);
+    }
+    a {
+      color: #818cf8;
+    }
+    .updated {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 0;
+    }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 32px;
+      font-size: 14px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">curl-load</a>
+    <nav>
+      <a href="/extension.html">Chrome Extension</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: August 21, 2026</p>
+
+    <p>
+      This policy covers the <strong>Curl Load Workspace Launcher</strong> Chrome extension.
+    </p>
+
+    <h2>Summary</h2>
+    <p>
+      This extension does not collect, store remotely, or transmit any user data. It has no
+      analytics, no telemetry, and does not communicate with any server operated by us.
+    </p>
+
+    <h2>What the extension stores</h2>
+    <p>
+      The extension saves two settings — your configured Workbench URL and Runner Dashboard
+      URL — using Chrome's local storage (<code>chrome.storage.local</code>). This data:
+    </p>
+    <ul>
+      <li>Stays on your device</li>
+      <li>Is never transmitted to us or any third party</li>
+      <li>Is only used to open the tabs you've configured when you click the extension</li>
+    </ul>
+
+    <h2>Network requests the extension makes</h2>
+    <p>
+      Before opening tabs, the extension sends a request to the Workbench and Dashboard URLs
+      you configured, solely to check whether they're reachable. These requests go directly
+      from your browser to the URLs you specified (typically your own local or self-hosted
+      curl-load instance) — never to us.
+    </p>
+
+    <h2>Third parties</h2>
+    <p>
+      This extension does not use any third-party services, analytics providers, or
+      advertising networks.
+    </p>
+
+    <h2>Changes to this policy</h2>
+    <p>
+      If this policy changes, the updated version will be posted on this page with a revised
+      "Last updated" date.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about this policy — reach out at
+      <a href="mailto:support@curl-load.com">support@curl-load.com</a>.
+    </p>
+  </main>
+
+  <footer>
+    &copy; 2026 curl-load
+  </footer>
+</body>
+</html>
