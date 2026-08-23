@@ -84,7 +84,7 @@
 
   <main>
     <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: August 21, 2026</p>
+    <p class="updated">Last updated: August 22, 2026</p>
 
     <p>
       This policy covers the <strong>Curl Load Workspace Launcher</strong> Chrome extension.
@@ -98,20 +98,20 @@
 
     <h2>What the extension stores</h2>
     <p>
-      The extension saves two settings — your configured Workbench URL and Runner Dashboard
-      URL — using Chrome's local storage (<code>chrome.storage.local</code>). This data:
+      The extension saves one setting — your configured Workbench URL — using Chrome's local
+      storage (<code>chrome.storage.local</code>). This data:
     </p>
     <ul>
       <li>Stays on your device</li>
       <li>Is never transmitted to us or any third party</li>
-      <li>Is only used to open the tabs you've configured when you click the extension</li>
+      <li>Is only used to open the Workbench tab when you click the extension</li>
     </ul>
 
     <h2>Network requests the extension makes</h2>
     <p>
-      Before opening tabs, the extension sends a request to the Workbench and Dashboard URLs
-      you configured, solely to check whether they're reachable. These requests go directly
-      from your browser to the URLs you specified (typically your own local or self-hosted
+      Before opening a tab, the extension sends a request to the Workbench URL you
+      configured, solely to check whether it's reachable. This request goes directly from
+      your browser to the URL you specified (typically your own local or self-hosted
       curl-load instance) — never to us.
     </p>
 

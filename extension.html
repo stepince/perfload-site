@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Curl Load Workspace Launcher — curl-load</title>
-  <meta name="description" content="Opens the curl-load Workbench and Dashboard together as a grouped tab set, one click from the toolbar.">
+  <meta name="description" content="Opens the curl-load Workbench, grouped under a tab group, one click from the toolbar.">
   <meta property="og:title" content="Curl Load Workspace Launcher">
-  <meta property="og:description" content="Opens the curl-load Workbench and Dashboard together as a grouped tab set, one click from the toolbar.">
+  <meta property="og:description" content="Opens the curl-load Workbench, grouped under a tab group, one click from the toolbar.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://curl-load.com/extension.html">
   <style>
@@ -101,17 +101,21 @@
 
   <main>
     <h1>Curl Load Workspace Launcher</h1>
-    <p>A Chrome extension that opens your curl-load Workbench and Dashboard together as a
-      grouped tab set, one click from the toolbar.</p>
+    <p>A Chrome extension that opens your curl-load Workbench, grouped under a "curl-load"
+      tab group, one click from the toolbar.</p>
 
     <h2>What it does</h2>
     <ul>
-      <li>Click the toolbar icon to open the Workbench and Dashboard together, grouped under
-        a labeled "curl-load" tab group</li>
-      <li>Checks that both URLs are reachable first, so you're never left staring at broken
-        tabs if your curl-load instance isn't running</li>
-      <li>Configurable Workbench and Runner Dashboard URLs — works against a local Docker
-        instance or a remote deployment</li>
+      <li>Click the toolbar icon to open (or refocus, if already open) the Workbench tab,
+        placed in a labeled "curl-load" tab group</li>
+      <li>From there, use the Workbench's own "curl-load dashboard →" link to open the
+        Dashboard — since that's a real click rather than something the extension does
+        programmatically, Chrome properly links the two tabs, so later clicks on either
+        page's link reliably reuse the same tab instead of opening duplicates</li>
+      <li>Checks that the Workbench URL is reachable first, so you're never left staring at
+        a broken tab if your curl-load instance isn't running</li>
+      <li>Configurable Workbench URL — works against a local Docker instance or a remote
+        deployment</li>
       <li>Settings saved locally via <code>chrome.storage.local</code> and persist across
         browser restarts</li>
     </ul>
@@ -126,9 +130,9 @@
 
     <h2>Permissions used</h2>
     <ul>
-      <li><code>tabs</code> — to open and group the Workbench/Dashboard tabs</li>
+      <li><code>tabs</code> — to open or refocus the Workbench tab</li>
       <li><code>tabGroups</code> — to label the group "curl-load"</li>
-      <li><code>storage</code> — to save your configured URLs locally</li>
+      <li><code>storage</code> — to save your configured Workbench URL locally</li>
     </ul>
 
     <h2>Support</h2>
