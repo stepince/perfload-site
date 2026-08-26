@@ -140,24 +140,26 @@
 
     <h2>AI-friendly</h2>
     <p>
-      curl-load ships two built-in skills that let AI browser tools — like
+      curl-load ships two built-in skill files — <code>/skills/workbench.md</code> and
+      <code>/skills/dashboard.md</code> — that let AI browser tools — like
       <a href="https://claude.com/claude-in-chrome" target="_blank" rel="noopener">Claude in Chrome</a> —
-      drive the app directly from a prompt, instead of you clicking through the Workbench yourself.
+      drive each view directly from a prompt, instead of you clicking through it yourself.
     </p>
 
     <h3>Run tests with a prompt</h3>
     <p>
-      Every curl-load instance exposes a skill file at <code>/skills/workbench.md</code> describing how
-      to operate the Workbench. Point an AI browser tool at it, describe the test you want in plain
-      language, and it fills in the form and starts the run for you — then reads back the results.
+      The <code>/skills/workbench.md</code> skill describes how to operate the Workbench. Point an AI
+      browser tool at it, describe the test you want in plain language, and it fills in the form and
+      starts the run for you — then reads back the results.
     </p>
     <img class="screenshot" src="/assets/screenshots/claude-in-chrome-1200x800.png" alt="Claude in Chrome side panel using the curl-load workbench skill to run a test from a prompt and report latency results">
 
     <h3>Compare runs with a prompt</h3>
     <p>
-      curl-load can already export a PDF report for any single run. Ask it to compare two or more, and
-      a second skill does the analysis — pulling in each run's results, working out the delta on every
-      metric, and handing you back curl-load's own report format with the comparison included.
+      curl-load can already export a PDF report for any single run. The <code>/skills/dashboard.md</code>
+      skill covers the Dashboard's run history — ask it to compare two or more runs, and it pulls in each
+      one's results, works out the delta on every metric, and hands you back curl-load's own report
+      format with the comparison included.
     </p>
     <img class="screenshot" src="/assets/screenshots/pdf-report-1200x800.png" alt="Generated PDF report comparing two curl-load test runs, showing test configuration and a latency metrics delta table">
 
