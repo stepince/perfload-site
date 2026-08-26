@@ -82,6 +82,14 @@
     ul {
       padding-left: 20px;
     }
+    .screenshot {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-top: 16px;
+    }
     footer {
       text-align: center;
       color: var(--muted);
@@ -103,6 +111,7 @@
     <h1>Curl Load Workspace Launcher</h1>
     <p>A Chrome extension that opens your curl-load Workbench, grouped under a "curl-load"
       tab group, one click from the toolbar.</p>
+    <img class="screenshot" src="/assets/screenshots/popup-1280x800.png" alt="Curl Load Workspace Launcher toolbar popup, with an Open curl-load workspace button and the local Docker run command">
 
     <h2>What it does</h2>
     <ul>
@@ -130,7 +139,6 @@
 
     <h2>Permissions used</h2>
     <ul>
-      <li><code>tabs</code> — to open or refocus the Workbench tab</li>
       <li><code>tabGroups</code> — to label the group "curl-load"</li>
       <li><code>storage</code> — to save your configured Workbench URL locally</li>
     </ul>
