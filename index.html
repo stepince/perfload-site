@@ -40,7 +40,7 @@
       margin: 0;
     }
     main {
-      max-width: 720px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 48px 24px 80px;
     }
@@ -115,17 +115,29 @@
     }
     .copy-btn {
       flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
       background: transparent;
       color: var(--muted);
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 5px 10px;
-      font-size: 12px;
+      padding: 0;
       cursor: pointer;
+    }
+    .copy-btn svg {
+      width: 16px;
+      height: 16px;
     }
     .copy-btn:hover {
       color: var(--text);
       border-color: var(--accent);
+    }
+    .copy-btn.copied {
+      color: #34d399;
+      border-color: #34d399;
     }
     footer {
       text-align: center;
@@ -167,12 +179,16 @@
       <p><strong>1. Run the container:</strong></p>
       <div class="code-row">
         <code>docker run -p 3000:3000 -v curl-load-runs:/app/runs curlload/curl-load-runner:latest</code>
-        <button class="copy-btn" type="button" data-copy="docker run -p 3000:3000 -v curl-load-runs:/app/runs curlload/curl-load-runner:latest">Copy</button>
+        <button class="copy-btn" type="button" aria-label="Copy" data-copy="docker run -p 3000:3000 -v curl-load-runs:/app/runs curlload/curl-load-runner:latest">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
       </div>
       <p style="margin-top: 16px;"><strong>2. Open the Workbench:</strong></p>
       <div class="code-row">
         <code>http://localhost:3000/load-tester.html</code>
-        <button class="copy-btn" type="button" data-copy="http://localhost:3000/load-tester.html">Copy</button>
+        <button class="copy-btn" type="button" aria-label="Copy" data-copy="http://localhost:3000/load-tester.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
       </div>
     </div>
 
@@ -263,12 +279,19 @@
   </footer>
 
   <script>
+    var checkIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
     document.querySelectorAll('.copy-btn').forEach(function (btn) {
+      var original = btn.innerHTML;
       btn.addEventListener('click', function () {
         navigator.clipboard.writeText(btn.dataset.copy).then(function () {
-          var original = btn.textContent;
-          btn.textContent = 'Copied!';
-          setTimeout(function () { btn.textContent = original; }, 1500);
+          btn.innerHTML = checkIcon;
+          btn.classList.add('copied');
+          btn.setAttribute('aria-label', 'Copied');
+          setTimeout(function () {
+            btn.innerHTML = original;
+            btn.classList.remove('copied');
+            btn.setAttribute('aria-label', 'Copy');
+          }, 1500);
         });
       });
     });
