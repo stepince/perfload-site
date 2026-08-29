@@ -103,6 +103,30 @@
       border: 1px solid var(--border);
       margin-top: 16px;
     }
+    .code-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .code-row code {
+      flex: 1;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .copy-btn {
+      flex-shrink: 0;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .copy-btn:hover {
+      color: var(--text);
+      border-color: var(--accent);
+    }
     footer {
       text-align: center;
       color: var(--muted);
@@ -141,9 +165,15 @@
     </p>
     <div class="card">
       <p><strong>1. Run the container:</strong></p>
-      <code>docker run -p 3000:3000 -v curl-load-runs:/app/runs curlload/curl-load-runner:latest</code>
+      <div class="code-row">
+        <code>docker run -p 3000:3000 -v curl-load-runs:/app/runs curlload/curl-load-runner:latest</code>
+        <button class="copy-btn" type="button" data-copy="docker run -p 3000:3000 -v curl-load-runs:/app/runs curlload/curl-load-runner:latest">Copy</button>
+      </div>
       <p style="margin-top: 16px;"><strong>2. Open the Workbench:</strong></p>
-      <code>http://localhost:3000</code>
+      <div class="code-row">
+        <code>http://localhost:3000/load-tester.html</code>
+        <button class="copy-btn" type="button" data-copy="http://localhost:3000/load-tester.html">Copy</button>
+      </div>
     </div>
 
     <h3>Workbench</h3>
@@ -231,5 +261,17 @@
   <footer>
     &copy; 2026 curl-load
   </footer>
+
+  <script>
+    document.querySelectorAll('.copy-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        navigator.clipboard.writeText(btn.dataset.copy).then(function () {
+          var original = btn.textContent;
+          btn.textContent = 'Copied!';
+          setTimeout(function () { btn.textContent = original; }, 1500);
+        });
+      });
+    });
+  </script>
 </body>
 </html>
