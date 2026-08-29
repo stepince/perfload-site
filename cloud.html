@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>curl-load Cloud (coming soon) — curl-load</title>
+  <meta name="description" content="curl-load Cloud: a hosted control plane with a runner that deploys inside your own VPC for last-mile access to private test targets. Coming soon.">
+  <meta property="og:title" content="curl-load Cloud">
+  <meta property="og:description" content="A hosted control plane with a runner that deploys inside your own VPC for last-mile access to private test targets. Coming soon.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://curl-load.com/cloud.html">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <style>
+    :root {
+      --bg: #0b0d14;
+      --panel: #12151f;
+      --text: #e8eaf0;
+      --muted: #9aa0ae;
+      --accent: #4f46e5;
+      --border: #23273a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    header a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    header nav {
+      margin-left: auto;
+    }
+    header nav a {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 14px;
+      margin-left: 16px;
+    }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    h2 {
+      font-size: 22px;
+      margin-top: 40px;
+    }
+    p, li {
+      color: var(--muted);
+    }
+    a {
+      color: #818cf8;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-top: 16px;
+    }
+    code {
+      background: #1a1e2e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      border-radius: 8px;
+      background: #fff;
+    }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 32px;
+      font-size: 14px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">curl-load</a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/extension.html">Chrome Extension</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>curl-load Cloud <span class="badge">Coming soon</span></h1>
+    <p>
+      Cloud-hosted orchestration for curl-load, without giving up control of your network.
+      The dashboard, scheduling, and reporting run in curl-load's cloud — but the runner
+      that actually sends the requests deploys inside <strong>your own VPC</strong>, giving
+      it last-mile access to internal and private test targets that aren't reachable from
+      the public internet. Same curl-first, no-script workflow you already use — nothing
+      to expose publicly, no scripts to write.
+    </p>
+
+    <h2>What's coming</h2>
+    <ul>
+      <li>A hosted dashboard across projects and teams — no infrastructure to run yourself</li>
+      <li>A lightweight runner you deploy into your own VPC with a single command, for
+        last-mile access to internal/private endpoints</li>
+      <li>Centralized results and comparative reports across every run, from every runner</li>
+      <li>Still built on <a href="https://k6.io" target="_blank" rel="noopener">k6</a> under the hood</li>
+    </ul>
+
+    <h2>Get notified when it ships</h2>
+    <div class="card">
+      <!--
+        TODO: replace with the real Google Form embed URL before publishing.
+        Create a form with an email-address question, then use its
+        "https://docs.google.com/forms/d/e/FORM_ID/viewform?embedded=true" link below.
+      -->
+      <iframe src="https://docs.google.com/forms/d/e/PLACEHOLDER_FORM_ID/viewform?embedded=true">Loading…</iframe>
+    </div>
+
+    <h2>Support</h2>
+    <p>
+      Questions about curl-load Cloud — reach out at
+      <a href="mailto:support@curl-load.com">support@curl-load.com</a>.
+    </p>
+  </main>
+
+  <footer>
+    &copy; 2026 curl-load
+  </footer>
+</body>
+</html>

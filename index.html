@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>curl-load</title>
+  <title>curl-load — no-script HTTP load testing</title>
+  <meta name="description" content="curl-load is a self-hosted, no-script tool for building and running HTTP load tests — from a curl command or a simple form, no code required.">
   <link rel="icon" type="image/png" href="/assets/favicon.png">
   <style>
     :root {
@@ -65,6 +66,16 @@
       padding: 20px 24px;
       margin-top: 16px;
     }
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
     code {
       background: #1a1e2e;
       padding: 2px 6px;
@@ -91,7 +102,9 @@
 <body>
   <header>
     <a href="/" style="color: var(--text); text-decoration: none;"><h1>curl-load</h1></a>
+    <span style="color: var(--muted); font-size: 14px;">No <s>script</s> HTTP load testing</span>
     <nav style="margin-left: auto;">
+      <a href="/cloud.html" style="color: var(--muted); font-size: 14px; margin-right: 16px;">Cloud</a>
       <a href="/extension.html" style="color: var(--muted); font-size: 14px;">Chrome Extension</a>
     </nav>
   </header>
@@ -99,8 +112,9 @@
   <main>
     <h2>What is curl-load?</h2>
     <p>
-      curl-load is a self-hosted tool for building and running HTTP load tests from a curl
-      command or a simple form — no scripting required. Under the hood, it runs each test with
+      curl-load is a self-hosted, <strong>no <s>script</s></strong> approach to HTTP load testing —
+      no k6 scripts, no code to write. You build a test from a curl command or a simple form,
+      and curl-load handles the rest. Under the hood, it runs each test with
       <a href="https://k6.io" target="_blank" rel="noopener">k6</a>. It runs locally (or on a
       server you control) via Docker and gives you two views: a Workbench for authoring detailed
       test definitions, and a Dashboard for quick one-off runs and reviewing past results.
@@ -171,6 +185,14 @@
       <a href="https://chromewebstore.google.com/detail/curl-load-workspace-launc/oebipckdkgahehaabfanakgkllnnhlme" target="_blank" rel="noopener noreferrer">Add it from the Chrome Web Store</a>,
       or see the <a href="/extension.html">extension page</a> for details, requirements, and
       permissions used.
+    </p>
+
+    <h2>curl-load Cloud <span class="badge">Coming soon</span></h2>
+    <p>
+      A hosted control plane for curl-load, with a runner that deploys inside your own VPC
+      for last-mile access to internal and private test targets — no need to expose them
+      publicly. See the <a href="/cloud.html">curl-load Cloud page</a> for details, and to
+      get notified when it ships.
     </p>
 
     <h2>Support</h2>
