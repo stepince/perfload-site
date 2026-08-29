@@ -133,6 +133,19 @@
       test definitions, and a Dashboard for quick one-off runs and reviewing past results.
     </p>
 
+    <h2>Installation</h2>
+    <p>
+      curl-load runs entirely via Docker — no Chrome extension required. The
+      <a href="/extension.html">Chrome Extension</a> below is just an optional shortcut for
+      opening the Workbench tab.
+    </p>
+    <div class="card">
+      <p><strong>1. Run the container:</strong></p>
+      <code>docker run -p 3000:3000 -v curl-load-runs:/app/runs curlload/curl-load-runner:latest</code>
+      <p style="margin-top: 16px;"><strong>2. Open the Workbench:</strong></p>
+      <code>http://localhost:3000</code>
+    </div>
+
     <h3>Workbench</h3>
     <p>
       Write or paste a curl command directly, then layer a load profile on top of it:
