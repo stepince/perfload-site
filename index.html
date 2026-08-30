@@ -103,6 +103,23 @@
       border: 1px solid var(--border);
       margin-top: 16px;
     }
+    .video-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-top: 16px;
+    }
+    .video-wrap iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
     .code-row {
       display: flex;
       align-items: center;
@@ -190,6 +207,14 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         </button>
       </div>
+    </div>
+
+    <h3>Watch it in action</h3>
+    <p>
+      A quick walkthrough of installing curl-load and running your first test:
+    </p>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube-nocookie.com/embed/utphhvMCbXQ?start=19" title="curl-load: install and run your first test" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
 
     <h3>Workbench</h3>
