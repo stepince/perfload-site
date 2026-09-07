@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://curl-load.com/sitemap.xml
+Sitemap: https://perfload.com/sitemap.xml

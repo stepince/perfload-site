@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>curl-load — no-script HTTP load testing</title>
-  <meta name="description" content="curl-load is a self-hosted, no-script tool for building and running HTTP load tests — from a curl command or a simple form, no code required.">
-  <link rel="canonical" href="https://curl-load.com/">
-  <meta property="og:title" content="curl-load — no-script HTTP load testing">
-  <meta property="og:description" content="curl-load is a self-hosted, no-script tool for building and running HTTP load tests — from a curl command or a simple form, no code required.">
+  <title>perfload — no-script HTTP load testing</title>
+  <meta name="description" content="perfload is a self-hosted, no-script tool for building and running HTTP load tests — from a curl command or a simple form, no code required.">
+  <link rel="canonical" href="https://perfload.com/">
+  <meta property="og:title" content="perfload — no-script HTTP load testing">
+  <meta property="og:description" content="perfload is a self-hosted, no-script tool for building and running HTTP load tests — from a curl command or a simple form, no code required.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://curl-load.com/">
+  <meta property="og:url" content="https://perfload.com/">
   <link rel="icon" type="image/png" href="/assets/favicon.png">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "VideoObject",
-    "name": "curl-load: install and run your first test",
-    "description": "A quick walkthrough of installing curl-load and running your first test.",
+    "name": "perfload: install and run your first test",
+    "description": "A quick walkthrough of installing perfload and running your first test.",
     "thumbnailUrl": "https://i.ytimg.com/vi/utphhvMCbXQ/hqdefault.jpg",
     "uploadDate": "2026-08-29",
     "embedUrl": "https://www.youtube-nocookie.com/embed/utphhvMCbXQ",
@@ -185,7 +185,7 @@
 </head>
 <body>
   <header>
-    <a href="/" style="color: var(--text); text-decoration: none;"><h1>curl-load</h1></a>
+    <a href="/" style="color: var(--text); text-decoration: none;"><h1>perfload</h1></a>
     <span style="color: var(--muted); font-size: 14px;">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
     <nav style="margin-left: auto;">
       <a href="/cloud.html" style="color: var(--muted); font-size: 14px; margin-right: 16px; white-space: nowrap;">Cloud</a>
@@ -194,11 +194,11 @@
   </header>
 
   <main>
-    <h2>What is curl-load?</h2>
+    <h2>What is perfload?</h2>
     <p>
-      curl-load is a self-hosted, <strong>no <s>script</s></strong> approach to HTTP load testing —
+      perfload is a self-hosted, <strong>no <s>script</s></strong> approach to HTTP load testing —
       no k6 scripts, no code to write. You build a test from a curl command or a simple form,
-      and curl-load handles the rest. Under the hood, it runs each test with
+      and perfload handles the rest. Under the hood, it runs each test with
       <a href="https://k6.io" target="_blank" rel="noopener">k6</a>. It runs locally (or on a
       server you control) via Docker and gives you two views: a Workbench for authoring detailed
       test definitions, and a Dashboard for quick one-off runs and reviewing past results.
@@ -206,15 +206,15 @@
 
     <h2>Installation</h2>
     <p>
-      curl-load runs entirely via Docker — no Chrome extension required. The
+      perfload runs entirely via Docker — no Chrome extension required. The
       <a href="/extension.html">Chrome Extension</a> below is just an optional shortcut for
       opening the Workbench tab.
     </p>
     <div class="card">
       <p><strong>1. Run the container:</strong></p>
       <div class="code-row">
-        <code>docker run -p 3000:3000 -v curl-load-runs:/app/runs curlload/curl-load-runner:latest</code>
-        <button class="copy-btn" type="button" aria-label="Copy" data-copy="docker run -p 3000:3000 -v curl-load-runs:/app/runs curlload/curl-load-runner:latest">
+        <code>docker run -p 3000:3000 -v perfload-runs:/app/runs perfload/perfload-runner:latest</code>
+        <button class="copy-btn" type="button" aria-label="Copy" data-copy="docker run -p 3000:3000 -v perfload-runs:/app/runs perfload/perfload-runner:latest">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
         </button>
       </div>
@@ -229,10 +229,10 @@
 
     <h3>Watch it in action</h3>
     <p>
-      A quick walkthrough of installing curl-load and running your first test:
+      A quick walkthrough of installing perfload and running your first test:
     </p>
     <div class="video-wrap">
-      <iframe src="https://www.youtube-nocookie.com/embed/utphhvMCbXQ?start=19" title="curl-load: install and run your first test" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe src="https://www.youtube-nocookie.com/embed/utphhvMCbXQ?start=19" title="perfload: install and run your first test" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
 
     <h3>Workbench</h3>
@@ -246,7 +246,7 @@
         responses to feed into later requests</li>
       <li>Validate responses by content type</li>
     </ul>
-    <img class="screenshot" src="/assets/screenshots/workbench-1280x800.png" alt="curl-load Workbench showing a curl command being turned into a load test">
+    <img class="screenshot" src="/assets/screenshots/workbench-1280x800.png" alt="perfload Workbench showing a curl command being turned into a load test">
 
     <h3>Dashboard</h3>
     <p>
@@ -257,12 +257,12 @@
       <li>Attach JSON headers and body, plus response validation</li>
       <li>Review past runs alongside the form</li>
     </ul>
-    <img class="screenshot" src="/assets/screenshots/dashboard-1280x800.png" alt="curl-load Dashboard with a quick test form and past runs panel">
+    <img class="screenshot" src="/assets/screenshots/dashboard-1280x800.png" alt="perfload Dashboard with a quick test form and past runs panel">
 
     <h3>Powered by k6</h3>
     <p>
       Both the Workbench and the Dashboard hand your test off to <a href="https://k6.io" target="_blank" rel="noopener">k6</a>
-      to actually run it. While a test is in progress, curl-load links out to k6's own live
+      to actually run it. While a test is in progress, perfload links out to k6's own live
       dashboard for real-time metrics — request rate, duration, virtual users, and transfer
       rate — and every run's results are backed by k6's output.
     </p>
@@ -270,7 +270,7 @@
 
     <h2>AI-friendly</h2>
     <p>
-      curl-load ships two built-in skill files — <code>/skills/workbench.md</code> and
+      perfload ships two built-in skill files — <code>/skills/workbench.md</code> and
       <code>/skills/dashboard.md</code> — that let AI browser tools — like
       <a href="https://claude.com/claude-in-chrome" target="_blank" rel="noopener">Claude in Chrome</a> —
       drive each view directly from a prompt, instead of you clicking through it yourself.
@@ -282,43 +282,43 @@
       browser tool at it, describe the test you want in plain language, and it fills in the form and
       starts the run for you — then reads back the results.
     </p>
-    <img class="screenshot" src="/assets/screenshots/claude-in-chrome-1200x800.png" alt="Claude in Chrome side panel using the curl-load workbench skill to run a test from a prompt and report latency results">
+    <img class="screenshot" src="/assets/screenshots/claude-in-chrome-1200x800.png" alt="Claude in Chrome side panel using the perfload workbench skill to run a test from a prompt and report latency results">
 
     <h3>Compare runs with a prompt</h3>
     <p>
-      curl-load can already export a PDF report for any single run. The <code>/skills/dashboard.md</code>
+      perfload can already export a PDF report for any single run. The <code>/skills/dashboard.md</code>
       skill covers the Dashboard's run history — ask it to compare two or more runs, and it pulls in each
-      one's results, works out the delta on every metric, and hands you back curl-load's own report
+      one's results, works out the delta on every metric, and hands you back perfload's own report
       format with the comparison included.
     </p>
-    <img class="screenshot" src="/assets/screenshots/pdf-report-1200x800.png" alt="Generated PDF report comparing two curl-load test runs, showing test configuration and a latency metrics delta table">
+    <img class="screenshot" src="/assets/screenshots/pdf-report-1200x800.png" alt="Generated PDF report comparing two perfload test runs, showing test configuration and a latency metrics delta table">
 
     <h2>Chrome Extension</h2>
     <p>
-      The <strong>Curl Load Workspace Launcher</strong> is a one-click shortcut that opens
-      your curl-load Workbench in Chrome, grouped under a "curl-load" tab group.
-      <a href="https://chromewebstore.google.com/detail/curl-load-workspace-launc/oebipckdkgahehaabfanakgkllnnhlme" target="_blank" rel="noopener noreferrer">Add it from the Chrome Web Store</a>,
+      The <strong>Perfload Workspace Launcher</strong> is a one-click shortcut that opens
+      your perfload Workbench in Chrome, grouped under a "perfload" tab group.
+      <a href="https://chromewebstore.google.com/detail/perfload-workspace-launc/oebipckdkgahehaabfanakgkllnnhlme" target="_blank" rel="noopener noreferrer">Add it from the Chrome Web Store</a>,
       or see the <a href="/extension.html">extension page</a> for details, requirements, and
       permissions used.
     </p>
 
-    <h2>curl-load Cloud <span class="badge">Coming soon</span></h2>
+    <h2>perfload Cloud <span class="badge">Coming soon</span></h2>
     <p>
-      A hosted control plane for curl-load, with a runner that deploys inside your own VPC
+      A hosted control plane for perfload, with a runner that deploys inside your own VPC
       for last-mile access to internal and private test targets — no need to expose them
-      publicly. See the <a href="/cloud.html">curl-load Cloud page</a> for details, and to
+      publicly. See the <a href="/cloud.html">perfload Cloud page</a> for details, and to
       get notified when it ships.
     </p>
 
     <h2>Support</h2>
     <p>
       Questions, bug reports, or feature requests — reach out at
-      <a href="mailto:support@curl-load.com">support@curl-load.com</a>.
+      <a href="mailto:support@perfload.com">support@perfload.com</a>.
     </p>
   </main>
 
   <footer>
-    &copy; 2026 curl-load
+    &copy; 2026 perfload
   </footer>
 
   <script>
