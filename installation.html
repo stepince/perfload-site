@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PerfLoad Installation Guide</title>
+  <meta name="description" content="Detailed installation instructions for PerfLoad — running the Docker container locally, and deploying it to a Kubernetes cluster.">
+  <link rel="canonical" href="https://perfload.io/installation.html">
+  <meta property="og:title" content="PerfLoad Installation Guide">
+  <meta property="og:description" content="Detailed Docker and Kubernetes installation instructions for PerfLoad.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://perfload.io/installation.html">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <style>
+    :root {
+      --bg: #0b0d14;
+      --panel: #12151f;
+      --text: #e8eaf0;
+      --muted: #9aa0ae;
+      --accent: #4f46e5;
+      --border: #23273a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    header a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    header nav {
+      margin-left: auto;
+    }
+    header nav a {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 14px;
+      margin-left: 16px;
+      white-space: nowrap;
+    }
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-size: 22px;
+      margin-top: 40px;
+    }
+    h3 {
+      font-size: 17px;
+      margin-top: 28px;
+      color: var(--text);
+    }
+    h4 {
+      font-size: 14px;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    p, li {
+      color: var(--muted);
+    }
+    a {
+      color: #818cf8;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-top: 16px;
+    }
+    code {
+      background: #1a1e2e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    pre {
+      background: #1a1e2e;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      font-size: 13px;
+      margin: 8px 0 16px;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      font-size: inherit;
+    }
+    .code-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .code-row code {
+      flex: 1;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .code-row pre {
+      flex: 1;
+      margin: 0;
+    }
+    .copy-btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0;
+      cursor: pointer;
+      align-self: flex-start;
+    }
+    .copy-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+    .copy-btn:hover {
+      color: var(--text);
+      border-color: var(--accent);
+    }
+    .copy-btn.copied {
+      color: #34d399;
+      border-color: #34d399;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 16px;
+      font-size: 14px;
+    }
+    th {
+      text-align: left;
+      color: var(--muted);
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    .filename {
+      font-size: 12px;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      margin-bottom: 4px;
+      display: block;
+    }
+    .tip {
+      font-size: 14px;
+      color: var(--muted);
+      font-style: italic;
+    }
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    .checklist > li {
+      padding: 16px 0;
+      border-top: 1px solid var(--border);
+    }
+    .checklist > li:first-child {
+      border-top: none;
+      padding-top: 8px;
+    }
+    .checklist li strong {
+      color: var(--text);
+    }
+    .checklist .why, .checklist .verify {
+      display: block;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+    .checklist .why b, .checklist .verify b {
+      color: var(--text);
+    }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 32px;
+      font-size: 14px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">PerfLoad</a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/cloud.html">Cloud</a>
+      <a href="/extension.html">Chrome Extension</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Installation Guide</h1>
+    <p>Detailed setup instructions for running PerfLoad locally with Docker, and deploying it to a Kubernetes cluster.</p>
+
+    <h2>Docker</h2>
+    <p>The fastest way to run PerfLoad. A single pre-built image, one port, one volume.</p>
+
+    <h3>Prerequisites</h3>
+    <ul>
+      <li><a href="https://docs.docker.com/get-docker/" target="_blank" rel="noopener">Docker</a> installed and running</li>
+    </ul>
+
+    <h3>1. Run the container</h3>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>docker run -d --name perfload \
+  -p 3000:3000 \
+  -v perfload-runs:/app/runs \
+  perfload/perfload-runner:latest</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy" data-copy="docker run -d --name perfload -p 3000:3000 -v perfload-runs:/app/runs perfload/perfload-runner:latest">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+      <ul>
+        <li><code>-d</code> — run in the background</li>
+        <li><code>-p 3000:3000</code> — dashboard, API &amp; k6 live dashboard (all on one port)</li>
+        <li><code>-v perfload-runs:/app/runs</code> — named volume so run history survives restarts and image updates</li>
+      </ul>
+      <p class="tip">To pin a specific release instead, replace <code>latest</code> with a version tag, e.g. <code>1.6.0</code>.</p>
+    </div>
+
+    <h3>2. Verify it's up</h3>
+    <div class="card">
+      <div class="code-row">
+        <code>curl http://localhost:3000/health</code>
+        <button class="copy-btn" type="button" aria-label="Copy" data-copy="curl http://localhost:3000/health">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+      <p style="margin-top:12px;">Expected response: <code>{"status":"ok"}</code></p>
+      <table>
+        <tr><th>Interface</th><th>URL</th></tr>
+        <tr><td>Dashboard</td><td><code>http://localhost:3000/</code></td></tr>
+        <tr><td>Workbench</td><td><code>http://localhost:3000/load-tester.html</code></td></tr>
+        <tr><td>k6 live dashboard</td><td><code>http://localhost:3000/runs/&lt;id&gt;/dashboard/live/</code></td></tr>
+      </table>
+    </div>
+
+    <h3>3. Update to a new version</h3>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>docker pull perfload/perfload-runner:latest
+docker stop perfload && docker rm perfload
+docker run -d --name perfload \
+  -p 3000:3000 \
+  -v perfload-runs:/app/runs \
+  perfload/perfload-runner:latest</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy" data-copy="docker pull perfload/perfload-runner:latest && docker stop perfload && docker rm perfload && docker run -d --name perfload -p 3000:3000 -v perfload-runs:/app/runs perfload/perfload-runner:latest">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+      <p class="tip">Run history in the <code>perfload-runs</code> volume survives this — it's independent of the container.</p>
+    </div>
+
+    <h3>4. Managing the container</h3>
+    <pre><code># Stop, keep the volume
+docker stop perfload
+
+# Start again
+docker start perfload
+
+# View logs
+docker logs perfload
+
+# Remove the container (volume persists)
+docker rm perfload
+
+# Only if you want run history gone too
+docker volume rm perfload-runs</code></pre>
+
+    <h2>Kubernetes</h2>
+    <p>
+      Deployed via kustomize from <code>cd-deploy-configs/apps/perfload-runner/</code>. A <code>docker run</code>
+      gives the container the whole host's CPU, memory, and a writable layer that survives until removed — none
+      of that is true by default in a k8s pod, which shares the node and starts from a clean, ephemeral filesystem
+      on every reschedule. The manifests and checklist below cover what has to be made explicit to get equivalent
+      behavior in the cluster.
+    </p>
+
+    <h3>Prerequisites</h3>
+    <ul>
+      <li><code>kubectl</code> configured against the target cluster</li>
+      <li>Write access to <code>cd-deploy-configs</code> — deploys are managed from there, not applied ad hoc</li>
+    </ul>
+
+    <h3>Manifests</h3>
+    <p><code>cd-deploy-configs/apps/perfload-runner/</code> holds the following five files. If the directory doesn't exist yet for a first-time deploy, create them.</p>
+
+    <div class="card">
+      <span class="filename">deployment.yaml</span>
+      <div class="code-row">
+        <pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: perfload-runner
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: perfload-runner
+  template:
+    metadata:
+      labels:
+        app: perfload-runner
+    spec:
+      containers:
+        - name: perfload-runner
+          image: perfload/perfload-runner:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: 500m
+              memory: 768Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+          envFrom:
+            - configMapRef:
+                name: app-configmap
+          volumeMounts:
+            - name: runs
+              mountPath: /app/runs
+            - name: dshm
+              mountPath: /dev/shm
+      volumes:
+        - name: runs
+          persistentVolumeClaim:
+            claimName: perfload-runner-runs
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 512Mi</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy deployment.yaml">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="filename">pvc.yaml</span>
+      <div class="code-row">
+        <pre><code>apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: perfload-runner-runs
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy pvc.yaml">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="filename">service.yaml</span>
+      <p class="tip" style="margin-top:0;">Exposes the pod inside the cluster. How it's reached from outside (Ingress, LoadBalancer, etc.) is cluster-specific and not covered here.</p>
+      <div class="code-row">
+        <pre><code>apiVersion: v1
+kind: Service
+metadata:
+  name: perfload-runner
+spec:
+  selector:
+    app: perfload-runner
+  ports:
+    - port: 3000
+      targetPort: 3000</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy service.yaml">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="filename">configmap.yaml</span>
+      <p class="tip" style="margin-top:0;">The deployment's <code>envFrom</code> requires this to exist even if empty, since a missing ConfigMap reference blocks the pod from starting. Every key below has a safe in-code default (see "Config differences" below) — only add one if you're deliberately overriding it.</p>
+      <div class="code-row">
+        <pre><code>apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-configmap
+data: {}
+# To override a default, replace `data: {}` above with e.g.:
+# data:
+#   PORT: "3000"
+#   K6_DASHBOARD_PORT_START: "5665"
+#   K6_DASHBOARD_PORT_COUNT: "20"</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy configmap.yaml">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="filename">kustomization.yaml</span>
+      <div class="code-row">
+        <pre><code>apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - deployment.yaml
+  - pvc.yaml
+  - service.yaml
+  - configmap.yaml</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy kustomization.yaml">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <h3>Deploy</h3>
+    <div class="code-row">
+      <code>kubectl apply -k cd-deploy-configs/apps/perfload-runner/</code>
+      <button class="copy-btn" type="button" aria-label="Copy" data-copy="kubectl apply -k cd-deploy-configs/apps/perfload-runner/">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
+    </div>
+
+    <h3>Verify</h3>
+    <pre><code>kubectl rollout status deployment/perfload-runner
+kubectl get pods -l app=perfload-runner
+
+# Confirm it actually serves traffic, not just that the pod is Ready
+kubectl port-forward svc/perfload-runner 3000:3000
+curl http://localhost:3000/health</code></pre>
+    <p class="tip">
+      With the port-forward still open, also run one real test end-to-end (via the Workbench at
+      <code>http://localhost:3000/load-tester.html</code>, or <code>POST /runs</code> directly) — see
+      "Health checks" below for why a passing probe alone isn't enough to call the rollout good.
+    </p>
+
+    <h2>After deploying: differences from Docker to check</h2>
+    <p>A k8s pod shares the node with other pods and starts from a clean, ephemeral filesystem every time it's rescheduled, unlike <code>docker run</code> above. Work through this checklist once the manifests are applied.</p>
+
+    <h3>1. Resource requests/limits</h3>
+    <ul class="checklist">
+      <li>
+        <strong>Set <code>resources.requests</code>/<code>resources.limits</code> on the container — don't deploy without them.</strong>
+        <span class="why"><b>Why:</b> without a limit, a spawned <code>k6</code> process (uncapped virtual users) or a Puppeteer/Chromium PDF render can consume all CPU/memory on a shared node and starve neighboring pods; without a request, the scheduler has no basis to place the pod on a node with enough headroom.</span>
+        <span class="verify"><b>Verify:</b> <code>kubectl top pod -l app=perfload-runner</code> during idle vs. a running load test — idle should sit near the request value; a 50-VU test shouldn't approach the limit.</span>
+      </li>
+      <li>
+        <strong>Treat k6 itself as the primary CPU cost, not just Puppeteer.</strong> Every <code>POST /runs</code> spawns an unbounded, un-queued <code>k6</code> child process — no concurrency cap, and CPU cost scales with the <code>users</code> (VUs) requested.
+        <span class="why"><b>Why:</b> two or three concurrent high-VU runs on one pod can spike CPU well past a single-run baseline; the <code>500m</code>/<code>1</code> CPU request/limit above is sized for one moderate run (~10 VUs) at a time.</span>
+        <span class="verify"><b>Verify:</b> run two overlapping load tests against the same runner and watch <code>kubectl top pod</code> — CPU pinned at the limit plus client-side timeouts is the signature of under-provisioning here, not an app bug.</span>
+      </li>
+      <li>
+        <strong>Size for PDF generation separately.</strong> Each <code>report.pdf</code>/<code>compare/report.pdf</code> request launches a full headless Chromium — memory-spiky (typically 150–300MB+ RSS) but short-lived, unlike a sustained k6 run.
+        <span class="why"><b>Why:</b> a memory limit sized only from idle + one k6 run can still get OOMKilled if a PDF export happens during an active test, since both costs land on the same pod at once.</span>
+        <span class="verify"><b>Verify:</b> hit <code>/runs/:id/report.pdf</code> while a test is running and watch memory; check <code>kubectl get pod -o jsonpath='{.status.containerStatuses[0].lastState}'</code> for <code>OOMKilled</code> after any unexpected restart.</span>
+      </li>
+    </ul>
+
+    <h3>2. Ephemeral vs. persistent storage</h3>
+    <ul class="checklist">
+      <li>
+        <strong>Mount a PersistentVolumeClaim at <code>/app/runs</code> — this is not optional.</strong> Run state lives in an in-memory map that's only ever populated once, at boot, by scanning <code>/app/runs/*/run.json</code>.
+        <span class="why"><b>Why:</b> on an <code>emptyDir</code> (or no volume at all), a pod restart wipes <code>/app/runs</code> and the in-memory state together — every run in history disappears, not just the most recent one.</span>
+        <span class="verify"><b>Verify:</b> create a run, <code>kubectl delete pod</code> to force a reschedule, then <code>GET /runs</code> — with the PVC mounted, past runs are still listed (in-progress ones correctly flip to <code>failed</code>); without persistent storage, the list comes back empty.</span>
+      </li>
+      <li>
+        <strong>Keep <code>replicas: 1</code> — do not scale this deployment horizontally as-is.</strong> A second replica has no way to see runs created on the first one, even if both mounted the same volume, because run state is only loaded from disk at startup, never re-read per request.
+        <span class="why"><b>Why:</b> behind a single Service, a request can land on a pod that never created that run and get a 404, or a list endpoint can show a different result depending on which replica answers — this looks like flaky data loss but is really a scaling mismatch.</span>
+        <span class="verify"><b>Verify:</b> this is a design constraint to check for, not a live test — scaling past 1 replica requires moving run state to something shared (a database or Redis) first, not just changing storage access modes.</span>
+      </li>
+      <li>
+        <strong>RWO (not RWX) is correct given the point above — don't "fix" it by switching to RWX.</strong>
+        <span class="why"><b>Why:</b> RWX only matters once multiple pods need to mount the same volume concurrently, which this app doesn't support today regardless of storage mode.</span>
+        <span class="verify"><b>Verify:</b> <code>kubectl get pvc perfload-runner-runs -o jsonpath='{.status.accessModes}'</code> should show <code>ReadWriteOnce</code>.</span>
+      </li>
+    </ul>
+
+    <h3>3. /dev/shm / shared memory</h3>
+    <ul class="checklist">
+      <li>
+        <strong>Confirm Chromium isn't relying on <code>/dev/shm</code> in the first place.</strong> The PDF generator already launches Puppeteer with <code>--disable-dev-shm-usage</code>, which routes Chromium's shared memory files to <code>/tmp</code> instead — the standard fix for Chromium crashing in containers.
+        <span class="why"><b>Why:</b> if this flag were ever removed (e.g. during a Puppeteer version bump), the default 64MB <code>/dev/shm</code> in a container is undersized for Chromium and causes hard crashes rather than a clean error.</span>
+        <span class="verify"><b>Verify:</b> grep the PDF generator source for <code>disable-dev-shm-usage</code> before any deploy that touches it; if missing, restore the flag or rely on the memory-backed <code>dshm</code> emptyDir above (512Mi) as a backstop, not the primary fix.</span>
+      </li>
+    </ul>
+
+    <h3>4. Health checks</h3>
+    <ul class="checklist">
+      <li>
+        <strong><code>/health</code> is a liveness signal, not a readiness one</strong> — it always returns <code>{"status":"ok"}</code> unconditionally, regardless of whether the <code>k6</code> binary or Chromium actually resolve, or whether <code>/app/runs</code> is writable.
+        <span class="why"><b>Why:</b> a pod can pass both probes and start receiving traffic even if <code>k6</code> is missing from <code>$PATH</code> — the failure only surfaces later, per-run, as a <code>failed</code> status and a spawn-error log line, not as a probe failure at startup.</span>
+        <span class="verify"><b>Verify:</b> after any base-image change, don't just check pod <code>Ready</code> — run one real test end-to-end (<code>POST /runs</code> → poll status → <code>finished</code>) before calling the rollout verified.</span>
+      </li>
+    </ul>
+
+    <h3>5. Config differences (local docker run vs. cluster)</h3>
+    <ul class="checklist">
+      <li>
+        <strong><code>PUPPETEER_SKIP_DOWNLOAD</code> and <code>PUPPETEER_EXECUTABLE_PATH</code> need no action</strong> — they're baked into the image via the Dockerfile's <code>ENV</code>, not passed at <code>docker run</code> time, so they carry over into the pod automatically.
+        <span class="why"><b>Why:</b> it's easy to assume every env var needs re-declaring in the ConfigMap — these two don't, and duplicating them risks drift if the Dockerfile's path ever changes.</span>
+        <span class="verify"><b>Verify:</b> <code>kubectl exec</code> into the pod and <code>echo $PUPPETEER_EXECUTABLE_PATH</code> — already set, no ConfigMap entry needed.</span>
+      </li>
+      <li>
+        <strong><code>PORT</code>, <code>K6_DASHBOARD_PORT_START</code>, and <code>K6_DASHBOARD_PORT_COUNT</code> do need to go in the ConfigMap if you override their defaults</strong> (<code>3000</code>, <code>5665</code>, <code>20</code>).
+        <span class="why"><b>Why:</b> a value only ever passed via a developer's local <code>docker run -e</code> (or a dev <code>.env</code>) doesn't exist inside the image and silently falls back to the in-code default in k8s unless explicitly added to the ConfigMap.</span>
+        <span class="verify"><b>Verify:</b> <code>kubectl exec</code> into the pod and check <code>env | grep K6_DASHBOARD</code> — blank means it's running on code defaults.</span>
+      </li>
+      <li>
+        <strong>No Secret is required today — don't add one speculatively.</strong> Nothing in the runner currently reads an API key, token, or credential from the environment.
+        <span class="why"><b>Why:</b> if a future feature adds one, it belongs in a k8s Secret via <code>envFrom.secretRef</code>, not bundled into <code>app-configmap</code> alongside the plain tunables above.</span>
+        <span class="verify"><b>Verify:</b> grep the runner source for <code>process.env.</code> and confirm every match is one of the tunables above — any new one is the trigger to revisit this list.</span>
+      </li>
+    </ul>
+  </main>
+
+  <footer>
+    &copy; 2026 PerfLoad
+  </footer>
+
+  <script>
+    var checkIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+    document.querySelectorAll('.copy-btn').forEach(function (btn) {
+      var original = btn.innerHTML;
+      btn.addEventListener('click', function () {
+        var text = btn.dataset.copy;
+        if (!text) {
+          var codeEl = btn.parentElement.querySelector('code');
+          text = codeEl ? codeEl.textContent : '';
+        }
+        navigator.clipboard.writeText(text).then(function () {
+          btn.innerHTML = checkIcon;
+          btn.classList.add('copied');
+          btn.setAttribute('aria-label', 'Copied');
+          setTimeout(function () {
+            btn.innerHTML = original;
+            btn.classList.remove('copied');
+            btn.setAttribute('aria-label', 'Copy');
+          }, 1500);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
