@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Self-Hosted Load Testing With a Docker Runner | PerfLoad</title>
+  <meta name="description" content="Run PerfLoad&#x27;s runner in your own environment with Docker to load test private services, run close to your infrastructure, and keep run history on your volumes.">
+  <link rel="canonical" href="https://perfload.io/self-hosted-load-testing/">
+  <meta property="og:title" content="Self-Hosted Load Testing: Run the PerfLoad Runner Yourself">
+  <meta property="og:description" content="Deploy PerfLoad&#x27;s Docker runner inside your own network to test services that aren&#x27;t public, with run history stored on a volume you control.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://perfload.io/self-hosted-load-testing/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/assets/landing.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://perfload.io/self-hosted-load-testing/#webpage",
+        "url": "https://perfload.io/self-hosted-load-testing/",
+        "name": "Self-Hosted Load Testing With a Docker Runner | PerfLoad",
+        "description": "Run PerfLoad's runner in your own environment with Docker to load test private services, run close to your infrastructure, and keep run history on your volumes.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "PerfLoad",
+          "url": "https://perfload.io/"
+        },
+        "breadcrumb": {
+          "@id": "https://perfload.io/self-hosted-load-testing/#breadcrumb"
+        },
+        "about": {
+          "@id": "https://perfload.io/#software"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://perfload.io/#software",
+        "name": "PerfLoad",
+        "url": "https://perfload.io/",
+        "description": "A self-hosted, no-script tool for building and running HTTP load tests from a curl command or a simple form. Tests are executed with k6.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Docker"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://perfload.io/self-hosted-load-testing/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "PerfLoad",
+            "item": "https://perfload.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "self-hosted load testing",
+            "item": "https://perfload.io/self-hosted-load-testing/"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <a href="/">PerfLoad</a>
+    <span class="tagline">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/installation.html">Installation</a>
+      <a href="/cloud.html">Cloud</a>
+      <a href="/extension.html">Chrome Extension</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="crumbs"><a href="/">PerfLoad</a> / self-hosted load testing</p>
+    <h1>Self-Hosted Load Testing: Run the PerfLoad Runner Yourself</h1>
+    <p class="lede">Some of the services you most want to load test aren't reachable from the public internet:
+      internal APIs, staging environments, anything behind a VPC. PerfLoad's runner is a Docker image you run
+      yourself, so the machine generating the load can live wherever your target does.</p>
+    <a class="cta" href="/installation.html#docker">Run PerfLoad Yourself &rarr;</a>
+    <p class="cta-note">One <code>docker run</code> command. The <a href="/installation.html">installation guide</a> also covers Kubernetes.</p>
+
+    <h2>How the pieces fit</h2>
+    <ol class="flow">
+      <li>Workbench / Dashboard in your browser, or a CI job</li>
+      <li>PerfLoad runner (Docker) in your environment</li>
+      <li>Service under test</li>
+    </ol>
+    <p>The runner is a single container that serves the Workbench and Dashboard, exposes the REST API, and runs k6
+      for each test. Your browser (or your pipeline) talks to the runner; the runner is the one that sends requests
+      to the target. That split is the whole idea: what needs to reach the target is the runner, not your laptop.
+      In the Workbench, the runner's address is one global setting under Settings, so you can point the same
+      UI at a local container or a remote one.</p>
+
+    <h2>Run it</h2>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>docker run -d --name perfload -p 3000:3000 -v perfload-runs:/app/runs perfload/perfload-runner:latest</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <ul>
+      <li><code>-p 3000:3000</code> serves the UI, the API, and the k6 live dashboard on one port.</li>
+      <li><code>-v perfload-runs:/app/runs</code> keeps run history in a named Docker volume.</li>
+    </ul>
+    <p>Check <code>curl http://localhost:3000/health</code>, then open
+      <code>http://localhost:3000/load-tester.html</code>.</p>
+
+    <h2>Why self-host the runner</h2>
+    <h3>Reach services that aren't public</h3>
+    <p>A hosted load generator can only test what it can route to. A runner on the same network as your internal
+      service can test it directly, with no need to open a hole to the internet just so a test can get in.</p>
+
+    <h3>Run close to the target</h3>
+    <p>Putting the runner in the same region, cluster, or VPC as the service takes the public internet out of the
+      measurement. Latency numbers then reflect your service and its immediate network, not the path from wherever a
+      test happened to run.</p>
+
+    <h3>Keep it inside your private network</h3>
+    <p>The runner can stay in a VPC or private subnet. Whoever needs the UI or API reaches it through the
+      access paths you already manage, such as a VPN, a bastion, or an internal load balancer. PerfLoad's runner API
+      doesn't document built-in authentication, so those network controls are what decide who can start a test.</p>
+
+    <h3>Control the execution infrastructure</h3>
+    <p>You choose the machine, its CPU and memory, and how many runs happen at once. That matters because each run
+      starts its own k6 process and runs aren't queued: several high-VU tests started together share whatever
+      capacity the host has. The installation guide includes light and heavy resource profiles for Kubernetes.</p>
+
+    <h3>Keep run history on volumes you own</h3>
+    <p>Run history is stored under <code>/app/runs</code>. With a Docker named volume it survives stopping,
+      restarting, and upgrading the container; on Kubernetes, mount a PersistentVolumeClaim there. Without persistent
+      storage, history doesn't survive a restart &mdash; and neither will any baseline Run IDs your
+      <a href="/ci-cd-load-testing/">CI/CD pipeline</a> depends on.</p>
+
+    <h2>Updating the runner</h2>
+    <p>Pull the new image, replace the container, and reuse the same volume:</p>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>docker pull perfload/perfload-runner:latest
+docker stop perfload &amp;&amp; docker rm perfload
+docker run -d --name perfload \
+  -p 3000:3000 \
+  -v perfload-runs:/app/runs \
+  perfload/perfload-runner:latest</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <p>To avoid surprises, pin a version tag instead of <code>latest</code>.</p>
+
+    <h2>Kubernetes</h2>
+    <p>The installation guide includes a kustomize layout: a Deployment, a PersistentVolumeClaim for
+      <code>/app/runs</code>, a Service, and a ConfigMap. One constraint to know before scaling: run state is loaded
+      from disk when the process starts, so run a single replica rather than several behind one Service.</p>
+
+    <h2>Where PerfLoad Cloud fits</h2>
+    <p>Everything on this page works today with the Docker image. A hosted control plane with a runner deployed into
+      your VPC is planned as <a href="/cloud.html">PerfLoad Cloud</a>, which is coming soon.</p>
+
+    <h2>FAQ</h2>
+    <div class="faq">
+      <h3>Does anything need to be exposed to the internet?</h3>
+  <p>Not by PerfLoad itself. The runner needs to reach your target and whoever uses it needs to reach the runner; both can be private connections.</p>
+      <h3>Can one runner serve several people?</h3>
+  <p>Yes. Anyone who can reach the runner's URL can use its UI and API, and they share one run history. Point the Workbench's runner setting at it.</p>
+      <h3>Can a pipeline use a self-hosted runner?</h3>
+  <p>Yes, as long as the job can reach it. For private networks that usually means a CI agent inside the same network; see <a href="/github-actions-load-testing/">GitHub Actions load testing</a>.</p>
+    </div>
+
+    <h2>Related guides</h2>
+    <div class="related">
+      <a href="/ci-cd-load-testing/">CI/CD load testing<span>Replay a saved baseline test on every deploy.</span></a>
+      <a href="/github-actions-load-testing/">GitHub Actions load testing<span>A workflow that runs a load test and exposes p95.</span></a>
+      <a href="/curl-load-test/">curl load test<span>Turn a curl command into a repeatable load test.</span></a>
+    </div>
+
+    <div class="final-cta">
+      <h2>Put the runner next to what you're testing</h2>
+      <p>Start the container, open the Workbench, and paste a curl command.</p>
+      <a class="cta" href="/installation.html#docker">Run PerfLoad Yourself &rarr;</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 PerfLoad
+  </footer>
+
+  <script src="/assets/landing.js"></script>
+</body>
+</html>

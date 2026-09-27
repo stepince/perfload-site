@@ -8,6 +8,7 @@ Marketing site for [PerfLoad](https://perfload.io) — a self-hosted, no-script 
 - `cloud.html` — PerfLoad Cloud (coming soon) page, includes an embedded Google Form signup
 - `extension.html` — Chrome extension (PerfLoad Workspace Launcher) landing page
 - `privacy.html` — privacy policy for the Chrome extension
+- `curl-load-test/`, `api-load-testing/`, `curl-to-k6/`, `k6-alternative/`, `ci-cd-load-testing/`, `github-actions-load-testing/`, `self-hosted-load-testing/` — SEO landing pages, one `index.html` per directory (served at `/<name>/`). They share `assets/landing.css` and `assets/landing.js`, and each carries its own title, description, canonical, Open Graph tags, and JSON-LD. The CI/CD and GitHub Actions examples mirror the runner's documented API (see the CI/CD section of the `perfload` repo's README). Keep all seven listed in `sitemap.xml` and linked from the homepage's Guides section
 - `assets/screenshots/` — product screenshots used across the pages
 - `CNAME` — custom domain for GitHub Pages (currently `perfload.io`)
 - `robots.txt`, `sitemap.xml` — SEO basics

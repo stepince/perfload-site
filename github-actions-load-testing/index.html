@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitHub Actions Load Testing: p95 From a Workflow | PerfLoad</title>
+  <meta name="description" content="A working GitHub Actions workflow for API load testing: reuse a PerfLoad baseline run, start a new test, wait for it, read the summary, and expose p95 latency.">
+  <link rel="canonical" href="https://perfload.io/github-actions-load-testing/">
+  <meta property="og:title" content="GitHub Actions Load Testing With a Saved Baseline Run">
+  <meta property="og:description" content="Run a PerfLoad load test from GitHub Actions with curl and jq. Retrieve a baseline config, start a run, wait, and expose p95 latency to later steps.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://perfload.io/github-actions-load-testing/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/assets/landing.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://perfload.io/github-actions-load-testing/#webpage",
+        "url": "https://perfload.io/github-actions-load-testing/",
+        "name": "GitHub Actions Load Testing: p95 From a Workflow | PerfLoad",
+        "description": "A working GitHub Actions workflow for API load testing: reuse a PerfLoad baseline run, start a new test, wait for it, read the summary, and expose p95 latency.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "PerfLoad",
+          "url": "https://perfload.io/"
+        },
+        "breadcrumb": {
+          "@id": "https://perfload.io/github-actions-load-testing/#breadcrumb"
+        },
+        "about": {
+          "@id": "https://perfload.io/#software"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://perfload.io/#software",
+        "name": "PerfLoad",
+        "url": "https://perfload.io/",
+        "description": "A self-hosted, no-script tool for building and running HTTP load tests from a curl command or a simple form. Tests are executed with k6.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Docker"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://perfload.io/github-actions-load-testing/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "PerfLoad",
+            "item": "https://perfload.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "GitHub Actions load testing",
+            "item": "https://perfload.io/github-actions-load-testing/"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <a href="/">PerfLoad</a>
+    <span class="tagline">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/installation.html">Installation</a>
+      <a href="/cloud.html">Cloud</a>
+      <a href="/extension.html">Chrome Extension</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="crumbs"><a href="/">PerfLoad</a> / GitHub Actions load testing</p>
+    <h1>GitHub Actions Load Testing With a Saved Baseline Run</h1>
+    <p class="lede">A GitHub Actions workflow can run a PerfLoad load test the same way it runs any other check:
+      pull a saved test configuration, start a run, wait for it to finish, and read the numbers. Below is a working
+      workflow that ends with p95 latency available as a step output for whatever should happen next.</p>
+    <a class="cta" href="/installation.html#docker">Add Load Testing to GitHub Actions &rarr;</a>
+    <p class="cta-note">Needs a PerfLoad runner the workflow can reach &mdash; see <a href="#networking">runner networking</a> below.</p>
+
+    <h2>What the workflow does</h2>
+    <ol>
+      <li><strong>Retrieves a baseline configuration</strong> from the runner: <code>GET /runs/&lt;baseline id&gt;</code>,
+        taking the <code>.config</code> object.</li>
+      <li><strong>Starts a new load test</strong> with <code>POST /runs</code>, overriding the virtual users.</li>
+      <li><strong>Waits for completion</strong> by polling <code>GET /runs/&lt;id&gt;/status</code> until it's
+        <code>finished</code>, <code>failed</code>, or <code>stopped</code>.</li>
+      <li><strong>Retrieves the summary</strong> from <code>GET /runs/&lt;id&gt;/summary</code>.</li>
+      <li><strong>Exposes p95 latency</strong> by writing it to <code>$GITHUB_OUTPUT</code>, so later steps can read
+        it as <code>steps.load_test.outputs.p95</code>.</li>
+    </ol>
+
+    <h2>The workflow</h2>
+    <div class="card">
+      <span class="filename">.github/workflows/load-test.yml</span>
+      <div class="code-row">
+        <pre><code>name: load-test
+
+on:
+  workflow_dispatch:
+    inputs:
+      users:
+        description: Virtual users
+        default: "50"
+
+jobs:
+  load-test:
+    runs-on: ubuntu-latest
+    env:
+      RUNNER: ${{ vars.RUNNER_URL }}
+      BASELINE_RUN_ID: ${{ vars.BASELINE_RUN_ID }}
+      USERS: ${{ inputs.users || '50' }}
+    steps:
+      - name: Run load test
+        id: load_test
+        run: |
+          # Reuse the baseline config, overriding virtual users
+          CONFIG=$(curl -sf "$RUNNER/runs/$BASELINE_RUN_ID" \
+            | jq --argjson users "$USERS" '.config | .users = $users')
+
+          # Start a new run
+          NEW_ID=$(curl -sf -X POST "$RUNNER/runs" \
+            -H "Content-Type: application/json" \
+            -d "$CONFIG" | jq -r '.id')
+          echo "run_id=$NEW_ID" &gt;&gt; "$GITHUB_OUTPUT"
+
+          # Wait for a terminal status
+          while true; do
+            STATUS=$(curl -sf "$RUNNER/runs/$NEW_ID/status" | jq -r '.status')
+            [ "$STATUS" = "finished" ] || [ "$STATUS" = "failed" ] || [ "$STATUS" = "stopped" ] &amp;&amp; break
+            sleep 2
+          done
+          [ "$STATUS" = "finished" ] || { echo "Run ended as $STATUS"; exit 1; }
+
+          # Read the summary and expose p95 to later steps
+          SUMMARY=$(curl -sf "$RUNNER/runs/$NEW_ID/summary")
+          echo "p95=$(jq '.metrics.http_req_duration.values["p(95)"]' &lt;&lt;&lt; "$SUMMARY")" &gt;&gt; "$GITHUB_OUTPUT"
+          jq '.metrics' &lt;&lt;&lt; "$SUMMARY"
+
+      - name: Show p95 latency
+        env:
+          P95: ${{ steps.load_test.outputs.p95 }}
+        run: echo "p95 latency = ${P95} ms"
+
+      - name: Fail if p95 is over budget
+        env:
+          P95: ${{ steps.load_test.outputs.p95 }}
+          BUDGET_MS: "500"
+        run: awk -v p="$P95" -v b="$BUDGET_MS" 'BEGIN { exit !(p != "" &amp;&amp; p + 0 &lt;= b + 0) }'</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <p>The load-test step follows the runner's documented CI/CD example, with three changes: variables come in through
+      <code>env</code> rather than being interpolated into the script, the virtual-user count is a workflow input, and
+      the step fails if the run doesn't end as <code>finished</code>. The final step is not a PerfLoad feature; it's a
+      plain shell comparison against a 500 ms budget you'd tune for your own service. Latency in the summary is in
+      milliseconds.</p>
+
+    <h2>Setting it up</h2>
+    <ol>
+      <li>Run the test you want in the PerfLoad Workbench or Dashboard and copy its <strong>Run ID</strong>.</li>
+      <li>In your repository, add two <em>variables</em> under Settings &rarr; Secrets and variables &rarr; Actions:
+        <code>RUNNER_URL</code> (for example <code>http://my-runner:3000</code>) and <code>BASELINE_RUN_ID</code>.</li>
+      <li>Commit the workflow, then trigger it from the Actions tab.</li>
+    </ol>
+    <p>Variables are fine for these two values, since neither is a credential. If your runner URL should stay private,
+      store it as a secret and reference it with <code>secrets.RUNNER_URL</code> instead.</p>
+
+    <h2 id="networking">Where the runner lives matters</h2>
+    <p>Jobs on GitHub-hosted runners start on the public internet, so <code>RUNNER_URL</code> must be reachable from
+      there. If your PerfLoad runner sits in a private network next to the service you're testing, run the job on a
+      <a href="https://docs.github.com/en/actions/hosting-your-own-runners" target="_blank" rel="noopener">self-hosted
+      GitHub Actions runner</a> inside that network instead. The PerfLoad runner API doesn't document built-in
+      authentication, so avoid exposing it to the open internet; see
+      <a href="/self-hosted-load-testing/">self-hosted load testing</a> for the deployment side.</p>
+
+    <h2>Smoke on every change, load on demand</h2>
+    <p>The <code>users</code> input is the simplest override. Extend the same <code>jq</code> expression to change
+      duration as well &mdash; <code>.config | .users = 5 | .duration = "30s"</code> for a quick check on pull
+      requests, and a longer profile for a manually dispatched pre-release run. Both replay the same saved baseline,
+      so the request, headers, and variables stay identical between runs.</p>
+
+    <h2>Using the p95 output</h2>
+    <p>Anything that can read a step output can use it: a comment on the pull request, a line in the job summary, or
+      the budget check in the workflow above. The step's other output, <code>run_id</code>, is there so a follow-up
+      step can link to the run or, for example, request a comparison report from
+      <code>POST /runs/compare/report.pdf</code>.</p>
+
+    <h2>FAQ</h2>
+    <div class="faq">
+      <h3>Can I trigger this on every pull request?</h3>
+  <p>You can change <code>on:</code> to <code>pull_request</code>. Since each run starts a k6 process on the runner and runs aren't queued, keep PR-triggered runs small (a few users, short duration), and reserve larger runs for manual or release triggers.</p>
+      <h3>Will the baseline Run ID keep working after the runner is updated?</h3>
+  <p>As long as run history is on persistent storage, such as the <code>perfload-runs</code> Docker volume or a Kubernetes PersistentVolumeClaim, yes. Updating the image doesn't touch it.</p>
+      <h3>Is there a PerfLoad GitHub Action I can install?</h3>
+  <p>The documented integration is the runner's REST API, called with <code>curl</code> and <code>jq</code> from a normal <code>run:</code> step, which is what the workflow above does. There is nothing to install in the workflow.</p>
+    </div>
+
+    <h2>Related guides</h2>
+    <div class="related">
+      <a href="/self-hosted-load-testing/">Self-hosted load testing<span>Run the PerfLoad runner inside your own network.</span></a>
+      <a href="/ci-cd-load-testing/">CI/CD load testing<span>Replay a saved baseline test on every deploy.</span></a>
+      <a href="/api-load-testing/">API load testing<span>Load test REST APIs without writing a script first.</span></a>
+    </div>
+
+    <div class="final-cta">
+      <h2>Get p95 into your workflow</h2>
+      <p>Save a baseline run, add two variables, and let Actions replay it.</p>
+      <a class="cta" href="/installation.html#docker">Add Load Testing to GitHub Actions &rarr;</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 PerfLoad
+  </footer>
+
+  <script src="/assets/landing.js"></script>
+</body>
+</html>

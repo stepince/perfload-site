@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CI/CD Load Testing With a Baseline Run and curl | PerfLoad</title>
+  <meta name="description" content="Add automated load testing to a deployment pipeline: save a baseline run in PerfLoad, then replay it from CI/CD with curl and jq, override users, and read p95.">
+  <link rel="canonical" href="https://perfload.io/ci-cd-load-testing/">
+  <meta property="og:title" content="CI/CD Load Testing: Replay a Baseline Test on Every Deploy">
+  <meta property="og:description" content="Configure a load test once, store its Run ID, and rerun it from your pipeline with curl and jq. Override users and duration, then read p95 and p99.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://perfload.io/ci-cd-load-testing/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/assets/landing.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://perfload.io/ci-cd-load-testing/#webpage",
+        "url": "https://perfload.io/ci-cd-load-testing/",
+        "name": "CI/CD Load Testing With a Baseline Run and curl | PerfLoad",
+        "description": "Add automated load testing to a deployment pipeline: save a baseline run in PerfLoad, then replay it from CI/CD with curl and jq, override users, and read p95.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "PerfLoad",
+          "url": "https://perfload.io/"
+        },
+        "breadcrumb": {
+          "@id": "https://perfload.io/ci-cd-load-testing/#breadcrumb"
+        },
+        "about": {
+          "@id": "https://perfload.io/#software"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://perfload.io/#software",
+        "name": "PerfLoad",
+        "url": "https://perfload.io/",
+        "description": "A self-hosted, no-script tool for building and running HTTP load tests from a curl command or a simple form. Tests are executed with k6.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Docker"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://perfload.io/ci-cd-load-testing/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "PerfLoad",
+            "item": "https://perfload.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "CI/CD load testing",
+            "item": "https://perfload.io/ci-cd-load-testing/"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <a href="/">PerfLoad</a>
+    <span class="tagline">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/installation.html">Installation</a>
+      <a href="/cloud.html">Cloud</a>
+      <a href="/extension.html">Chrome Extension</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="crumbs"><a href="/">PerfLoad</a> / CI/CD load testing</p>
+    <h1>CI/CD Load Testing: Replay a Baseline Test on Every Deploy</h1>
+    <p class="lede">A load test you only run by hand tends to get run before big launches and not much otherwise.
+      PerfLoad's runner exposes a REST API, so a pipeline can replay a test you've already tuned in the UI using only
+      <code>curl</code> and <code>jq</code>: no extra tooling, no test code in the repository.</p>
+    <a class="cta" href="/installation.html#docker">Automate Your Load Tests &rarr;</a>
+    <p class="cta-note">You need a PerfLoad runner your pipeline can reach. The <a href="/self-hosted-load-testing/">self-hosted guide</a> covers where to run it.</p>
+
+    <h2>How the baseline-run model works</h2>
+    <p>Instead of defining the test in pipeline YAML, you define it once in PerfLoad and let the pipeline reference
+      it by Run ID. That saved run is the <em>baseline</em>: its configuration is what every later run starts from.</p>
+    <ol>
+      <li><strong>Configure a test in PerfLoad</strong> &mdash; request, headers, variables, users, and duration.</li>
+      <li><strong>Save the run.</strong> Running it once stores it in the run history.</li>
+      <li><strong>Store the Run ID in CI/CD</strong> as a variable, for example <code>BASELINE_RUN_ID</code>.</li>
+      <li><strong>Retrieve the configuration</strong> from the runner API with <code>GET /runs/:id</code>; the
+        test settings are under <code>.config</code>.</li>
+      <li><strong>Override parameters when needed</strong> &mdash; a smaller run for every pull request, a larger one
+        before a release.</li>
+      <li><strong>Execute a new run</strong> by posting that configuration to <code>POST /runs</code>.</li>
+      <li><strong>Poll for completion.</strong> A run moves through <code>created</code>, <code>running</code>, and
+        ends as <code>finished</code>, <code>failed</code>, or <code>stopped</code>.</li>
+      <li><strong>Retrieve the metrics</strong> from <code>GET /runs/:id/summary</code>: p95, p99, requests per
+        second, and error rate.</li>
+    </ol>
+
+    <h2>The script</h2>
+    <p>Here is the whole flow in shell. It assumes <code>BASELINE_RUN_ID</code> is set in your CI environment. The
+      additions to the runner's documented example are <code>set -eo pipefail</code>, so an unreachable runner fails the
+      job instead of polling forever, and a guard that fails it when the run doesn't finish:</p>
+    <div class="card">
+      <span class="filename">load-test.sh</span>
+      <div class="code-row">
+        <pre><code>set -eo pipefail
+
+RUNNER=http://my-runner:3000
+
+# 1. Fetch config from the baseline run, override VUs
+CONFIG=$(curl -sf "$RUNNER/runs/$BASELINE_RUN_ID" | jq '.config | .users = 50')
+
+# 2. Start a new run
+NEW_ID=$(curl -sf -X POST "$RUNNER/runs" \
+  -H "Content-Type: application/json" \
+  -d "$CONFIG" | jq -r '.id')
+
+echo "Run ID: $NEW_ID"
+
+# 3. Poll until the run reaches a terminal status
+while true; do
+  STATUS=$(curl -sf "$RUNNER/runs/$NEW_ID/status" | jq -r '.status')
+  echo "Status: $STATUS"
+  [ "$STATUS" = "finished" ] || [ "$STATUS" = "failed" ] || [ "$STATUS" = "stopped" ] &amp;&amp; break
+  sleep 2
+done
+
+# Don't read metrics from a run that didn't finish
+[ "$STATUS" = "finished" ] || { echo "Run ended as $STATUS"; exit 1; }
+
+# 4. Print results
+curl -sf "$RUNNER/runs/$NEW_ID/summary" | jq '{
+  totalRequests: .metrics.http_reqs.values.count,
+  rps:           .metrics.http_reqs.values.rate,
+  latencyAvg:    .metrics.http_req_duration.values.avg,
+  latencyP95:    .metrics.http_req_duration.values["p(95)"],
+  latencyP99:    .metrics.http_req_duration.values["p(99)"],
+  errorRate:     .metrics.http_req_failed.values.rate
+}'</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+
+    <h2>Override parameters per pipeline stage</h2>
+    <p>Because the config is just JSON, <code>jq</code> can change any field before you post it. A quick smoke test on
+      each change and a heavier run on release use the same baseline:</p>
+    <div class="card">
+      <div class="code-row">
+        <pre><code># Smoke test
+CONFIG=$(curl -s $RUNNER/runs/$BASELINE_RUN_ID | jq '.config | .users = 5 | .duration = "30s"')
+
+# Load test
+CONFIG=$(curl -s $RUNNER/runs/$BASELINE_RUN_ID | jq '.config | .users = 100 | .duration = "5m"')</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+
+    <h2>Why persisted run history matters here</h2>
+    <p>A baseline Run ID is only useful if it still exists next month. When the runner is started with a named
+      volume (<code>-v perfload-runs:/app/runs</code>), run history lives outside the container, so replacing the
+      container with a newer image doesn't lose your baseline Run IDs. On Kubernetes, the equivalent is a
+      PersistentVolumeClaim mounted at <code>/app/runs</code>; without one, a pod restart clears the history and
+      your stored Run ID stops resolving. The <a href="/installation.html">installation guide</a> has both setups.</p>
+
+    <h2>Practical notes for pipelines</h2>
+    <ul>
+      <li><strong>Reachability.</strong> The job needs network access to the runner, and the runner needs access to
+        the service under test. Where the runner should live is a design decision; see
+        <a href="/self-hosted-load-testing/">self-hosted load testing</a>.</li>
+      <li><strong>Access control.</strong> The runner API doesn't document built-in authentication, so restrict who can
+        reach it with your network or ingress controls rather than exposing it openly.</li>
+      <li><strong>Size the runner.</strong> Each <code>POST /runs</code> starts its own k6 process and runs aren't
+        queued, so overlapping high-VU runs compete for the same CPU. Serialize heavy stages if that matters.</li>
+      <li><strong>Compare against the baseline.</strong> To keep a report as a pipeline artifact,
+        <code>POST /runs/compare/report.pdf</code> with <code>{"ids": ["&lt;baseline&gt;", "&lt;new&gt;"]}</code>
+        returns a comparison PDF. PDF generation runs headless Chromium, so leave memory headroom on the runner.</li>
+    </ul>
+
+    <h2>FAQ</h2>
+    <div class="faq">
+      <h3>Where do I get the Run ID?</h3>
+  <p>Run the test once in the Workbench or Dashboard and copy the ID from the run's entry in the Dashboard's history.</p>
+      <h3>Does this fail the build when latency regresses?</h3>
+  <p>Not by itself. The script reports metrics and fails if the run doesn't finish. To gate on latency, compare a value from the summary, such as p95, to a limit in a later step. The <a href="/github-actions-load-testing/">GitHub Actions example</a> shows one way.</p>
+      <h3>Can I use this outside GitHub Actions?</h3>
+  <p>Yes. It is plain shell plus HTTP calls, so it works in any CI system that can run <code>curl</code> and <code>jq</code>.</p>
+      <h3>Do I need to install anything in the pipeline?</h3>
+  <p>Only <code>curl</code> and <code>jq</code>, which most CI images already include.</p>
+    </div>
+
+    <h2>Related guides</h2>
+    <div class="related">
+      <a href="/github-actions-load-testing/">GitHub Actions load testing<span>A workflow that runs a load test and exposes p95.</span></a>
+      <a href="/api-load-testing/">API load testing<span>Load test REST APIs without writing a script first.</span></a>
+      <a href="/self-hosted-load-testing/">Self-hosted load testing<span>Run the PerfLoad runner inside your own network.</span></a>
+    </div>
+
+    <div class="final-cta">
+      <h2>Make load testing part of every deploy</h2>
+      <p>Tune a test once in PerfLoad, then let the pipeline replay it.</p>
+      <a class="cta" href="/installation.html#docker">Automate Your Load Tests &rarr;</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 PerfLoad
+  </footer>
+
+  <script src="/assets/landing.js"></script>
+</body>
+</html>

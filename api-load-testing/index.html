@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>API Load Testing Without Writing a Test Script | PerfLoad</title>
+  <meta name="description" content="Load test REST and HTTP APIs from a curl command or form: methods, headers, auth, JSON bodies, variables, and concurrent users, with latency and error results.">
+  <link rel="canonical" href="https://perfload.io/api-load-testing/">
+  <meta property="og:title" content="API Load Testing Without Writing a Test Script">
+  <meta property="og:description" content="Test REST APIs with concurrent virtual users. Headers, auth, JSON bodies, and dynamic variables, with p95 latency, throughput, and error rates.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://perfload.io/api-load-testing/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/assets/landing.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://perfload.io/api-load-testing/#webpage",
+        "url": "https://perfload.io/api-load-testing/",
+        "name": "API Load Testing Without Writing a Test Script | PerfLoad",
+        "description": "Load test REST and HTTP APIs from a curl command or form: methods, headers, auth, JSON bodies, variables, and concurrent users, with latency and error results.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "PerfLoad",
+          "url": "https://perfload.io/"
+        },
+        "breadcrumb": {
+          "@id": "https://perfload.io/api-load-testing/#breadcrumb"
+        },
+        "about": {
+          "@id": "https://perfload.io/#software"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://perfload.io/#software",
+        "name": "PerfLoad",
+        "url": "https://perfload.io/",
+        "description": "A self-hosted, no-script tool for building and running HTTP load tests from a curl command or a simple form. Tests are executed with k6.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Docker"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://perfload.io/api-load-testing/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "PerfLoad",
+            "item": "https://perfload.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "API load testing",
+            "item": "https://perfload.io/api-load-testing/"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <a href="/">PerfLoad</a>
+    <span class="tagline">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/installation.html">Installation</a>
+      <a href="/cloud.html">Cloud</a>
+      <a href="/extension.html">Chrome Extension</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="crumbs"><a href="/">PerfLoad</a> / API load testing</p>
+    <h1>API Load Testing Without Writing a Test Script</h1>
+    <p class="lede">Most API load tests start with a chore: write a script, wire up headers and a payload, then
+      work out how to read the output. PerfLoad starts from the request you already have. Point it at a REST or
+      HTTP endpoint, set how many concurrent users you want, and it reports latency, throughput, and error rate.</p>
+    <a class="cta" href="/installation.html#docker">Load Test Your API &rarr;</a>
+    <p class="cta-note">Runs in Docker on your machine or in your own environment &mdash; <a href="/installation.html">installation guide</a>.</p>
+
+    <h2>How it works</h2>
+    <ol>
+      <li><strong>Describe the request.</strong> Paste a curl command (Chrome DevTools and Postman can both export
+        one), or fill in the Dashboard's quick form: method, target URL, headers, and a JSON body.</li>
+      <li><strong>Send it once.</strong> Run Single fires one request through the runner and shows the full response,
+        so you know the request is valid before you generate load.</li>
+      <li><strong>Add concurrency.</strong> Set virtual users, duration, and the pause between requests. Ramp-up is
+        available in the Workbench.</li>
+      <li><strong>Run and read.</strong> The runner executes the test with k6 and you watch latency and success
+        counts live, then keep the run in history.</li>
+    </ol>
+
+    <h2>What you can configure</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th>You want to test</th><th>In PerfLoad</th></tr>
+        <tr><td>GET, POST, and other methods</td><td>The method comes from your curl command, or from the Dashboard's method picker.</td></tr>
+        <tr><td>Custom headers</td><td>Any header you put in the curl command, or JSON headers in the Dashboard form.</td></tr>
+        <tr><td>Authentication</td><td>Send an <code>Authorization</code> header yourself, or use the Workbench's Bearer and Basic auth fields. The runner API also accepts a client certificate and key for mTLS.</td></tr>
+        <tr><td>JSON request bodies</td><td>Paste the body as part of the curl command, or attach a JSON body in the Dashboard.</td></tr>
+        <tr><td>Realistic, varying data</td><td><code>${variable}</code> placeholders in the URL, headers, or body, resolved per virtual user and per iteration.</td></tr>
+        <tr><td>Correct responses, not just fast ones</td><td>Response validation by content type, using a JSON path, XPath, or text expression.</td></tr>
+      </table>
+    </div>
+
+    <h2>A varying-payload example</h2>
+    <p>Hitting one cart item a thousand times tells you about one cache entry. This request uses a variable so each
+      call adds a different product:</p>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>curl -X POST 'https://api.example.com/cart' \
+  -H 'Authorization: Bearer YOUR_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{"productId": "${productId}", "qty": 1}'</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <p>Define <code>productId</code> as a Sequential variable (<code>101</code>, <code>102</code>, <code>103</code>) and
+      each request takes the next value, looping back to the start. Use a Random variable when order shouldn't
+      matter, or the built-ins (<code>${user}</code>, <code>${iteration}</code>, <code>${random}</code>) when you just
+      need something unique per request.</p>
+
+    <h2>Reading the results</h2>
+    <ul>
+      <li><strong>Latency:</strong> look at p95 and p99, not just the average. An average of 120 ms can hide a slow
+        tail that real users feel; the percentiles show it. The live chart shows latency across the run.</li>
+      <li><strong>Throughput:</strong> requests per second the API sustained at that many concurrent users. If it
+        plateaus while latency climbs, you've found a limit.</li>
+      <li><strong>Error rate:</strong> success and failure counts. Each response is checked for a 2xx status and,
+        if you've set one, your validation expression. A fast API returning the wrong thing isn't a pass.</li>
+    </ul>
+
+    <h2>The same test through the runner API</h2>
+    <p>Everything the UI does goes through the runner's REST API, which is what makes tests scriptable. A run is a
+      single JSON document:</p>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>curl -X POST http://localhost:3000/runs \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "url": "https://api.example.com/cart",
+    "method": "POST",
+    "headers": { "Authorization": "Bearer YOUR_TOKEN" },
+    "body": { "productId": "${productId}", "qty": 1 },
+    "users": 10,
+    "duration": "30s",
+    "pause": 1,
+    "variables": {
+      "productId": { "type": "sequential", "values": ["101", "102", "103"] }
+    }
+  }'</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <p>The response includes the run's <code>id</code>, which you can poll for status and summary. When you want that
+      on every deploy, see <a href="/ci-cd-load-testing/">CI/CD load testing</a>.</p>
+
+    <h2>When this approach fits</h2>
+    <p>It suits teams that need answers about HTTP endpoints without a scripting detour: QA and QE engineers who
+      would rather not maintain a test codebase, developers checking a new endpoint, and DevOps engineers who want
+      the same test to run from a pipeline. It targets HTTP request tests, so protocols like gRPC or WebSockets aren't
+      what it's for, and elaborate scripted flows are better served by k6 itself &mdash; see
+      <a href="/k6-alternative/">how the two compare</a>.</p>
+
+    <h2>FAQ</h2>
+    <div class="faq">
+      <h3>Do I need an OpenAPI spec or a Postman collection?</h3>
+  <p>No. PerfLoad starts from a curl command or a form. If your request lives in Postman or the browser's network tab, copy it out as curl and paste it in.</p>
+      <h3>Can I load test a GraphQL API?</h3>
+  <p>GraphQL over HTTP is a POST with a JSON body, so it's the same workflow as any other JSON request.</p>
+      <h3>Is it safe to point this at production?</h3>
+  <p>That's your call, but start small: a few users for a short time, confirm the request with Run Single, and increase gradually. Load tests generate real traffic against whatever you point them at.</p>
+    </div>
+
+    <h2>Related guides</h2>
+    <div class="related">
+      <a href="/ci-cd-load-testing/">CI/CD load testing<span>Replay a saved baseline test on every deploy.</span></a>
+      <a href="/curl-load-test/">curl load test<span>Turn a curl command into a repeatable load test.</span></a>
+      <a href="/self-hosted-load-testing/">Self-hosted load testing<span>Run the PerfLoad runner inside your own network.</span></a>
+    </div>
+
+    <div class="final-cta">
+      <h2>Find out what your API does under concurrency</h2>
+      <p>Start from the request you already have.</p>
+      <a class="cta" href="/installation.html#docker">Load Test Your API &rarr;</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 PerfLoad
+  </footer>
+
+  <script src="/assets/landing.js"></script>
+</body>
+</html>

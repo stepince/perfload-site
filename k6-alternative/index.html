@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>k6 Alternative: PerfLoad vs Writing k6 Scripts | PerfLoad</title>
+  <meta name="description" content="A fair k6 comparison: k6 suits scripted tests, while PerfLoad cuts setup for common API load tests by starting from curl and running k6 for you.">
+  <link rel="canonical" href="https://perfload.io/k6-alternative/">
+  <meta property="og:title" content="k6 Alternative? How PerfLoad and k6 Compare">
+  <meta property="og:description" content="k6 is powerful for scripted tests. PerfLoad shortens the path from an existing request to a load test, and runs k6 underneath.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://perfload.io/k6-alternative/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/assets/landing.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://perfload.io/k6-alternative/#webpage",
+        "url": "https://perfload.io/k6-alternative/",
+        "name": "k6 Alternative: PerfLoad vs Writing k6 Scripts | PerfLoad",
+        "description": "A fair k6 comparison: k6 suits scripted tests, while PerfLoad cuts setup for common API load tests by starting from curl and running k6 for you.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "PerfLoad",
+          "url": "https://perfload.io/"
+        },
+        "breadcrumb": {
+          "@id": "https://perfload.io/k6-alternative/#breadcrumb"
+        },
+        "about": {
+          "@id": "https://perfload.io/#software"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://perfload.io/#software",
+        "name": "PerfLoad",
+        "url": "https://perfload.io/",
+        "description": "A self-hosted, no-script tool for building and running HTTP load tests from a curl command or a simple form. Tests are executed with k6.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Docker"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://perfload.io/k6-alternative/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "PerfLoad",
+            "item": "https://perfload.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "k6 alternative",
+            "item": "https://perfload.io/k6-alternative/"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <a href="/">PerfLoad</a>
+    <span class="tagline">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/installation.html">Installation</a>
+      <a href="/cloud.html">Cloud</a>
+      <a href="/extension.html">Chrome Extension</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="crumbs"><a href="/">PerfLoad</a> / k6 alternative</p>
+    <h1>A k6 Alternative for Going From a Request to a Load Test Faster</h1>
+    <p class="lede">k6 is a capable, developer-focused load testing tool, and if your team writes and reviews
+      load tests as code, it is often the right choice. PerfLoad is aimed at a narrower job: reducing the setup
+      needed for common API load tests, so you can go from an existing request to a result quickly. It also runs
+      k6 underneath, so this is less &ldquo;either/or&rdquo; than it sounds.</p>
+    <a class="cta" href="/installation.html#docker">Try PerfLoad &rarr;</a>
+    <p class="cta-note">Runs in Docker &mdash; one command, and the Workbench is at <code>http://localhost:3000/load-tester.html</code>.</p>
+
+    <h2>Two workflows, side by side</h2>
+    <div class="compare">
+      <div class="card">
+        <h3>Traditional k6 workflow</h3>
+        <ol class="flow">
+      <li>Write / configure test</li>
+      <li>Execute</li>
+      <li>Analyze</li>
+    </ol>
+      </div>
+      <div class="card">
+        <h3>PerfLoad workflow</h3>
+        <ol class="flow">
+      <li>Paste curl</li>
+      <li>Configure</li>
+      <li>Execute</li>
+      <li>Analyze</li>
+      <li>Save</li>
+      <li>Rerun</li>
+    </ol>
+      </div>
+    </div>
+    <p>The difference is where you start. With k6 you begin from a script; with PerfLoad you begin from a request
+      and a form. Everything after &ldquo;execute&rdquo; is k6 in both cases.</p>
+
+    <h2>How they compare</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th></th><th>k6 directly</th><th>PerfLoad</th></tr>
+        <tr><td>Starting point</td><td>A JavaScript test script</td><td>A curl command, or the Dashboard form</td></tr>
+        <tr><td>Load configuration</td><td><code>options</code> and scenarios in code</td><td>Users, duration, ramp-up, and pause in the UI</td></tr>
+        <tr><td>Custom logic</td><td>Full JavaScript: multi-step flows, custom checks, thresholds, extensions</td><td>Variables, auth, and response validation; no custom code</td></tr>
+        <tr><td>Live view</td><td>Terminal output, plus k6's web dashboard and outputs you configure</td><td>Live results and latency chart in the UI, and a link to k6's live dashboard</td></tr>
+        <tr><td>Keeping results</td><td>Whatever you set up: files, an output backend, CI logs</td><td>Run history that persists in a Docker volume, with side-by-side compare and PDF reports</td></tr>
+        <tr><td>Rerunning</td><td>Re-execute the script from version control</td><td>Load a saved run's config and run again, overriding users or duration if you want</td></tr>
+        <tr><td>Suited to</td><td>Engineers who write and review test code</td><td>Developers, QA/QE, and DevOps engineers who'd rather not maintain a script for a simple test</td></tr>
+      </table>
+    </div>
+
+    <h2>When to choose k6 directly</h2>
+    <ul>
+      <li>Your load tests need real logic: multi-step flows, conditional behavior, or custom metrics.</li>
+      <li>You want tests reviewed and versioned like application code, with thresholds that fail a build.</li>
+      <li>You need protocols or extensions beyond plain HTTP requests.</li>
+      <li>You're already invested in a k6 setup, including how you collect and view results.</li>
+    </ul>
+
+    <h2>When PerfLoad is the quicker route</h2>
+    <ul>
+      <li>The request already exists as curl &mdash; from a bug report, DevTools, or API docs &mdash; and you want to know
+        how it behaves under concurrency <em>today</em>.</li>
+      <li>Teammates who don't write JavaScript need to run and rerun load tests, and a GUI load testing workflow
+        (the Workbench and Dashboard) fits how they work.</li>
+      <li>You want run history, comparisons, and reports without assembling them yourself.</li>
+      <li>You want a pipeline to replay a saved test with a few <code>curl</code> and <code>jq</code> commands &mdash; see
+        <a href="/ci-cd-load-testing/">CI/CD load testing</a>.</li>
+    </ul>
+
+    <h2>Using both</h2>
+    <p>These aren't exclusive. One reasonable split is PerfLoad for the fast, repeatable single-endpoint checks that
+      anyone on the team can run, and hand-written k6 for the scenarios that need code. If you're curious about the
+      bridge between them, <a href="/curl-to-k6/">curl to k6</a> explains how a request becomes a k6 test.</p>
+
+    <h2>FAQ</h2>
+    <div class="faq">
+      <h3>Is PerfLoad a fork of k6?</h3>
+  <p>No. PerfLoad runs the standard k6 binary for each test and reads its summary output. The value it adds is the workflow around it: request-to-test conversion, a UI, history, and an API.</p>
+      <h3>Will I hit a wall with PerfLoad?</h3>
+  <p>Possibly, if your tests need scripted logic. PerfLoad is built for HTTP request tests, and when you need more than that, k6 scripts are the natural next step.</p>
+      <h3>Can a team's scripted k6 tests and PerfLoad coexist?</h3>
+  <p>Yes. They answer different questions and don't depend on each other.</p>
+    </div>
+
+    <h2>Related guides</h2>
+    <div class="related">
+      <a href="/curl-to-k6/">curl to k6<span>Run an existing curl request as a k6 load test.</span></a>
+      <a href="/curl-load-test/">curl load test<span>Turn a curl command into a repeatable load test.</span></a>
+      <a href="/ci-cd-load-testing/">CI/CD load testing<span>Replay a saved baseline test on every deploy.</span></a>
+    </div>
+
+    <div class="final-cta">
+      <h2>See whether the shorter path fits</h2>
+      <p>Take one request you'd normally script and run it through PerfLoad.</p>
+      <a class="cta" href="/installation.html#docker">Try PerfLoad &rarr;</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 PerfLoad
+  </footer>
+
+  <script src="/assets/landing.js"></script>
+</body>
+</html>

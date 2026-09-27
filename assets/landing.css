@@ -1,0 +1,357 @@
+/* Shared styles for the SEO landing pages (curl-load-test, api-load-testing, ...).
+   Tokens and components mirror the inline styles used by index.html,
+   installation.html, and extension.html. */
+:root {
+  --bg: #0b0d14;
+  --panel: #12151f;
+  --text: #e8eaf0;
+  --muted: #9aa0ae;
+  --accent: #4f46e5;
+  --border: #23273a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border);
+}
+header a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+header .tagline {
+  color: var(--muted);
+  font-size: 14px;
+}
+header nav {
+  margin-left: auto;
+}
+header nav a {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 14px;
+  margin-left: 16px;
+}
+main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+.crumbs {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+h1 {
+  font-size: 32px;
+  line-height: 1.25;
+  margin: 0 0 12px;
+}
+h2 {
+  font-size: 22px;
+  margin-top: 48px;
+}
+h3 {
+  font-size: 17px;
+  margin-top: 28px;
+  color: var(--text);
+}
+p, li {
+  color: var(--muted);
+}
+a {
+  color: #818cf8;
+}
+strong {
+  color: var(--text);
+}
+.lede {
+  font-size: 18px;
+}
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  border-radius: 8px;
+}
+.cta:hover {
+  background: #4338ca;
+  color: #fff;
+}
+.cta-note {
+  font-size: 14px;
+  margin: 10px 0 0;
+}
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-top: 16px;
+}
+.card > :first-child { margin-top: 0; }
+.card > :last-child { margin-bottom: 0; }
+.no-icon {
+  position: relative;
+  display: inline-block;
+}
+.no-icon svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 108%;
+  height: 150%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+code {
+  background: #1a1e2e;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+pre {
+  background: #1a1e2e;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  font-size: 13px;
+  margin: 8px 0 16px;
+}
+pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  color: var(--text);
+}
+.code-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.code-row pre {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+.copy-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0;
+  cursor: pointer;
+}
+.copy-btn svg {
+  width: 16px;
+  height: 16px;
+}
+.copy-btn:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+.copy-btn.copied {
+  color: #34d399;
+  border-color: #34d399;
+}
+.filename {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  margin-bottom: 4px;
+  display: block;
+}
+.tip {
+  font-size: 14px;
+  color: var(--muted);
+  font-style: italic;
+}
+ul, ol {
+  padding-left: 22px;
+}
+li {
+  margin-bottom: 6px;
+}
+.table-wrap {
+  overflow-x: auto;
+  margin: 8px 0 16px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+th {
+  text-align: left;
+  color: var(--muted);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: top;
+}
+/* Vertical workflow diagram: ordered boxes joined by arrows. */
+.flow {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
+  max-width: 420px;
+}
+.flow li {
+  margin: 0;
+  padding: 10px 16px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  text-align: center;
+  font-size: 15px;
+}
+.flow li + li {
+  margin-top: 26px;
+  position: relative;
+}
+.flow li + li::before {
+  content: "\2193";
+  position: absolute;
+  top: -26px;
+  left: 0;
+  right: 0;
+  height: 26px;
+  line-height: 26px;
+  color: var(--accent);
+  font-size: 18px;
+}
+.flow code {
+  font-size: 0.95em;
+}
+/* Side-by-side comparison of two workflows. */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.compare .card {
+  margin-top: 16px;
+}
+.compare h3 {
+  margin-top: 0;
+}
+.faq h3 {
+  margin-top: 24px;
+}
+.faq p {
+  margin-top: 6px;
+}
+.related {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.related a {
+  display: block;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 15px;
+}
+.related a:hover {
+  border-color: var(--accent);
+}
+.related a span {
+  display: block;
+  margin-top: 4px;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--muted);
+}
+.final-cta {
+  margin-top: 48px;
+  text-align: center;
+}
+.final-cta h2 {
+  margin-top: 0;
+}
+footer {
+  text-align: center;
+  color: var(--muted);
+  padding: 32px;
+  font-size: 14px;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 720px) {
+  header {
+    flex-wrap: wrap;
+    padding: 16px 20px;
+    gap: 8px 12px;
+  }
+  header .tagline {
+    display: none;
+  }
+  header nav {
+    width: 100%;
+    margin-left: 0;
+  }
+  header nav a {
+    margin-left: 0;
+    margin-right: 16px;
+    white-space: nowrap;
+  }
+  main {
+    padding: 32px 20px 64px;
+  }
+  h1 {
+    font-size: 26px;
+  }
+  .lede {
+    font-size: 17px;
+  }
+  .compare {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    padding: 16px;
+  }
+  .cta {
+    display: flex;
+    justify-content: center;
+  }
+}

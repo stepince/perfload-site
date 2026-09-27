@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>curl Load Test: Turn curl Into a Load Test | PerfLoad</title>
+  <meta name="description" content="Paste an existing curl command into PerfLoad, set virtual users and duration, and run it as a load test. Get p95, p99, requests per second, and error rate.">
+  <link rel="canonical" href="https://perfload.io/curl-load-test/">
+  <meta property="og:title" content="Turn Any curl Command Into a Load Test">
+  <meta property="og:description" content="Paste a curl command, set users and duration, run it, and read p95, p99, RPS, and errors. Runs in Docker with k6 under the hood.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://perfload.io/curl-load-test/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/assets/landing.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://perfload.io/curl-load-test/#webpage",
+        "url": "https://perfload.io/curl-load-test/",
+        "name": "curl Load Test: Turn curl Into a Load Test | PerfLoad",
+        "description": "Paste an existing curl command into PerfLoad, set virtual users and duration, and run it as a load test. Get p95, p99, requests per second, and error rate.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "PerfLoad",
+          "url": "https://perfload.io/"
+        },
+        "breadcrumb": {
+          "@id": "https://perfload.io/curl-load-test/#breadcrumb"
+        },
+        "about": {
+          "@id": "https://perfload.io/#software"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://perfload.io/#software",
+        "name": "PerfLoad",
+        "url": "https://perfload.io/",
+        "description": "A self-hosted, no-script tool for building and running HTTP load tests from a curl command or a simple form. Tests are executed with k6.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Docker"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://perfload.io/curl-load-test/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "PerfLoad",
+            "item": "https://perfload.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "curl load test",
+            "item": "https://perfload.io/curl-load-test/"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <a href="/">PerfLoad</a>
+    <span class="tagline">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/installation.html">Installation</a>
+      <a href="/cloud.html">Cloud</a>
+      <a href="/extension.html">Chrome Extension</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="crumbs"><a href="/">PerfLoad</a> / curl load test</p>
+    <h1>Turn Any curl Command Into a Load Test</h1>
+    <p class="lede">You already have the request: it's in your shell history, a bug report, or a browser's
+      &ldquo;Copy as cURL&rdquo;. PerfLoad turns that curl command into a repeatable load test. Pick the
+      number of virtual users and a duration, run it, and read p95, p99, requests per second, and error
+      rate &mdash; without writing a test script first.</p>
+    <a class="cta" href="/installation.html#docker">Start a Load Test &rarr;</a>
+    <p class="cta-note">PerfLoad runs in Docker on your machine or a server you control. The Workbench opens at <code>http://localhost:3000/load-tester.html</code>.</p>
+
+    <h2>How it works</h2>
+    <ol class="flow">
+      <li>curl command</li>
+      <li>PerfLoad</li>
+      <li>Configure users + duration</li>
+      <li>Run load test</li>
+      <li>p95 / p99 / RPS / errors</li>
+    </ol>
+    <ol>
+      <li><strong>Paste the command.</strong> Drop your curl into the Workbench. The method, URL, headers, and
+        body come along with it.</li>
+      <li><strong>Check it with one request.</strong> <em>Run Single</em> sends a single request through the
+        runner and shows the full response, so a bad token or a wrong URL fails here instead of under load.</li>
+      <li><strong>Set the load.</strong> Choose virtual users and a duration (or a fixed number of iterations),
+        plus ramp-up and the pause between requests.</li>
+      <li><strong>Run the test.</strong> <em>Run Test</em> hands the request to k6 on the runner. You get live
+        results and a latency chart while it runs.</li>
+      <li><strong>Read it, save it, run it again.</strong> Results include p95 and p99 latency, requests per
+        second, and success/failure counts. The run stays in your history, so you can load its settings back and
+        rerun it later.</li>
+    </ol>
+
+    <h2>An example, start to finish</h2>
+    <p>Say you've just added an endpoint that creates orders. Here is the request as curl:</p>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>curl -X POST 'https://api.example.com/orders' \
+  -H 'Authorization: Bearer YOUR_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{"productId": "${productId}", "qty": 1}'</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <p>Paste it into the Workbench and PerfLoad picks up the POST, the URL, both headers, and the JSON body.
+      <code>${productId}</code> is a PerfLoad variable rather than shell syntax: define <code>productId</code> as
+      a <em>Sequential</em> variable with the values <code>101</code>, <code>102</code>, <code>103</code>, and each
+      request uses the next value in turn instead of hammering one product.</p>
+    <p>For a first run against a real system, keep it small &mdash; a handful of users for 30 seconds &mdash; then
+      raise the numbers once the endpoint holds up. Every run is saved, so the small run and the bigger one sit
+      next to each other in your history for comparison.</p>
+
+    <h2>What PerfLoad adds on top of your curl command</h2>
+    <ul>
+      <li><strong>Concurrency you control:</strong> virtual users, duration or iteration count, ramp-up, and think
+        time between requests.</li>
+      <li><strong>Values that change per request:</strong> built-in variables such as <code>${random}</code>,
+        <code>${user}</code>, <code>${iteration}</code>, and <code>${timestamp}</code>, plus constant, sequential,
+        and random variables you define.</li>
+      <li><strong>Numbers you can act on:</strong> p95 and p99 latency, throughput, and success versus failure
+        counts, with a live latency chart.</li>
+      <li><strong>History:</strong> saved runs you can open again, compare side by side, or export as a PDF report.</li>
+    </ul>
+
+    <h2>When a curl load test is the right tool</h2>
+    <p>This workflow fits when the thing you want to test is a single HTTP request shape: checking an endpoint
+      before a release, reproducing a &ldquo;this is slow&rdquo; report with the reporter's own curl, or getting a
+      rough feel for how an API behaves as concurrency rises. It is not the right tool for scripted, multi-step
+      user journeys with custom logic &mdash; for that, <a href="/k6-alternative/">writing k6 scripts directly</a>
+      is a better fit.</p>
+
+    <h2>Why not just loop curl in the shell?</h2>
+    <p>You can get surprisingly far with <code>xargs</code>. This sends 200 requests, 20 at a time, and prints the
+      total time for each:</p>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>seq 1 200 | xargs -P 20 -n 1 sh -c \
+  'curl -s -o /dev/null -w "%{time_total}\n" https://api.example.com/health'</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <p>That works for a smoke check. What it leaves to you is everything after: holding a steady load for a fixed
+      duration, ramping up, varying the payload, computing percentiles instead of eyeballing a column of times,
+      counting failures, and keeping the results so you can compare next week's run against today's. That is the
+      gap PerfLoad fills, using <a href="/curl-to-k6/">k6 under the hood</a> to generate the load.</p>
+
+    <h2>Try it locally</h2>
+    <p>One container, one port, one volume for run history:</p>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>docker run -d --name perfload -p 3000:3000 -v perfload-runs:/app/runs perfload/perfload-runner:latest</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <p>Then open <code>http://localhost:3000/load-tester.html</code> and paste your command. The
+      <a href="/installation.html">installation guide</a> covers updates and Kubernetes.</p>
+
+    <h2>FAQ</h2>
+    <div class="faq">
+      <h3>Does the load come from my browser?</h3>
+  <p>No. The Workbench is only the interface. Both Run Single and Run Test are executed by the PerfLoad runner (Docker and k6), so results aren't limited by how much your browser can do, and the runner can sit close to the service you're testing.</p>
+      <h3>Can I use dynamic data so requests aren't identical?</h3>
+  <p>Yes. Use <code>${variableName}</code> in the URL, headers, or body, and define the variable as constant, sequential, or random. With Run Test, variables resolve per virtual user and per iteration.</p>
+      <h3>How many virtual users should I start with?</h3>
+  <p>Start with 1&ndash;5 against anything real, confirm the response looks right with Run Single, and scale up from there.</p>
+      <h3>Do I have to know k6?</h3>
+  <p>No. PerfLoad generates and runs the k6 test for you from the request and the settings you choose.</p>
+    </div>
+
+    <h2>Related guides</h2>
+    <div class="related">
+      <a href="/curl-to-k6/">curl to k6<span>Run an existing curl request as a k6 load test.</span></a>
+      <a href="/api-load-testing/">API load testing<span>Load test REST APIs without writing a script first.</span></a>
+      <a href="/ci-cd-load-testing/">CI/CD load testing<span>Replay a saved baseline test on every deploy.</span></a>
+    </div>
+
+    <div class="final-cta">
+      <h2>Turn your next curl command into a load test</h2>
+      <p>Paste it, set users and duration, and see how the endpoint behaves.</p>
+      <a class="cta" href="/installation.html#docker">Start a Load Test &rarr;</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 PerfLoad
+  </footer>
+
+  <script src="/assets/landing.js"></script>
+</body>
+</html>

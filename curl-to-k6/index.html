@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>curl to k6: Run a curl Request as a k6 Load Test | PerfLoad</title>
+  <meta name="description" content="Convert a curl request into a k6 load test without hand-writing the script. PerfLoad generates and runs the k6 script, then reports latency and errors.">
+  <link rel="canonical" href="https://perfload.io/curl-to-k6/">
+  <meta property="og:title" content="curl to k6: Run an Existing curl Request as a k6 Test">
+  <meta property="og:description" content="PerfLoad generates and runs the k6 script from your curl command, then shows p95, p99, throughput, and errors. No scripting to get started.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://perfload.io/curl-to-k6/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/assets/landing.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://perfload.io/curl-to-k6/#webpage",
+        "url": "https://perfload.io/curl-to-k6/",
+        "name": "curl to k6: Run a curl Request as a k6 Load Test | PerfLoad",
+        "description": "Convert a curl request into a k6 load test without hand-writing the script. PerfLoad generates and runs the k6 script, then reports latency and errors.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "PerfLoad",
+          "url": "https://perfload.io/"
+        },
+        "breadcrumb": {
+          "@id": "https://perfload.io/curl-to-k6/#breadcrumb"
+        },
+        "about": {
+          "@id": "https://perfload.io/#software"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://perfload.io/#software",
+        "name": "PerfLoad",
+        "url": "https://perfload.io/",
+        "description": "A self-hosted, no-script tool for building and running HTTP load tests from a curl command or a simple form. Tests are executed with k6.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Docker"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://perfload.io/curl-to-k6/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "PerfLoad",
+            "item": "https://perfload.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "curl to k6",
+            "item": "https://perfload.io/curl-to-k6/"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <a href="/">PerfLoad</a>
+    <span class="tagline">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/installation.html">Installation</a>
+      <a href="/cloud.html">Cloud</a>
+      <a href="/extension.html">Chrome Extension</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="crumbs"><a href="/">PerfLoad</a> / curl to k6</p>
+    <h1>curl to k6: Run an Existing curl Request as a k6 Load Test</h1>
+    <p class="lede">Converting a curl command to k6 by hand means opening a new file, importing modules, translating
+      headers and a body into JavaScript, and defining options. PerfLoad does that translation for you: it
+      takes the curl request, generates the k6 script, runs it on a k6-backed runner, and hands back the results.</p>
+    <a class="cta" href="/installation.html#docker">Turn curl Into a Load Test &rarr;</a>
+    <p class="cta-note">The runner is a Docker image with k6 already bundled &mdash; there is nothing to install besides Docker.</p>
+
+    <h2>How it works</h2>
+    <ol class="flow">
+      <li>Existing curl request</li>
+      <li>PerfLoad</li>
+      <li>k6 runner</li>
+      <li>Performance results</li>
+    </ol>
+    <p>When you start a run, the runner writes a k6 script for your request into that run's directory, starts
+      <code>k6 run</code> against it, and collects k6's summary when the test ends. PerfLoad links out to k6's own
+      live dashboard while the test is in progress, so you see request rate, duration, and VUs from k6 itself.
+      Because each run keeps its generated script alongside its summary, you can see exactly what was executed.</p>
+
+    <h2>What the translation looks like</h2>
+    <p>Take this request:</p>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>curl -X POST 'https://api.example.com/orders' \
+  -H 'Content-Type: application/json' \
+  -d '{"productId": "101", "qty": 1}'</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <p>Written by hand as a k6 script, a minimal equivalent looks like this. It is illustrative &mdash; not a
+      verbatim copy of what PerfLoad generates &mdash; but it shows the scaffolding you would otherwise write and
+      maintain yourself:</p>
+    <div class="card">
+      <span class="filename">orders-test.js</span>
+      <div class="code-row">
+        <pre><code>import http from 'k6/http';
+import { check, sleep } from 'k6';
+
+export const options = { vus: 10, duration: '30s' };
+
+export default function () {
+  const res = http.post(
+    'https://api.example.com/orders',
+    JSON.stringify({ productId: '101', qty: 1 }),
+    { headers: { 'Content-Type': 'application/json' } }
+  );
+  check(res, { 'status is 2xx': (r) =&gt; r.status &gt;= 200 &amp;&amp; r.status &lt; 300 });
+  sleep(1);
+}</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <p>That is not much code for one request. The cost shows up around it: getting the quoting right when you copy
+      headers from a terminal, adding variable data, exporting results somewhere you can read them, and repeating
+      all of it for the next endpoint.</p>
+
+    <h2>What PerfLoad handles for you</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th>In a hand-written k6 test</th><th>In PerfLoad</th></tr>
+        <tr><td>Import modules, define <code>options</code></td><td>Virtual users and duration (or iterations) are fields on the form.</td></tr>
+        <tr><td>Translate URL, headers, and body into JS</td><td>Taken from the pasted curl command.</td></tr>
+        <tr><td>Template values yourself</td><td><code>${variable}</code> placeholders: built-ins plus constant, sequential, and random.</td></tr>
+        <tr><td>Write checks for status and content</td><td>A 2xx check is included, and you can add a JSON path, XPath, or text validation.</td></tr>
+        <tr><td>Export and read the summary</td><td>Summary, p95/p99, throughput, and error rate shown in the UI and served as JSON.</td></tr>
+        <tr><td>Keep track of runs</td><td>Runs are saved to history; open one, compare several, or export a PDF report.</td></tr>
+      </table>
+    </div>
+
+    <h2>What this does and doesn't replace</h2>
+    <p>PerfLoad covers the common case &mdash; a request, a load profile, and a readable result. It is not a
+      replacement for everything k6 offers. Custom scenarios, multi-step flows with your own logic, extensions, and
+      threshold-based pass/fail rules written in a script are all things you'd write in k6 directly. Treat PerfLoad
+      as the fast path for getting a load test running from a request you already have, and see
+      <a href="/k6-alternative/">the k6 comparison</a> for where each approach fits.</p>
+
+    <h2>Run Single first, then Run Test</h2>
+    <p>A useful habit when you're converting a request: send it once with Run Single, which shows the full
+      response body, and only then start Run Test. Variables behave differently between the two &mdash; Run Single
+      resolves them once using the first value, while Run Test resolves them per virtual user and per iteration
+      &mdash; so a request that looks right in the single run can still surprise you once the values start
+      rotating. A short first load run catches that cheaply.</p>
+
+    <h2>FAQ</h2>
+    <div class="faq">
+      <h3>Do I need k6 installed?</h3>
+  <p>Not if you use the Docker image, which bundles k6. You only need k6 on your PATH if you run the runner from source.</p>
+      <h3>Is this really k6, or a look-alike?</h3>
+  <p>It's k6. The runner spawns a k6 process for every run, and the results come from k6's own summary output.</p>
+      <h3>Can I take the generated script and edit it?</h3>
+  <p>Each run's generated script is stored with the run on the runner. PerfLoad's interface is form-based rather than a script editor, so if you outgrow the form, treat the script as a starting point for your own k6 project.</p>
+    </div>
+
+    <h2>Related guides</h2>
+    <div class="related">
+      <a href="/k6-alternative/">k6 alternative<span>PerfLoad and k6: which workflow fits which job.</span></a>
+      <a href="/curl-load-test/">curl load test<span>Turn a curl command into a repeatable load test.</span></a>
+      <a href="/api-load-testing/">API load testing<span>Load test REST APIs without writing a script first.</span></a>
+    </div>
+
+    <div class="final-cta">
+      <h2>Skip the scaffolding</h2>
+      <p>Keep the curl command you already have and let PerfLoad generate and run the k6 test.</p>
+      <a class="cta" href="/installation.html#docker">Turn curl Into a Load Test &rarr;</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 PerfLoad
+  </footer>
+
+  <script src="/assets/landing.js"></script>
+</body>
+</html>
