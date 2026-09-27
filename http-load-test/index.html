@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HTTP Load Testing Tool for Any Endpoint | PerfLoad</title>
+  <meta name="description" content="An HTTP load testing tool that starts from a curl command. Set virtual users, duration, and pause, then read p95, p99, throughput, and errors for any endpoint.">
+  <link rel="canonical" href="https://perfload.io/http-load-test/">
+  <meta property="og:title" content="An HTTP Load Testing Tool That Starts From a Request">
+  <meta property="og:description" content="How an HTTP load test works, what the settings mean, and how to read p95, throughput, and errors. Run it from a curl command with PerfLoad.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://perfload.io/http-load-test/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/assets/landing.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://perfload.io/http-load-test/#webpage",
+        "url": "https://perfload.io/http-load-test/",
+        "name": "HTTP Load Testing Tool for Any Endpoint | PerfLoad",
+        "description": "An HTTP load testing tool that starts from a curl command. Set virtual users, duration, and pause, then read p95, p99, throughput, and errors for any endpoint.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "PerfLoad",
+          "url": "https://perfload.io/"
+        },
+        "breadcrumb": {
+          "@id": "https://perfload.io/http-load-test/#breadcrumb"
+        },
+        "about": {
+          "@id": "https://perfload.io/#software"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://perfload.io/#software",
+        "name": "PerfLoad",
+        "url": "https://perfload.io/",
+        "description": "A self-hosted, no-script tool for building and running HTTP load tests from a curl command or a simple form. Tests are executed with k6.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Docker"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://perfload.io/http-load-test/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "PerfLoad",
+            "item": "https://perfload.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "HTTP load test",
+            "item": "https://perfload.io/http-load-test/"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <a href="/">PerfLoad</a>
+    <span class="tagline">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/installation.html">Installation</a>
+      <a href="/cloud.html">Cloud</a>
+      <a href="/extension.html">Chrome Extension</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="crumbs"><a href="/">PerfLoad</a> / HTTP load test</p>
+    <h1>An HTTP Load Testing Tool That Starts From a Request</h1>
+    <p class="lede">An HTTP load test does one simple thing: send the same kind of request from many clients at
+      once and record what comes back. The hard parts are describing the request, controlling how much load you
+      apply, and reading the numbers correctly. PerfLoad handles the first two from a curl command and a short form,
+      and this page explains how to think about the third.</p>
+    <a class="cta" href="/installation.html#docker">Start a Load Test &rarr;</a>
+    <p class="cta-note">Runs in Docker &mdash; see the <a href="/installation.html">installation guide</a>.</p>
+
+    <h2>What one test consists of</h2>
+    <p>Every PerfLoad test is a request definition plus a load profile, and both are small:</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Setting</th><th>What it controls</th><th>Default via the runner API</th></tr>
+        <tr><td>Virtual users</td><td>How many simulated clients send requests at the same time</td><td>10</td></tr>
+        <tr><td>Duration</td><td>How long the users keep sending requests, e.g. <code>30s</code> or <code>5m</code></td><td>30s</td></tr>
+        <tr><td>Iterations</td><td>A fixed number of requests instead of a time limit</td><td>not set</td></tr>
+        <tr><td>Pause</td><td>Seconds each user waits between its own requests</td><td>1</td></tr>
+        <tr><td>Timeout</td><td>How long a request may take before it counts as failed</td><td>30</td></tr>
+        <tr><td>Validation</td><td>Optional check on the response body, by JSON path, XPath, or text</td><td>none</td></tr>
+      </table>
+    </div>
+    <p>The request itself &mdash; method, URL, headers, and body &mdash; comes from the curl command you paste, or from
+      the fields in the Dashboard's quick form.</p>
+
+    <h2>How load is applied</h2>
+    <p>Each virtual user runs a loop: send the request, check the response, wait for the pause, repeat. That is a
+      closed model, which means the request rate isn't set directly; it follows from how fast the server answers.
+      A useful rule of thumb:</p>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>requests per second  ≈  virtual users / (average response time + pause)</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <p>With 10 users, a 1-second pause, and 100 ms responses, expect roughly 9 requests per second. Set the pause to
+      0 and the same 10 users send far more. If the server slows down, throughput drops with it, because users wait
+      for each response before sending the next. Keep this in mind when you compare runs: changing the pause changes
+      the load as much as changing the user count does.</p>
+
+    <h2>Reading the result</h2>
+    <ul>
+      <li><strong>Percentiles over averages.</strong> p95 is the response time that 95% of requests beat; p99 does the
+        same for 99%. They expose slow outliers that an average smooths away.</li>
+      <li><strong>Throughput next to latency.</strong> Requests per second on its own doesn't tell you whether the
+        server is healthy. Latency climbing while throughput flattens is the usual sign of saturation.</li>
+      <li><strong>Failures.</strong> Each response is checked for a 2xx status, plus your validation expression if you
+        set one. A 500, a 429 from a rate limiter, and a 404 all count as failures, so an unexpectedly high error rate
+        is often a bad URL or an auth problem, not a slow server.</li>
+    </ul>
+
+    <h2>Compared with other command-line tools</h2>
+    <p>Tools such as ApacheBench (<code>ab</code>), <code>wrk</code>, and <code>hey</code> are lightweight and quick
+      for a single URL and a flag-driven load level, and they're a good fit for a fast throughput check from a
+      terminal. PerfLoad is aimed at the layer around that: taking a full request with headers and a body straight
+      from curl, varying data per request, and keeping each run's results so you can open, compare, and rerun them.
+      The load itself is generated by k6. If you already know exactly which tool you like for raw throughput, there's no
+      need to switch; if you keep rebuilding the same command line and losing the output, this is what PerfLoad saves
+      you from.</p>
+
+    <h2>An example</h2>
+    <p>An authenticated GET with a per-request query value, so responses aren't all served from one cache entry:</p>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>curl 'https://api.example.com/search?q=${random}' \
+  -H 'Authorization: Bearer YOUR_TOKEN' \
+  -H 'Accept: application/json'</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <p><code>${random}</code> is a built-in PerfLoad variable (a random number from 0 to 999999), resolved for each
+      request during Run Test. Send it once with Run Single first, then run 5 users for 30 seconds, and scale up once
+      the numbers look sane.</p>
+
+    <h2>FAQ</h2>
+    <div class="faq">
+      <h3>Does PerfLoad support HTTPS and client certificates?</h3>
+  <p>HTTPS URLs work like any other. The runner API also accepts a PEM client certificate and key for mutual TLS.</p>
+      <h3>What's the difference between duration and iterations?</h3>
+  <p>Duration keeps every user sending requests for a set time. Iterations stops after a fixed total number of requests, which is handy when you want the same request count in every run.</p>
+      <h3>Why does my error rate look high on a healthy server?</h3>
+  <p>Check the failing status codes. Anything outside 2xx counts as a failure, including auth errors and rate-limit responses, so a 401 or 429 can inflate the error rate without the server being unhealthy.</p>
+    </div>
+
+    <h2>Related guides</h2>
+    <div class="related">
+      <a href="/curl-load-test/">curl load test<span>Turn a curl command into a repeatable load test.</span></a>
+      <a href="/website-load-test/">Website load testing<span>Load test a URL, and what that does and doesn't measure.</span></a>
+      <a href="/k6-alternative/">k6 alternative<span>PerfLoad and k6: which workflow fits which job.</span></a>
+      <a href="/ci-cd-load-testing/">CI/CD load testing<span>Replay a saved baseline test on every deploy.</span></a>
+    </div>
+
+    <div class="final-cta">
+      <h2>Send your first concurrent requests</h2>
+      <p>Paste a curl command, set the users, and read p95.</p>
+      <a class="cta" href="/installation.html#docker">Start a Load Test &rarr;</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 PerfLoad
+  </footer>
+
+  <script src="/assets/landing.js"></script>
+</body>
+</html>

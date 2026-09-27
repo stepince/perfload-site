@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REST API Load Testing: GET, POST, PUT, DELETE | PerfLoad</title>
+  <meta name="description" content="Load test each REST verb with realistic data: unique POST payloads, valid IDs for PUT and DELETE, and how status codes and rate limits show up in results.">
+  <link rel="canonical" href="https://perfload.io/rest-api-load-test/">
+  <meta property="og:title" content="REST API Load Testing: Test Each Verb With Realistic Data">
+  <meta property="og:description" content="How to load test GET, POST, PUT, PATCH, and DELETE endpoints without duplicate-key errors or cached reads skewing the numbers. Run it with PerfLoad.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://perfload.io/rest-api-load-test/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/assets/landing.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://perfload.io/rest-api-load-test/#webpage",
+        "url": "https://perfload.io/rest-api-load-test/",
+        "name": "REST API Load Testing: GET, POST, PUT, DELETE | PerfLoad",
+        "description": "Load test each REST verb with realistic data: unique POST payloads, valid IDs for PUT and DELETE, and how status codes and rate limits show up in results.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "PerfLoad",
+          "url": "https://perfload.io/"
+        },
+        "breadcrumb": {
+          "@id": "https://perfload.io/rest-api-load-test/#breadcrumb"
+        },
+        "about": {
+          "@id": "https://perfload.io/#software"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://perfload.io/#software",
+        "name": "PerfLoad",
+        "url": "https://perfload.io/",
+        "description": "A self-hosted, no-script tool for building and running HTTP load tests from a curl command or a simple form. Tests are executed with k6.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Docker"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://perfload.io/rest-api-load-test/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "PerfLoad",
+            "item": "https://perfload.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "REST API load test",
+            "item": "https://perfload.io/rest-api-load-test/"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <a href="/">PerfLoad</a>
+    <span class="tagline">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/installation.html">Installation</a>
+      <a href="/cloud.html">Cloud</a>
+      <a href="/extension.html">Chrome Extension</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="crumbs"><a href="/">PerfLoad</a> / REST API load test</p>
+    <h1>REST API Load Testing: Test Each Verb With Realistic Data</h1>
+    <p class="lede">REST endpoints don't all behave the same under load. A read is cheap, a write hits the database, and
+      a delete might fail the second time it runs. This page covers how to test each verb with realistic data, so
+      the numbers you get reflect how your API is actually used.</p>
+    <a class="cta" href="/installation.html#docker">Load Test Your REST API &rarr;</a>
+    <p class="cta-note">Runs in Docker &mdash; see the <a href="/installation.html">installation guide</a>.</p>
+
+    <h2>One test per endpoint and verb</h2>
+    <p>A PerfLoad test is built around a single request definition, so the natural pattern is one saved project
+      for each endpoint and verb you care about, such as list orders, create an order, update an order. The runner
+      accepts GET, POST, PUT, PATCH, and DELETE. Name the projects clearly, save them, and rerun them as a set when
+      something changes; comparing a run of the same project before and after a release is where the value is.</p>
+
+    <h2>Verb by verb</h2>
+    <h3>GET: list and read</h3>
+    <p>Reads are where caching matters. Vary the resource so you're not just testing one cached record. A sequential
+      variable of IDs does this:</p>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>curl 'https://api.example.com/orders/${orderId}' \
+  -H 'Authorization: Bearer YOUR_TOKEN'</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <p>Define <code>orderId</code> as a Sequential variable with IDs that exist in your test environment. For paginated
+      lists, do the same with a <code>page</code> variable.</p>
+
+    <h3>POST: create</h3>
+    <p>Writes create data, and many APIs reject duplicates. Make each request unique with the built-ins
+      <code>${user}</code>, <code>${iteration}</code>, <code>${timestamp}</code>, or <code>${random}</code>:</p>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>curl -X POST 'https://api.example.com/orders' \
+  -H 'Authorization: Bearer YOUR_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{"reference": "load-${user}-${iteration}", "qty": 1}'</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <p>Run this against a test environment: a 30-second run creates real records, and cleaning them up is on you.</p>
+
+    <h3>PUT and PATCH: update</h3>
+    <p>Updates need an ID that exists. Reuse a sequential list of known IDs, and vary the payload so the write isn't a
+      no-op that the database can skip:</p>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>curl -X PATCH 'https://api.example.com/orders/${orderId}' \
+  -H 'Authorization: Bearer YOUR_TOKEN' \
+  -H 'Content-Type: application/json' \
+  -d '{"note": "updated ${timestamp}"}'</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+
+    <h3>DELETE: remove</h3>
+    <p>A delete only succeeds once per ID. With a Sequential variable, IDs loop back to the start, so a run longer than
+      your ID list will start deleting IDs that are already gone, and those requests will fail. Either supply enough
+      IDs for the whole run, or use a fixed iteration count that matches the list.</p>
+
+    <h2>Status codes and what counts as failure</h2>
+    <p>PerfLoad checks each response for a 2xx status. That has consequences for REST testing:</p>
+    <ul>
+      <li>A <code>404</code> or <code>409</code> your test provokes by design will show as a failure.</li>
+      <li>A <code>429</code> means you've hit a rate limit, and your error rate will show it.</li>
+      <li>For an API that returns 200 with an error object, add a JSON path validation so those responses are caught too.</li>
+    </ul>
+
+    <h2>Auth and headers</h2>
+    <p>Put an <code>Authorization</code> header in the curl command, or use the Workbench's Bearer and Basic auth fields.
+      Use a token for a test account, and check that it outlasts the test: an expiry in the middle of a run produces a
+      block of 401 failures that looks like an API problem and isn't.</p>
+
+    <h2>Putting it in a pipeline</h2>
+    <p>Once each endpoint has a saved run, the run IDs become baselines. A pipeline can fetch each one, override the
+      users or duration, and read p95 from the summary; see <a href="/ci-cd-load-testing/">CI/CD load testing</a> for the
+      script.</p>
+
+    <h2>FAQ</h2>
+    <div class="faq">
+      <h3>Do I need a separate test environment?</h3>
+  <p>For anything that writes or deletes, yes. Load tests generate real requests, and a POST or DELETE test changes real data in whatever it points at.</p>
+      <h3>How do I test an endpoint that needs an ID from another call?</h3>
+  <p>Prepare a list of valid IDs and feed them in as a Sequential or Random variable. That keeps each test a single request while still using realistic identifiers.</p>
+      <h3>How many users should a REST test start with?</h3>
+  <p>Start with a few users and a short duration, check the failures, then scale. Write endpoints usually hit their limits well before read endpoints do.</p>
+    </div>
+
+    <h2>Related guides</h2>
+    <div class="related">
+      <a href="/api-load-testing/">API load testing<span>Load test REST APIs without writing a script first.</span></a>
+      <a href="/ci-cd-load-testing/">CI/CD load testing<span>Replay a saved baseline test on every deploy.</span></a>
+      <a href="/http-load-test/">HTTP load testing tool<span>How an HTTP load test works and how to read the results.</span></a>
+    </div>
+
+    <div class="final-cta">
+      <h2>Test every verb your API exposes</h2>
+      <p>Save a project for each endpoint, then rerun them whenever something changes.</p>
+      <a class="cta" href="/installation.html#docker">Load Test Your REST API &rarr;</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 PerfLoad
+  </footer>
+
+  <script src="/assets/landing.js"></script>
+</body>
+</html>

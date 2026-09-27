@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Website Load Testing: Load Test Any URL | PerfLoad</title>
+  <meta name="description" content="Load test a website URL with concurrent users and read server response times, throughput, and errors. Covers what it can&#x27;t measure and how to avoid cache bias.">
+  <link rel="canonical" href="https://perfload.io/website-load-test/">
+  <meta property="og:title" content="Website Load Testing: How a URL Handles Concurrent Visitors">
+  <meta property="og:description" content="Simulate concurrent visitors against a page URL and read p95, throughput, and error rate. Includes what a server-side load test can&#x27;t tell you.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://perfload.io/website-load-test/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/assets/landing.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://perfload.io/website-load-test/#webpage",
+        "url": "https://perfload.io/website-load-test/",
+        "name": "Website Load Testing: Load Test Any URL | PerfLoad",
+        "description": "Load test a website URL with concurrent users and read server response times, throughput, and errors. Covers what it can't measure and how to avoid cache bias.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "PerfLoad",
+          "url": "https://perfload.io/"
+        },
+        "breadcrumb": {
+          "@id": "https://perfload.io/website-load-test/#breadcrumb"
+        },
+        "about": {
+          "@id": "https://perfload.io/#software"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://perfload.io/#software",
+        "name": "PerfLoad",
+        "url": "https://perfload.io/",
+        "description": "A self-hosted, no-script tool for building and running HTTP load tests from a curl command or a simple form. Tests are executed with k6.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Docker"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://perfload.io/website-load-test/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "PerfLoad",
+            "item": "https://perfload.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "website load test",
+            "item": "https://perfload.io/website-load-test/"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <a href="/">PerfLoad</a>
+    <span class="tagline">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/installation.html">Installation</a>
+      <a href="/cloud.html">Cloud</a>
+      <a href="/extension.html">Chrome Extension</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="crumbs"><a href="/">PerfLoad</a> / website load test</p>
+    <h1>Website Load Testing: See How a URL Handles Concurrent Visitors</h1>
+    <p class="lede">&ldquo;Will my site hold up if a lot of people show up at once?&rdquo; PerfLoad can answer the
+      server-side half of that question. Give it a page URL, choose how many simultaneous visitors to simulate, and
+      it reports how quickly your server responds and how many requests fail. It is worth being precise about what
+      that does and doesn't cover, so this page spells it out.</p>
+    <a class="cta" href="/installation.html#docker">Load Test a URL &rarr;</a>
+    <p class="cta-note">Only test sites you own or have permission to test. Runs in Docker &mdash; <a href="/installation.html">installation guide</a>.</p>
+
+    <h2>What a website load test with PerfLoad measures</h2>
+    <p>Each virtual user requests the URL you supply and waits for the response. That tells you how the
+      server, application, database, cache, and CDN behave when many requests arrive together: response time at p95
+      and p99, requests per second, and how many responses came back as errors.</p>
+
+    <h3>What it does not measure</h3>
+    <ul>
+      <li>It requests the URL itself, not the images, stylesheets, scripts, or API calls the page loads afterwards.</li>
+      <li>It does not run a browser, so there's no JavaScript execution, rendering time, or Core Web Vitals.</li>
+    </ul>
+    <p>That makes it a server-capacity check, not a front-end performance audit. For page-rendering speed, use a
+      browser-based tool alongside it.</p>
+
+    <h2>How to run one</h2>
+    <ol>
+      <li><strong>Pick the URLs that matter.</strong> Usually the home page, a search or listing page, and the most
+        common detail page, rather than every URL.</li>
+      <li><strong>Write it as curl.</strong> A plain <code>curl 'https://www.example.com/'</code> is enough.</li>
+      <li><strong>Send one request first.</strong> Run Single shows you the full response, which confirms you're
+        loading the page you meant to, not a login redirect or a bot-challenge page.</li>
+      <li><strong>Start small.</strong> A few users for a short time, then increase.</li>
+      <li><strong>Compare runs.</strong> Save each run and compare before and after a change, such as a caching or
+        database tweak.</li>
+    </ol>
+
+    <h2>Avoid testing only your cache</h2>
+    <p>If a CDN or page cache sits in front of the site, repeating one URL mostly measures how fast the cache can
+      answer. To exercise the application behind it, vary the request. A random query value is a simple way:</p>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>curl 'https://www.example.com/products?page=${random}''</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <p>Whether that bypasses your cache depends on how the cache is configured, so check its behavior first. You may
+      also want two tests, one cache-friendly to see the best case and one varied to see the worst.</p>
+
+    <h2>Check that the page is the right page</h2>
+    <p>A fast 200 that returns an error page is not a pass. Add a text validation so each response must contain
+      something the real page always has, such as a heading or a product name. PerfLoad then counts responses missing that
+      text as failures, alongside the default 2xx status check.</p>
+
+    <h2>Read the numbers in context</h2>
+    <ul>
+      <li>A rising p95 with steady throughput often points to a slow database query or an overloaded worker pool.</li>
+      <li>A wall of errors right after the load starts can mean rate limiting or bot protection, not a weak server. Check
+        the status codes before tuning anything.</li>
+      <li>Results from a small test machine against a large site mostly reflect your test setup. Run PerfLoad
+        near the target, as described in <a href="/self-hosted-load-testing/">self-hosted load testing</a>.</li>
+    </ul>
+
+    <h2>FAQ</h2>
+    <div class="faq">
+      <h3>Can I load test a site I don't own?</h3>
+  <p>Don't. Load tests send real traffic, and running one against a third-party site without permission can disrupt it and may breach their terms. Test your own sites, or ones you've been authorized to test.</p>
+      <h3>Will it tell me how fast my page renders in a browser?</h3>
+  <p>No. PerfLoad measures HTTP responses from the server. Rendering, script execution, and Core Web Vitals need a browser-based tool.</p>
+      <h3>Can it handle pages behind a login?</h3>
+  <p>If you can express the request with the right headers, such as an Authorization header or a session cookie header, you can include them in the curl command. Keep credentials for test accounts only.</p>
+    </div>
+
+    <h2>Related guides</h2>
+    <div class="related">
+      <a href="/http-load-test/">HTTP load testing tool<span>How an HTTP load test works and how to read the results.</span></a>
+      <a href="/curl-load-test/">curl load test<span>Turn a curl command into a repeatable load test.</span></a>
+      <a href="/self-hosted-load-testing/">Self-hosted load testing<span>Run the PerfLoad runner inside your own network.</span></a>
+    </div>
+
+    <div class="final-cta">
+      <h2>Find out how your server handles a crowd</h2>
+      <p>Start with your most-visited URL and a small number of users.</p>
+      <a class="cta" href="/installation.html#docker">Load Test a URL &rarr;</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 PerfLoad
+  </footer>
+
+  <script src="/assets/landing.js"></script>
+</body>
+</html>

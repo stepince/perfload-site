@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Load Testing Tool: Self-Hosted, No Script Required | PerfLoad</title>
+  <meta name="description" content="PerfLoad is a self-hosted load testing tool for HTTP APIs: a Workbench, Dashboard, and REST API that run k6 tests from a curl command with no script to write.">
+  <link rel="canonical" href="https://perfload.io/load-testing-tool/">
+  <meta property="og:title" content="A Self-Hosted Load Testing Tool for HTTP APIs">
+  <meta property="og:description" content="What&#x27;s in PerfLoad, who it suits, and how to judge any load testing tool. Runs in Docker, executes tests with k6, and keeps your run history.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://perfload.io/load-testing-tool/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/assets/landing.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://perfload.io/load-testing-tool/#webpage",
+        "url": "https://perfload.io/load-testing-tool/",
+        "name": "Load Testing Tool: Self-Hosted, No Script Required | PerfLoad",
+        "description": "PerfLoad is a self-hosted load testing tool for HTTP APIs: a Workbench, Dashboard, and REST API that run k6 tests from a curl command with no script to write.",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "PerfLoad",
+          "url": "https://perfload.io/"
+        },
+        "breadcrumb": {
+          "@id": "https://perfload.io/load-testing-tool/#breadcrumb"
+        },
+        "about": {
+          "@id": "https://perfload.io/#software"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://perfload.io/#software",
+        "name": "PerfLoad",
+        "url": "https://perfload.io/",
+        "description": "A self-hosted, no-script tool for building and running HTTP load tests from a curl command or a simple form. Tests are executed with k6.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Docker"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://perfload.io/load-testing-tool/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "PerfLoad",
+            "item": "https://perfload.io/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "load testing tool",
+            "item": "https://perfload.io/load-testing-tool/"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <a href="/">PerfLoad</a>
+    <span class="tagline">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/installation.html">Installation</a>
+      <a href="/cloud.html">Cloud</a>
+      <a href="/extension.html">Chrome Extension</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="crumbs"><a href="/">PerfLoad</a> / load testing tool</p>
+    <h1>A Self-Hosted Load Testing Tool for HTTP APIs</h1>
+    <p class="lede">PerfLoad is a load testing tool you run yourself. It takes an HTTP request as a curl command
+      or a form, applies concurrent load with k6, and gives you latency, throughput, and error results, without
+      a test script to write. This page is the overview: what's in the box, who it suits, and how to tell whether it fits
+      your job.</p>
+    <a class="cta" href="/installation.html#docker">Try PerfLoad &rarr;</a>
+    <p class="cta-note">Not a hosted service &mdash; you run it with Docker. <a href="/cloud.html">PerfLoad Cloud</a> is coming soon.</p>
+
+    <h2>What you get</h2>
+    <ul>
+      <li><strong>Workbench:</strong> a fuller test builder. Paste a curl command; set users, duration, ramp-up, and pause;
+        add headers, Bearer or Basic auth, variables, and response validation. Save, clone, import, and export named
+        projects.</li>
+      <li><strong>Dashboard:</strong> a quick form for one-off tests, with your past runs alongside it. Open any run to
+        load its settings back in, or compare several.</li>
+      <li><strong>Runner and REST API:</strong> the same container serves the UI, exposes an API for starting runs and
+        reading results, and executes each test with k6.</li>
+      <li><strong>Reports:</strong> a PDF report for a single run, and a comparison report across two or more.</li>
+      <li><strong>AI skills:</strong> skill files that let AI browser tools such as Claude in Chrome drive the Workbench
+        and Dashboard from a prompt.</li>
+    </ul>
+    <img class="screenshot" src="/assets/screenshots/workbench-1280x800.png" alt="PerfLoad Workbench showing a curl command being turned into a load test">
+
+    <h2>Who it suits</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th>If you are&hellip;</th><th>PerfLoad helps by&hellip;</th></tr>
+        <tr><td>A developer checking a new endpoint</td><td>Turning the curl you already used into a load test in a couple of minutes.</td></tr>
+        <tr><td>A QA or QE engineer</td><td>Letting you build, save, and rerun load tests from a form instead of maintaining a test codebase.</td></tr>
+        <tr><td>A DevOps or platform engineer</td><td>Providing a runner you can deploy in your own network, plus an API a pipeline can call.</td></tr>
+        <tr><td>An engineering team lead</td><td>Keeping run history and comparisons in one place, so &ldquo;did that release get slower?&rdquo; has an answer.</td></tr>
+      </table>
+    </div>
+
+    <h2>Questions to ask about any load testing tool</h2>
+    <p>Whichever tool you end up with, these are the questions that tend to decide whether it sticks:</p>
+    <ol>
+      <li><strong>How long until the first result?</strong> If it takes an afternoon of scripting, tests get skipped.
+        PerfLoad's path is paste, configure, run.</li>
+      <li><strong>Can it reach what you're testing?</strong> A tool that can only hit public URLs can't test an internal
+        service. PerfLoad's runner can sit in your own network; see
+        <a href="/self-hosted-load-testing/">self-hosted load testing</a>.</li>
+      <li><strong>Can a pipeline run it?</strong> PerfLoad's runner API works with <code>curl</code> and
+        <code>jq</code>; see <a href="/ci-cd-load-testing/">CI/CD load testing</a>.</li>
+      <li><strong>Will you be able to compare runs later?</strong> Results that vanish after the terminal closes don't help
+        with regressions. PerfLoad keeps run history on a volume you control.</li>
+      <li><strong>What happens when your needs outgrow it?</strong> PerfLoad is built for HTTP request tests. For scripted
+        scenarios, k6 itself is the next step; see the <a href="/k6-alternative/">k6 comparison</a>.</li>
+    </ol>
+
+    <h2>Getting started</h2>
+    <div class="card">
+      <div class="code-row">
+        <pre><code>docker run -d --name perfload -p 3000:3000 -v perfload-runs:/app/runs perfload/perfload-runner:latest</code></pre>
+        <button class="copy-btn" type="button" aria-label="Copy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+      </div>
+    </div>
+    <p>Open <code>http://localhost:3000/load-tester.html</code> for the Workbench, or
+      <code>http://localhost:3000/</code> for the Dashboard.</p>
+
+    <h2>FAQ</h2>
+    <div class="faq">
+      <h3>Is there an online version I can use without installing anything?</h3>
+  <p>Not yet. Today PerfLoad runs from a Docker image on your machine or a server you control. A hosted control plane, PerfLoad Cloud, is planned and marked coming soon.</p>
+      <h3>What does it run under the hood?</h3>
+  <p>k6. Each test spawns a k6 process, and results come from k6's own summary output.</p>
+      <h3>What kinds of tests is it not meant for?</h3>
+  <p>It focuses on HTTP requests. Tests that need custom scripted logic, or protocols beyond HTTP, are better written in k6 directly.</p>
+    </div>
+
+    <h2>Related guides</h2>
+    <div class="related">
+      <a href="/api-load-testing/">API load testing<span>Load test REST APIs without writing a script first.</span></a>
+      <a href="/curl-load-test/">curl load test<span>Turn a curl command into a repeatable load test.</span></a>
+      <a href="/self-hosted-load-testing/">Self-hosted load testing<span>Run the PerfLoad runner inside your own network.</span></a>
+      <a href="/k6-alternative/">k6 alternative<span>PerfLoad and k6: which workflow fits which job.</span></a>
+    </div>
+
+    <div class="final-cta">
+      <h2>See if it fits your workflow</h2>
+      <p>Run one request you care about through PerfLoad and judge the result.</p>
+      <a class="cta" href="/installation.html#docker">Try PerfLoad &rarr;</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 PerfLoad
+  </footer>
+
+  <script src="/assets/landing.js"></script>
+</body>
+</html>
