@@ -1,0 +1,118 @@
+/* Light/dark theme + the sliding theme toggle, shared by every page.
+   Dark is the site's native palette (defined per page in :root). This file is
+   linked after each page's own styles and only overrides what light mode needs.
+   The active theme is set on <html data-theme="light|dark"> by assets/theme.js
+   (and by the tiny inline snippet in each <head> that prevents a flash). */
+
+:root[data-theme="dark"] { color-scheme: dark; }
+
+:root[data-theme="light"] {
+  --bg: #f6f7fb;
+  --panel: #ffffff;
+  --text: #12151f;
+  --muted: #4a5163;
+  --accent: #4f46e5;
+  --border: #d7dae6;
+  color-scheme: light;
+}
+:root[data-theme="light"] a { color: #4338ca; }
+:root[data-theme="light"] .cta,
+:root[data-theme="light"] .cta:hover { color: #fff; }
+:root[data-theme="light"] code,
+:root[data-theme="light"] pre { background: #eceef6; }
+:root[data-theme="light"] pre code { background: none; }
+:root[data-theme="light"] .copy-btn.copied {
+  color: #047857;
+  border-color: #047857;
+}
+:root[data-theme="light"] .related a,
+:root[data-theme="light"] header a { color: var(--text); }
+:root[data-theme="light"] header nav a { color: var(--muted); }
+
+/* Smooth cross-fade, enabled by theme.js only while the user is toggling so
+   the initial paint never animates. */
+:root.theme-transition,
+:root.theme-transition *,
+:root.theme-transition *::before,
+:root.theme-transition *::after {
+  transition: background-color 250ms ease, color 250ms ease,
+    border-color 250ms ease, fill 250ms ease, stroke 250ms ease !important;
+}
+
+/* Toggle switch */
+.theme-toggle {
+  --tt-track: #cbd5e1;
+  --tt-track-border: #94a3b8;
+  --tt-icon: #475569;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  vertical-align: middle;
+  flex-shrink: 0;
+  width: 54px;
+  height: 28px;
+  margin-left: 16px;
+  padding: 0 7px;
+  font: 14px/1 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--tt-icon);
+  background: var(--tt-track);
+  border: 1px solid var(--tt-track-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 250ms ease, border-color 250ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.theme-toggle[aria-checked="true"] {
+  --tt-track: #4f46e5;
+  --tt-track-border: #6366f1;
+  --tt-icon: #e0e7ff;
+}
+.theme-toggle:focus-visible {
+  outline: 2px solid #818cf8;
+  outline-offset: 2px;
+}
+.theme-toggle__icon {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+.theme-toggle__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  transition: transform 250ms ease;
+  pointer-events: none;
+}
+.theme-toggle[aria-checked="true"] .theme-toggle__thumb {
+  transform: translateX(26px);
+}
+/* The icon under the thumb is hidden; the other stays visible on the track. */
+.theme-toggle[aria-checked="false"] .theme-toggle__icon--sun,
+.theme-toggle[aria-checked="true"] .theme-toggle__icon--moon {
+  opacity: 0;
+}
+.theme-toggle__icon {
+  transition: opacity 250ms ease;
+}
+
+@media (max-width: 720px) {
+  /* Nav wraps onto its own row on small screens; sit inline after the links. */
+  .theme-toggle { margin-left: 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle,
+  .theme-toggle__thumb,
+  .theme-toggle__icon,
+  :root.theme-transition,
+  :root.theme-transition *,
+  :root.theme-transition *::before,
+  :root.theme-transition *::after {
+    transition: none !important;
+  }
+}

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script>(function(){var t;try{t=localStorage.getItem("theme")}catch(e){}if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t)})()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>PerfLoad Installation Guide</title>
   <meta name="description" content="Detailed installation instructions for PerfLoad — running the Docker container locally, and deploying it to a Kubernetes cluster.">
@@ -214,6 +215,7 @@
       border-top: 1px solid var(--border);
     }
   </style>
+  <link rel="stylesheet" href="/assets/theme.css">
 </head>
 <body>
   <header>
@@ -222,6 +224,11 @@
       <a href="/">Home</a>
       <a href="/cloud.html">Cloud</a>
       <a href="/extension.html">Chrome Extension</a>
+      <button type="button" class="theme-toggle" role="switch" aria-checked="true" aria-label="Toggle dark mode" data-theme-toggle>
+        <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">&#9728;&#xFE0E;</span>
+        <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">&#9790;&#xFE0E;</span>
+        <span class="theme-toggle__thumb"></span>
+      </button>
     </nav>
   </header>
 
@@ -598,5 +605,6 @@ resources:
       });
     });
   </script>
+  <script src="/assets/theme.js"></script>
 </body>
 </html>

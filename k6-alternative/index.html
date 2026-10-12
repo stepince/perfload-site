@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <script>(function(){var t;try{t=localStorage.getItem("theme")}catch(e){}if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t)})()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>k6 Alternative: PerfLoad vs Writing k6 Scripts | PerfLoad</title>
   <meta name="description" content="A fair k6 comparison: k6 suits scripted tests, while PerfLoad cuts setup for common API load tests by starting from curl and running k6 for you.">
@@ -64,6 +65,7 @@
     ]
   }
   </script>
+  <link rel="stylesheet" href="/assets/theme.css">
 </head>
 <body>
   <header>
@@ -74,6 +76,11 @@
       <a href="/installation.html">Installation</a>
       <a href="/cloud.html">Cloud</a>
       <a href="/extension.html">Chrome Extension</a>
+      <button type="button" class="theme-toggle" role="switch" aria-checked="true" aria-label="Toggle dark mode" data-theme-toggle>
+        <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">&#9728;&#xFE0E;</span>
+        <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">&#9790;&#xFE0E;</span>
+        <span class="theme-toggle__thumb"></span>
+      </button>
     </nav>
   </header>
 
@@ -180,5 +187,6 @@
   </footer>
 
   <script src="/assets/landing.js"></script>
+  <script src="/assets/theme.js"></script>
 </body>
 </html>
