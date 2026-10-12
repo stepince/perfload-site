@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>(function(){var t;try{t=localStorage.getItem("theme")}catch(e){}if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t)})()</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Terms of Service — PerfLoad</title>
+  <meta name="description" content="Terms of service for PerfLoad, the self-hosted no-script HTTP load testing tool, its website, and its Chrome extension.">
+  <link rel="canonical" href="https://perfload.io/terms.html">
+  <meta property="og:title" content="Terms of Service — PerfLoad">
+  <meta property="og:description" content="Terms of service for PerfLoad, the self-hosted no-script HTTP load testing tool, its website, and its Chrome extension.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://perfload.io/terms.html">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <style>
+    :root {
+      --bg: #0b0d14;
+      --panel: #12151f;
+      --text: #e8eaf0;
+      --muted: #9aa0ae;
+      --border: #23273a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    header a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    header nav {
+      margin-left: auto;
+    }
+    header nav a {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 14px;
+    }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-size: 20px;
+      margin-top: 32px;
+    }
+    p, li {
+      color: var(--muted);
+    }
+    a {
+      color: #818cf8;
+    }
+    .updated {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 0;
+    }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 32px;
+      font-size: 14px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+  <link rel="stylesheet" href="/assets/theme.css">
+</head>
+<body>
+  <header>
+    <a href="/">PerfLoad</a>
+    <nav>
+      <a href="/extension.html">Chrome Extension</a>
+      <a href="/mcp/">MCP <span class="soon-pill">Coming Soon</span></a>
+      <button type="button" class="theme-toggle" role="switch" aria-checked="true" aria-label="Toggle dark mode" data-theme-toggle>
+        <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">&#9728;&#xFE0E;</span>
+        <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">&#9790;&#xFE0E;</span>
+        <span class="theme-toggle__thumb"></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Terms of Service</h1>
+    <p class="updated">Last updated: October 12, 2026</p>
+
+    <h2>Acceptance of terms</h2>
+    <p>
+      By using the PerfLoad website, the PerfLoad software, or the PerfLoad Workspace Launcher
+      Chrome extension (together, the &ldquo;Service&rdquo;), you agree to these terms. If you
+      do not agree, do not use the Service.
+    </p>
+
+    <h2>Description of the Service</h2>
+    <p>
+      PerfLoad is a no-script HTTP load testing tool that you run yourself, typically in Docker on
+      your own machine or infrastructure, and that uses k6 to generate load. This website provides
+      information and documentation about PerfLoad. Features described as &ldquo;Coming Soon&rdquo;,
+      including PerfLoad Cloud and PerfLoad MCP, are planned, are not available, and may change or
+      never be released.
+    </p>
+
+    <h2>Acceptable use</h2>
+    <p>
+      Load testing can disrupt the systems it targets. You agree to run PerfLoad only against
+      systems that you own or have explicit permission to test, and not to use it to attack,
+      overload, or degrade any service, to run denial-of-service attacks, or to break the law.
+      You are solely responsible for the tests you run, the traffic they generate, and any
+      resulting costs, outages, or damage.
+    </p>
+
+    <h2>Your data and credentials</h2>
+    <p>
+      PerfLoad runs on infrastructure you control. Requests, headers, tokens, and results you
+      enter stay in your environment. You are responsible for the credentials you put into tests
+      and for securing your PerfLoad instance.
+    </p>
+
+    <h2>AI tools</h2>
+    <p>
+      If you use PerfLoad with AI tools, such as by pointing an AI browser tool at PerfLoad's
+      skill files, you are responsible for reviewing the tests those tools create and run on
+      your behalf. AI-generated output may be inaccurate.
+    </p>
+
+    <h2>Third-party software and services</h2>
+    <p>
+      PerfLoad relies on third-party software, including k6 and Docker, which are governed by their
+      own licenses and terms. Links to third-party sites, such as the Chrome Web Store, are
+      provided for convenience; we do not control and are not responsible for them.
+    </p>
+
+    <h2>Disclaimer of warranties</h2>
+    <p>
+      The Service is provided &ldquo;as is&rdquo; and &ldquo;as available&rdquo;, without
+      warranties of any kind, express or implied, including fitness for a particular purpose,
+      accuracy of results, and non-infringement.
+    </p>
+
+    <h2>Limitation of liability</h2>
+    <p>
+      To the maximum extent permitted by law, PerfLoad and its authors are not liable for any
+      indirect, incidental, special, or consequential damages, or for any loss of data, revenue,
+      or availability, arising from your use of the Service.
+    </p>
+
+    <h2>Changes to these terms</h2>
+    <p>
+      If these terms change, the updated version will be posted on this page with a revised
+      &ldquo;Last updated&rdquo; date. Continued use of the Service after a change means you
+      accept the updated terms.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions about these terms &mdash; reach out at
+      <a href="mailto:support@perfload.io">support@perfload.io</a>.
+    </p>
+  </main>
+
+  <footer>
+    &copy; 2026 PerfLoad &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a>
+  </footer>
+  <script src="/assets/theme.js"></script>
+</body>
+</html>
