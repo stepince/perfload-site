@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>(function(){var t;try{t=localStorage.getItem("theme")}catch(e){}if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t)})()</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PerfLoad MCP Server — AI-Powered Load Testing | Coming Soon</title>
+  <meta name="description" content="PerfLoad MCP is coming soon. Enable AI coding agents to create, run, and analyze API load tests using Model Context Protocol. Built on k6.">
+  <meta name="keywords" content="MCP load testing, Model Context Protocol performance testing, MCP server for k6, AI agent load testing, Claude Code load testing, Cursor performance testing, cURL to k6, performance regression testing">
+  <link rel="canonical" href="https://perfload.io/mcp/">
+  <meta property="og:title" content="PerfLoad MCP — Load Testing for AI Agents (Coming Soon)">
+  <meta property="og:description" content="PerfLoad MCP is coming soon. Enable AI coding agents to create, run, and analyze API load tests using Model Context Protocol. Built on k6.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://perfload.io/mcp/">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/assets/landing.css">
+  <link rel="stylesheet" href="/assets/mcp.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://perfload.io/mcp/#webpage",
+        "url": "https://perfload.io/mcp/",
+        "name": "PerfLoad MCP Server — AI-Powered Load Testing | Coming Soon",
+        "description": "PerfLoad MCP is coming soon. Enable AI coding agents to create, run, and analyze API load tests using Model Context Protocol. Built on k6.",
+        "isPartOf": { "@type": "WebSite", "name": "PerfLoad", "url": "https://perfload.io/" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "PerfLoad", "item": "https://perfload.io/" },
+          { "@type": "ListItem", "position": 2, "name": "MCP (Coming Soon)", "item": "https://perfload.io/mcp/" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/assets/theme.css">
+</head>
+<body>
+  <header>
+    <a href="/">PerfLoad</a>
+    <span class="tagline">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/installation.html">Installation</a>
+      <a href="/cloud.html">Cloud</a>
+      <a href="/extension.html">Chrome Extension</a>
+      <a href="/mcp/">MCP <span class="soon-pill">Coming Soon</span></a>
+      <button type="button" class="theme-toggle" role="switch" aria-checked="true" aria-label="Toggle dark mode" data-theme-toggle>
+        <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">&#9728;&#xFE0E;</span>
+        <span class="theme-toggle__icon theme-toggle__icon--moon" aria-hidden="true">&#9790;&#xFE0E;</span>
+        <span class="theme-toggle__thumb"></span>
+      </button>
+    </nav>
+  </header>
+
+
+  <main>
+    <p class="crumbs"><a href="/">PerfLoad</a> / MCP</p>
+    <span class="mcp-eyebrow">Coming Soon</span>
+    <h1>PerfLoad MCP &mdash; Load Testing for AI Agents</h1>
+    <p class="lede"><strong>Your AI Agent. Your API. Real Performance Insights.</strong></p>
+    <p>PerfLoad MCP is <strong>coming soon</strong>. It will let AI coding agents create, run, and analyze API load tests through the Model Context Protocol (MCP), using the same PerfLoad runner and k6 engine that powers PerfLoad today. This page describes planned functionality; it is not available yet and has no release date.</p>
+
+    <h2>How PerfLoad MCP will work</h2>
+    <p>PerfLoad MCP is planned as an MCP server that sits between your AI coding agent and your existing PerfLoad load-testing infrastructure. The agent talks MCP; PerfLoad does the load generation with k6 and returns the results.</p>
+    <ol class="flow">
+      <li>Your AI agent</li>
+      <li>PerfLoad MCP (planned)</li>
+      <li>PerfLoad runner + k6</li>
+      <li>Metrics back to the agent</li>
+    </ol>
+    <ol>
+      <li><strong>Describe what you need.</strong> Tell an AI agent your performance testing requirements in plain language.</li>
+      <li><strong>The agent creates a test.</strong> It builds a PerfLoad test using MCP.</li>
+      <li><strong>PerfLoad runs it.</strong> The load test is executed with k6.</li>
+      <li><strong>The agent reads the metrics.</strong> Response times, throughput, and error rates come back through MCP.</li>
+      <li><strong>It analyzes the results.</strong> The agent reviews the numbers and flags potential performance regressions.</li>
+    </ol>
+
+    <h2>Example use case</h2>
+    <div class="card mcp-preview">
+      <span class="mcp-label">Preview of planned functionality &mdash; not available yet</span>
+      <p class="mcp-prompt">&ldquo;Run a load test against my API with 100 virtual users for 60 seconds. Report the p95 latency, throughput, and error rate.&rdquo;</p>
+    </div>
+    <p>This is an illustration of the kind of prompt PerfLoad MCP is being designed to handle. It does not work today.</p>
+
+    <h2>Planned capabilities</h2>
+    <ul class="mcp-features">
+      <li><strong>AI Agent Integration</strong> Planned compatibility with MCP-enabled tools such as Claude Code and Cursor.</li>
+      <li><strong>Natural Language Testing</strong> Ask your AI agent to create and execute load tests.</li>
+      <li><strong>cURL to Load Test</strong> Convert existing API requests into performance tests.</li>
+      <li><strong>Performance Analysis</strong> Retrieve response times, throughput, error rates, and performance metrics.</li>
+      <li><strong>Regression Detection</strong> Compare test runs to identify potential performance regressions.</li>
+      <li><strong>Automated Workflows</strong> Integrate performance testing into AI-assisted development and CI/CD workflows.</li>
+    </ul>
+
+    <h2>What you can do today</h2>
+    <p>PerfLoad already turns a cURL command into a k6 load test from the Workbench, and its built-in <a href="/">skill files</a> let AI browser tools such as Claude in Chrome drive the Workbench from a prompt. MCP is a separate, planned integration that is still under development.</p>
+
+    <h2>FAQ</h2>
+    <div class="faq">
+      <h3>Is PerfLoad MCP available?</h3>
+      <p>No. It is under development and labelled Coming Soon. There is no release date, and nothing to download or install yet.</p>
+      <h3>Does it work with Claude Code or Cursor today?</h3>
+      <p>No. Compatibility with MCP-enabled tools such as Claude Code and Cursor is planned, not shipped.</p>
+      <h3>What is MCP?</h3>
+      <p>The Model Context Protocol is an open standard that lets AI applications connect to external tools and data sources.</p>
+      <h3>Will it use k6?</h3>
+      <p>Yes. Load tests are planned to run on the same PerfLoad runner and k6 engine used today.</p>
+    </div>
+
+    <h2>Related guides</h2>
+    <div class="related">
+      <a href="/curl-to-k6/">curl to k6<span>Run an existing curl request as a k6 load test.</span></a>
+      <a href="/api-load-testing/">API load testing<span>Load test REST APIs without writing a script first.</span></a>
+      <a href="/ci-cd-load-testing/">CI/CD load testing<span>Replay a saved baseline test on every deploy.</span></a>
+      <a href="/installation.html">Install PerfLoad<span>Run PerfLoad today with Docker.</span></a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 PerfLoad &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a>
+  </footer>
+
+  <script src="/assets/theme.js"></script>
+</body>
+</html>

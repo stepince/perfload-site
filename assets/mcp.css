@@ -1,0 +1,79 @@
+/* Styles for the "PerfLoad MCP (coming soon)" announcement on the homepage and /mcp/.
+   Uses the shared tokens (--panel, --border, --accent, --text, --muted) so it follows light/dark. */
+.mcp-promo {
+  position: relative;
+  margin-top: 40px;
+  padding: 28px;
+  background: var(--panel);
+  border: 1px solid var(--accent);
+  border-radius: 16px;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
+}
+.mcp-promo h2 { margin-top: 12px; }
+.mcp-promo > :last-child { margin-bottom: 0; }
+.mcp-eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 999px;
+  padding: 4px 12px;
+}
+.mcp-sub {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 12px;
+}
+.mcp-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+  padding: 0;
+  list-style: none;
+}
+.mcp-features li {
+  margin: 0;
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.mcp-features li strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text);
+  font-size: 15px;
+}
+.mcp-link {
+  font-weight: 600;
+  text-decoration: none;
+}
+.mcp-link:hover { text-decoration: underline; }
+.mcp-preview {
+  border-style: dashed;
+}
+.mcp-preview .mcp-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.mcp-prompt {
+  margin: 0;
+  color: var(--text);
+  font-size: 16px;
+  font-style: italic;
+}
+@media (max-width: 720px) {
+  .mcp-promo { padding: 20px 16px; }
+}

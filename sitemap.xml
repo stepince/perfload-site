@@ -76,6 +76,16 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://perfload.io/mcp/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://perfload.io/terms.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
     <loc>https://perfload.io/privacy.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>

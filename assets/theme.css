@@ -116,3 +116,25 @@
     transition: none !important;
   }
 }
+
+/* Let the header nav wrap on narrow screens so every link (and the toggle) stays reachable. */
+@media (max-width: 720px) {
+  header { flex-wrap: wrap; }
+  header nav { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
+  header nav a { margin-left: 0 !important; margin-right: 0 !important; white-space: nowrap; }
+}
+
+/* "Coming Soon" pill used in the header nav (matches the difffind-site pill). */
+.soon-pill {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 999px;
+  padding: 2px 7px;
+  white-space: nowrap;
+  vertical-align: middle;
+}
