@@ -89,3 +89,30 @@
 @media (max-width: 720px) {
   .mcp-form { height: 360px; }
 }
+
+/* Give the embedded Google Form more room: no card padding, and let it
+   extend slightly past the text column on wide screens. */
+.mcp-form-card {
+  padding: 4px;
+  overflow: hidden;
+}
+@media (min-width: 1000px) {
+  .mcp-form-card {
+    margin-left: -60px;
+    margin-right: -60px;
+  }
+}
+
+/* Outline "Coming soon" badge, same look as cloud.html and the homepage Cloud heading. */
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  padding: 3px 10px;
+  white-space: nowrap;
+  vertical-align: middle;
+}
