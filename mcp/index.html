@@ -7,15 +7,160 @@
   <title>PerfLoad MCP Server — AI-Powered Load Testing | Coming Soon</title>
   <meta name="description" content="PerfLoad MCP is coming soon. Enable AI coding agents to create, run, and analyze API load tests using Model Context Protocol. Built on k6.">
   <meta name="keywords" content="MCP load testing, Model Context Protocol performance testing, MCP server for k6, AI agent load testing, Claude Code load testing, Cursor performance testing, cURL to k6, performance regression testing">
-  <link rel="canonical" href="https://perfload.io/mcp/">
   <meta property="og:title" content="PerfLoad MCP — Load Testing for AI Agents (Coming Soon)">
   <meta property="og:description" content="PerfLoad MCP is coming soon. Enable AI coding agents to create, run, and analyze API load tests using Model Context Protocol. Built on k6.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://perfload.io/mcp/">
-  <meta name="twitter:card" content="summary">
+  <link rel="canonical" href="https://perfload.io/mcp/">
   <link rel="icon" type="image/png" href="/assets/favicon.png">
-  <link rel="stylesheet" href="/assets/landing.css">
-  <link rel="stylesheet" href="/assets/mcp.css">
+  <style>
+    :root {
+      --bg: #0b0d14;
+      --panel: #12151f;
+      --text: #e8eaf0;
+      --muted: #9aa0ae;
+      --accent: #4f46e5;
+      --border: #23273a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 24px 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    header a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    header nav {
+      margin-left: auto;
+    }
+    header nav a {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 14px;
+      margin-left: 16px;
+    }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    h2 {
+      font-size: 22px;
+      margin-top: 40px;
+    }
+    p, li {
+      color: var(--muted);
+    }
+    a {
+      color: #818cf8;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 999px;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+    .no-icon {
+      position: relative;
+      display: inline-block;
+    }
+    .no-icon svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 108%;
+      height: 150%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-top: 16px;
+    }
+    code {
+      background: #1a1e2e;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      border-radius: 8px;
+      background: #fff;
+    }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 32px;
+      font-size: 14px;
+      border-top: 1px solid var(--border);
+    }
+    ol {
+      padding-left: 20px;
+    }
+    h3 {
+      font-size: 17px;
+      margin-top: 24px;
+      color: var(--text);
+    }
+    .prompt {
+      margin: 0;
+      color: var(--text);
+      font-style: italic;
+    }
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .card.wide {
+      padding: 4px;
+      overflow: hidden;
+    }
+    .card.wide iframe {
+      display: block;
+    }
+    @media (min-width: 1000px) {
+      .card.wide { margin-left: -60px; margin-right: -60px; }
+    }
+  </style>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -43,9 +188,8 @@
 <body>
   <header>
     <a href="/">PerfLoad</a>
-    <span class="tagline">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
+    <span style="color: var(--muted); font-size: 14px;">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
     <nav>
-      <a href="/">Home</a>
       <a href="/installation.html">Installation</a>
       <a href="/mcp/">MCP <span class="soon-pill">Coming Soon</span></a>
       <a href="/cloud.html">Cloud <span class="soon-pill">Coming Soon</span></a>
@@ -58,22 +202,19 @@
     </nav>
   </header>
 
-
   <main>
-    <h1>PerfLoad MCP &mdash; Load Testing for AI Agents <span class="badge">Coming soon</span></h1>
-    <p class="lede"><strong>Your AI Agent. Your API. Real Performance Insights.</strong></p>
-    <p>PerfLoad MCP is <strong>coming soon</strong>. It will let AI coding agents create, run, and analyze API load tests through the Model Context Protocol (MCP), using the same PerfLoad runner and k6 engine that powers PerfLoad today. This page describes planned functionality; it is not available yet and has no release date.</p>
+    <h1>PerfLoad MCP <span class="badge">Coming soon</span></h1>
+    <p>
+      <strong>Your AI Agent. Your API. Real Performance Insights.</strong>
+      PerfLoad MCP is being built to let AI coding agents create, run, and analyze API load
+      tests through the Model Context Protocol (MCP), using the same PerfLoad runner and k6
+      engine that power PerfLoad today. This page describes planned functionality &mdash; it
+      is not available yet and has no release date.
+    </p>
 
-    <h2>How PerfLoad MCP will work</h2>
-    <p>PerfLoad MCP is planned as an MCP server that sits between your AI coding agent and your existing PerfLoad load-testing infrastructure. The agent talks MCP; PerfLoad does the load generation with k6 and returns the results.</p>
-    <ol class="flow">
-      <li>Your AI agent</li>
-      <li>PerfLoad MCP (planned)</li>
-      <li>PerfLoad runner + k6</li>
-      <li>Metrics back to the agent</li>
-    </ol>
+    <h2>How it will work</h2>
     <ol>
-      <li><strong>Describe what you need.</strong> Tell an AI agent your performance testing requirements in plain language.</li>
+      <li><strong>Describe what you need.</strong> Tell an AI agent your performance testing requirements.</li>
       <li><strong>The agent creates a test.</strong> It builds a PerfLoad test using MCP.</li>
       <li><strong>PerfLoad runs it.</strong> The load test is executed with k6.</li>
       <li><strong>The agent reads the metrics.</strong> Response times, throughput, and error rates come back through MCP.</li>
@@ -81,56 +222,56 @@
     </ol>
 
     <h2>Example use case</h2>
-    <div class="card mcp-preview">
-      <span class="mcp-label">Preview of planned functionality &mdash; not available yet</span>
-      <p class="mcp-prompt">&ldquo;Run a load test against my API with 100 virtual users for 60 seconds. Report the p95 latency, throughput, and error rate.&rdquo;</p>
+    <div class="card">
+      <span class="label">Preview of planned functionality &mdash; not available yet</span>
+      <p class="prompt">&ldquo;Run a load test against my API with 100 virtual users for 60 seconds. Report the p95 latency, throughput, and error rate.&rdquo;</p>
     </div>
-    <p>This is an illustration of the kind of prompt PerfLoad MCP is being designed to handle. It does not work today.</p>
 
-    <h2>Planned capabilities</h2>
-    <ul class="mcp-features">
-      <li><strong>AI Agent Integration</strong> Planned compatibility with MCP-enabled tools such as Claude Code and Cursor.</li>
-      <li><strong>Natural Language Testing</strong> Ask your AI agent to create and execute load tests.</li>
-      <li><strong>cURL to Load Test</strong> Convert existing API requests into performance tests.</li>
-      <li><strong>Performance Analysis</strong> Retrieve response times, throughput, error rates, and performance metrics.</li>
-      <li><strong>Regression Detection</strong> Compare test runs to identify potential performance regressions.</li>
-      <li><strong>Automated Workflows</strong> Integrate performance testing into AI-assisted development and CI/CD workflows.</li>
+    <h2>What's coming</h2>
+    <ul>
+      <li><strong>AI Agent Integration</strong> &mdash; planned compatibility with MCP-enabled tools such as Claude Code and Cursor</li>
+      <li><strong>Natural Language Testing</strong> &mdash; ask your AI agent to create and execute load tests</li>
+      <li><strong>cURL to Load Test</strong> &mdash; convert existing API requests into performance tests</li>
+      <li><strong>Performance Analysis</strong> &mdash; retrieve response times, throughput, error rates, and performance metrics</li>
+      <li><strong>Regression Detection</strong> &mdash; compare test runs to identify potential performance regressions</li>
+      <li><strong>Automated Workflows</strong> &mdash; integrate performance testing into AI-assisted development and CI/CD workflows</li>
     </ul>
 
-    <h2 id="notify">Get notified when it ships</h2>
-    <p>Leave your email and we'll let you know if and when PerfLoad MCP becomes available.</p>
-    <div class="card mcp-form-card">
-      <iframe class="mcp-form" title="Get notified about PerfLoad MCP" src="https://docs.google.com/forms/d/e/1FAIpQLSf6d7K6PnqSYh7yTZ8V6IE_DIfru8AR-N_8J8nRQtsTXYJeCA/viewform?embedded=true">Loading…</iframe>
+    <h2>Get notified when it ships</h2>
+    <div class="card wide" id="notify">
+      <iframe title="Get notified about PerfLoad MCP" src="https://docs.google.com/forms/d/e/1FAIpQLSf6d7K6PnqSYh7yTZ8V6IE_DIfru8AR-N_8J8nRQtsTXYJeCA/viewform?embedded=true">Loading…</iframe>
     </div>
 
     <h2>What you can do today</h2>
-    <p>PerfLoad already turns a cURL command into a k6 load test from the Workbench, and its built-in <a href="/">skill files</a> let AI browser tools such as Claude in Chrome drive the Workbench from a prompt. MCP is a separate, planned integration that is still under development.</p>
+    <p>
+      PerfLoad already turns a cURL command into a k6 load test from the Workbench, and its
+      built-in <a href="/">skill files</a> let AI browser tools such as Claude in Chrome drive
+      the Workbench from a prompt. MCP is a separate, planned integration that is still under
+      development. See <a href="/curl-to-k6/">curl to k6</a>,
+      <a href="/api-load-testing/">API load testing</a>, and
+      <a href="/ci-cd-load-testing/">CI/CD load testing</a>.
+    </p>
 
     <h2>FAQ</h2>
-    <div class="faq">
-      <h3>Is PerfLoad MCP available?</h3>
-      <p>No. It is under development and labelled Coming Soon. There is no release date, and nothing to download or install yet.</p>
-      <h3>Does it work with Claude Code or Cursor today?</h3>
-      <p>No. Compatibility with MCP-enabled tools such as Claude Code and Cursor is planned, not shipped.</p>
-      <h3>What is MCP?</h3>
-      <p>The Model Context Protocol is an open standard that lets AI applications connect to external tools and data sources.</p>
-      <h3>Will it use k6?</h3>
-      <p>Yes. Load tests are planned to run on the same PerfLoad runner and k6 engine used today.</p>
-    </div>
+    <h3>Is PerfLoad MCP available?</h3>
+    <p>No. It is under development and labelled Coming Soon. There is no release date, and nothing to download or install yet.</p>
+    <h3>Does it work with Claude Code or Cursor today?</h3>
+    <p>No. Compatibility with MCP-enabled tools such as Claude Code and Cursor is planned, not shipped.</p>
+    <h3>What is MCP?</h3>
+    <p>The Model Context Protocol is an open standard that lets AI applications connect to external tools and data sources.</p>
+    <h3>Will it use k6?</h3>
+    <p>Yes. Load tests are planned to run on the same PerfLoad runner and k6 engine used today.</p>
 
-    <h2>Related guides</h2>
-    <div class="related">
-      <a href="/curl-to-k6/">curl to k6<span>Run an existing curl request as a k6 load test.</span></a>
-      <a href="/api-load-testing/">API load testing<span>Load test REST APIs without writing a script first.</span></a>
-      <a href="/ci-cd-load-testing/">CI/CD load testing<span>Replay a saved baseline test on every deploy.</span></a>
-      <a href="/installation.html">Install PerfLoad<span>Run PerfLoad today with Docker.</span></a>
-    </div>
+    <h2>Support</h2>
+    <p>
+      Questions about PerfLoad MCP &mdash; reach out at
+      <a href="mailto:support@perfload.io">support@perfload.io</a>.
+    </p>
   </main>
 
   <footer>
     &copy; 2026 PerfLoad &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a>
   </footer>
-
   <script src="/assets/theme.js"></script>
 </body>
 </html>
