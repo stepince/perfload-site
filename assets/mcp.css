@@ -77,3 +77,15 @@
 @media (max-width: 720px) {
   .mcp-promo { padding: 20px 16px; }
 }
+
+.mcp-form {
+  display: block;
+  width: 100%;
+  height: 480px;
+  border: none;
+  border-radius: 8px;
+}
+.mcp-form { background: #fff; }
+@media (max-width: 720px) {
+  .mcp-form { height: 360px; }
+}
