@@ -165,6 +165,38 @@
     @media (min-width: 1000px) {
       .card.wide { margin-left: -60px; margin-right: -60px; }
     }
+    pre {
+      background: #1a1e2e;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      font-size: 13px;
+      margin: 8px 0 16px;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      font-size: inherit;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 16px;
+      font-size: 14px;
+    }
+    th {
+      text-align: left;
+      color: var(--muted);
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+    }
   </style>
   <link rel="stylesheet" href="/assets/theme.css">
 </head>
@@ -187,7 +219,85 @@
 
   <main>
     <h1>PerfLoad Multiuser <span class="badge">New</span></h1>
-    <p>PerfLoad now supports multiple users.</p>
+    <p>
+      <strong>One PerfLoad server, many people &mdash; each with their own private workspace.</strong>
+      By default PerfLoad is open and single-user: anyone who can reach the server can use it.
+      Multiuser mode adds sign-in, so a team can share one self-hosted PerfLoad and each person only
+      sees their own runs, comparisons, reports, saved projects and API keys.
+    </p>
+
+    <h2>Single-user vs Multiuser</h2>
+    <table>
+      <thead><tr><th></th><th>Single-user (default)</th><th>Multiuser</th></tr></thead>
+      <tbody>
+        <tr><td>Sign-in</td><td>None &mdash; open to anyone who can reach the server</td><td>Required: local email/password, OpenID Connect, or both</td></tr>
+        <tr><td>Whose data</td><td>Everything is shared</td><td>Each user only sees their own runs, comparisons, reports, projects and API keys</td></tr>
+        <tr><td>Saved projects</td><td>Stored in the browser</td><td>Stored per user on the server</td></tr>
+        <tr><td>API and MCP access</td><td>No token needed</td><td>Per-user API keys (<code>Authorization: Bearer pl_&hellip;</code>)</td></tr>
+        <tr><td>Administrators</td><td>n/a</td><td>Add and manage accounts, but cannot read other users' tests or results</td></tr>
+        <tr><td>Best for</td><td>A private machine or one person</td><td>A team, or any server others can reach</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Nothing changes unless you turn it on. Existing Docker installs keep working as single-user,
+      and you can switch authentication off again to restore the original behavior &mdash; your data
+      volume stays compatible.
+    </p>
+
+    <h2>Sign-in options</h2>
+    <ul>
+      <li><strong>Local email and password</strong> &mdash; an administrator adds people, and each receives a one-time link to choose a password. Self-registration is off by default.</li>
+      <li><strong>OpenID Connect (SSO)</strong> &mdash; Google, Microsoft Entra ID, Okta, Keycloak, Auth0, or any standards-compliant provider. You supply your own identity-provider credentials; there is no central PerfLoad sign-in service.</li>
+    </ul>
+
+    <h2>Turn it on</h2>
+    <p>Set environment variables on the container. The first administrator is required:</p>
+    <pre><code>docker run -d --name perfload \
+  -p 3000:3000 \
+  -v perfload-runs:/app/runs \
+  -e PERFLOAD_AUTH_ENABLED=true \
+  -e PERFLOAD_AUTH_PROVIDERS=local \
+  -e PERFLOAD_ADMIN_EMAIL=you@example.com \
+  perfload/perfload-runner:latest</code></pre>
+    <p>
+      No password is set on the command line or logged. PerfLoad writes a one-time token to
+      <code>.admin-setup-token</code> in the data volume. Read it with
+      <code>docker exec perfload cat /app/runs/.admin-setup-token</code>, open <code>/login.html</code>,
+      choose <em>I have a setup or invitation link</em>, paste the token and choose a password.
+      The token works once.
+    </p>
+    <p>
+      Existing runs are assigned to the administrator the first time you enable authentication and
+      stay private to them.
+    </p>
+
+    <h2>Key settings</h2>
+    <table>
+      <thead><tr><th>Variable</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>PERFLOAD_AUTH_ENABLED</code></td><td>Default <code>false</code>. Set <code>true</code> to turn Multiuser on.</td></tr>
+        <tr><td><code>PERFLOAD_AUTH_PROVIDERS</code></td><td><code>local</code>, <code>oidc</code> or <code>local,oidc</code></td></tr>
+        <tr><td><code>PERFLOAD_ADMIN_EMAIL</code></td><td>Required. The first administrator; owns any existing data.</td></tr>
+        <tr><td><code>PERFLOAD_ALLOW_REGISTRATION</code></td><td>Default <code>false</code>. Admins can toggle it on the Users page.</td></tr>
+        <tr><td><code>PERFLOAD_SESSION_TIMEOUT</code></td><td>Session length in seconds. Default <code>86400</code>.</td></tr>
+        <tr><td><code>OIDC_ISSUER</code>, <code>OIDC_CLIENT_ID</code>, <code>OIDC_CLIENT_SECRET</code>, <code>OIDC_REDIRECT_URI</code></td><td>From your identity provider, when using SSO.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>API keys for scripts, CI and AI tools</h2>
+    <p>
+      Signed-in users create personal API keys from <em>Account &amp; API keys</em> in the account menu
+      (optionally with an expiry). A key is shown once, only reaches its owner's data, and can be
+      revoked at any time. These keys also work as tokens for <a href="/mcp/">PerfLoad MCP</a>.
+    </p>
+    <pre><code>curl -H "Authorization: Bearer $PERFLOAD_API_KEY" http://localhost:3000/runs</code></pre>
+
+    <h2>Running it behind HTTPS</h2>
+    <p>
+      For anything beyond a private machine, put PerfLoad behind a reverse proxy with HTTPS and set
+      <code>PERFLOAD_TRUST_PROXY=true</code>. See the <a href="/installation.html">installation guide</a>
+      for running PerfLoad with Docker.
+    </p>
   </main>
 
   <footer>
