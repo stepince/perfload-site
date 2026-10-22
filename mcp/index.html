@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <script>(function(){var t;try{t=localStorage.getItem("theme")}catch(e){}if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t)})()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PerfLoad MCP Server — AI-Powered Load Testing | Coming Soon</title>
-  <meta name="description" content="PerfLoad MCP is coming soon. Enable AI coding agents to create, run, and analyze API load tests using Model Context Protocol. Built on k6.">
+  <title>PerfLoad MCP Server — AI-Powered Load Testing | PerfLoad</title>
+  <meta name="description" content="PerfLoad MCP is now available. Enable AI coding agents to create, run, and analyze API load tests using Model Context Protocol. Built on k6.">
   <meta name="keywords" content="MCP load testing, Model Context Protocol performance testing, MCP server for k6, AI agent load testing, Claude Code load testing, Cursor performance testing, cURL to k6, performance regression testing">
-  <meta property="og:title" content="PerfLoad MCP — Load Testing for AI Agents (Coming Soon)">
-  <meta property="og:description" content="PerfLoad MCP is coming soon. Enable AI coding agents to create, run, and analyze API load tests using Model Context Protocol. Built on k6.">
+  <meta property="og:title" content="PerfLoad MCP — Load Testing for AI Agents">
+  <meta property="og:description" content="PerfLoad MCP is now available. Enable AI coding agents to create, run, and analyze API load tests using Model Context Protocol. Built on k6.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://perfload.io/mcp/">
   <meta property="og:image" content="https://perfload.io/assets/branding/perfload-thumbnail-1280x720.png">
@@ -175,15 +175,15 @@
         "@type": "WebPage",
         "@id": "https://perfload.io/mcp/#webpage",
         "url": "https://perfload.io/mcp/",
-        "name": "PerfLoad MCP Server — AI-Powered Load Testing | Coming Soon",
-        "description": "PerfLoad MCP is coming soon. Enable AI coding agents to create, run, and analyze API load tests using Model Context Protocol. Built on k6.",
+        "name": "PerfLoad MCP Server — AI-Powered Load Testing",
+        "description": "PerfLoad MCP is now available. Enable AI coding agents to create, run, and analyze API load tests using Model Context Protocol. Built on k6.",
         "isPartOf": { "@type": "WebSite", "name": "PerfLoad", "url": "https://perfload.io/" }
       },
       {
         "@type": "BreadcrumbList",
         "itemListElement": [
           { "@type": "ListItem", "position": 1, "name": "PerfLoad", "item": "https://perfload.io/" },
-          { "@type": "ListItem", "position": 2, "name": "MCP (Coming Soon)", "item": "https://perfload.io/mcp/" }
+          { "@type": "ListItem", "position": 2, "name": "MCP", "item": "https://perfload.io/mcp/" }
         ]
       }
     ]
@@ -197,8 +197,8 @@
     <span style="color: var(--muted); font-size: 14px;">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
     <nav>
       <a href="/installation.html">Installation</a>
-      <a href="/mcp/">MCP <span class="soon-pill">Coming Soon</span></a>
-      <a href="/cloud.html">Cloud <span class="soon-pill">Coming Soon</span></a>
+      <a href="/mcp/">MCP <span class="new-pill">New</span></a>
+      <a href="/multiuser/">Multiuser <span class="new-pill">New</span></a>
       <a href="/extension.html">Chrome Extension</a>
       <button type="button" class="theme-toggle" role="switch" aria-checked="true" aria-label="Toggle dark mode" data-theme-toggle>
         <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">&#9728;&#xFE0E;</span>
@@ -209,16 +209,15 @@
   </header>
 
   <main>
-    <h1>PerfLoad MCP <span class="badge">Coming soon</span></h1>
+    <h1>PerfLoad MCP <span class="badge">New</span></h1>
     <p>
       <strong>Your AI Agent. Your API. Real Performance Insights.</strong>
-      PerfLoad MCP is being built to let AI coding agents create, run, and analyze API load
+      PerfLoad MCP lets AI coding agents create, run, and analyze API load
       tests through the Model Context Protocol (MCP), using the same PerfLoad runner and k6
-      engine that power PerfLoad today. This page describes planned functionality &mdash; it
-      is not available yet and has no release date.
+      engine that power PerfLoad today.
     </p>
 
-    <h2>How it will work</h2>
+    <h2>How it works</h2>
     <ol>
       <li><strong>Describe what you need.</strong> Tell an AI agent your performance testing requirements.</li>
       <li><strong>The agent creates a test.</strong> It builds a PerfLoad test using MCP.</li>
@@ -229,13 +228,13 @@
 
     <h2>Example use case</h2>
     <div class="card">
-      <span class="label">Preview of planned functionality &mdash; not available yet</span>
+      <span class="label">Example prompt</span>
       <p class="prompt">&ldquo;Run a load test against my API with 100 virtual users for 60 seconds. Report the p95 latency, throughput, and error rate.&rdquo;</p>
     </div>
 
-    <h2>What's coming</h2>
+    <h2>What it does</h2>
     <ul>
-      <li><strong>AI Agent Integration</strong> &mdash; planned compatibility with MCP-enabled tools such as Claude Code and Cursor</li>
+      <li><strong>AI Agent Integration</strong> &mdash; works with MCP-enabled tools such as Claude Code and Cursor</li>
       <li><strong>Natural Language Testing</strong> &mdash; ask your AI agent to create and execute load tests</li>
       <li><strong>cURL to Load Test</strong> &mdash; convert existing API requests into performance tests</li>
       <li><strong>Performance Analysis</strong> &mdash; retrieve response times, throughput, error rates, and performance metrics</li>
@@ -243,30 +242,24 @@
       <li><strong>Automated Workflows</strong> &mdash; integrate performance testing into AI-assisted development and CI/CD workflows</li>
     </ul>
 
-    <h2>Get notified when it ships</h2>
-    <div class="card wide" id="notify">
-      <iframe title="Get notified about PerfLoad MCP" src="https://docs.google.com/forms/d/e/1FAIpQLSf6d7K6PnqSYh7yTZ8V6IE_DIfru8AR-N_8J8nRQtsTXYJeCA/viewform?embedded=true">Loading…</iframe>
-    </div>
-
-    <h2>What you can do today</h2>
+    <h2>Related</h2>
     <p>
-      PerfLoad already turns a cURL command into a k6 load test from the Workbench, and its
+      PerfLoad also turns a cURL command into a k6 load test from the Workbench, and its
       built-in <a href="/">skill files</a> let AI browser tools such as Claude in Chrome drive
-      the Workbench from a prompt. MCP is a separate, planned integration that is still under
-      development. See <a href="/curl-to-k6/">curl to k6</a>,
+      the Workbench from a prompt. See <a href="/curl-to-k6/">curl to k6</a>,
       <a href="/api-load-testing/">API load testing</a>, and
       <a href="/ci-cd-load-testing/">CI/CD load testing</a>.
     </p>
 
     <h2>FAQ</h2>
     <h3>Is PerfLoad MCP available?</h3>
-    <p>No. It is under development and labelled Coming Soon. There is no release date, and nothing to download or install yet.</p>
-    <h3>Does it work with Claude Code or Cursor today?</h3>
-    <p>No. Compatibility with MCP-enabled tools such as Claude Code and Cursor is planned, not shipped.</p>
+    <p>Yes. PerfLoad MCP has been released.</p>
+    <h3>Does it work with Claude Code or Cursor?</h3>
+    <p>It works with MCP-enabled tools such as Claude Code and Cursor.</p>
     <h3>What is MCP?</h3>
     <p>The Model Context Protocol is an open standard that lets AI applications connect to external tools and data sources.</p>
     <h3>Will it use k6?</h3>
-    <p>Yes. Load tests are planned to run on the same PerfLoad runner and k6 engine used today.</p>
+    <p>Yes. Load tests run on the same PerfLoad runner and k6 engine used today.</p>
 
     <h2>Support</h2>
     <p>

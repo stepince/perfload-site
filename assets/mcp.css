@@ -1,4 +1,4 @@
-/* Styles for the "PerfLoad MCP (coming soon)" announcement on the homepage and /mcp/.
+/* Styles for the "PerfLoad MCP" announcement on the homepage and /mcp/.
    Uses the shared tokens (--panel, --border, --accent, --text, --muted) so it follows light/dark. */
 .mcp-promo {
   position: relative;
@@ -103,7 +103,7 @@
   }
 }
 
-/* Outline "Coming soon" badge, same look as cloud.html and the homepage Cloud heading. */
+/* Outline "New" badge used on /mcp/, /multiuser/ and the homepage headings. */
 .badge {
   display: inline-block;
   font-size: 12px;

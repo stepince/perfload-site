@@ -4,8 +4,9 @@ Marketing site for [PerfLoad](https://perfload.io) — a self-hosted, no-script 
 
 ## Structure
 
-- `index.html` — homepage (what PerfLoad is, installation, Workbench/Dashboard, AI skills, Chrome extension, Cloud teaser)
-- `cloud.html` — PerfLoad Cloud (coming soon) page, includes an embedded Google Form signup
+- `index.html` — homepage (what PerfLoad is, installation, Workbench/Dashboard, AI skills, Chrome extension, Multiuser)
+- `multiuser/` — Multiuser page
+- `mcp/` — PerfLoad MCP page
 - `extension.html` — Chrome extension (PerfLoad Workspace Launcher) landing page
 - `privacy.html` — privacy policy for the Chrome extension
 - `curl-load-test/`, `api-load-testing/`, `curl-to-k6/`, `k6-alternative/`, `ci-cd-load-testing/`, `github-actions-load-testing/`, `self-hosted-load-testing/`, `http-load-test/`, `load-testing-tool/`, `website-load-test/`, `rest-api-load-test/` — SEO landing pages, one `index.html` per directory (served at `/<name>/`). They share `assets/landing.css` and `assets/landing.js`, and each carries its own title, description, canonical, Open Graph tags, and JSON-LD. The CI/CD and GitHub Actions examples mirror the runner's documented API (see the CI/CD section of the `perfload` repo's README). Keep all eleven listed in `sitemap.xml` and linked from the homepage's Guides section
@@ -33,20 +34,6 @@ This repo is served directly by **GitHub Pages** from the `main` branch. The `CN
 `perfload.net` is set up as a redirect to `perfload.io` via a Namecheap URL Redirect Record (Advanced DNS on the `perfload.net` domain, not this repo).
 
 Pushing to `main` deploys automatically — no CI step.
-
-## Updating the "Get notified" Google Form (cloud.html)
-
-The signup form on `cloud.html` is a Google Form embedded via iframe:
-
-```html
-<iframe src="https://docs.google.com/forms/d/1PCUszsEsFrAmjnXOmTLEDTvICTmMXAAixcNfMwS7t3s/viewform?embedded=true">
-```
-
-To edit the form itself (title, questions, branding text):
-
-1. Go to the edit URL — swap `/viewform` for `/edit` in the link above (or open [forms.google.com](https://forms.google.com) and find it in your form list).
-2. Make your changes — Google Forms autosaves, no republish step needed.
-3. Only touch this repo if the form's **ID** changes (e.g. you create a brand new form) — then update the `src` in `cloud.html` to the new form's `/viewform?embedded=true` URL.
 
 ## Naming conventions
 

@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
   <script>(function(){var t;try{t=localStorage.getItem("theme")}catch(e){}if(t!=="light"&&t!=="dark")t=matchMedia("(prefers-color-scheme: light)").matches?"light":"dark";document.documentElement.setAttribute("data-theme",t)})()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PerfLoad Cloud (coming soon) — PerfLoad</title>
-  <meta name="description" content="PerfLoad Cloud: a hosted control plane with a runner that deploys inside your own VPC for last-mile access to private test targets. Coming soon.">
-  <meta property="og:title" content="PerfLoad Cloud">
-  <meta property="og:description" content="A hosted control plane with a runner that deploys inside your own VPC for last-mile access to private test targets. Coming soon.">
+  <title>PerfLoad Multiuser | PerfLoad</title>
+  <meta name="description" content="PerfLoad now supports multiple users, so more than one person can use the same self-hosted PerfLoad HTTP load testing tool.">
+  <meta property="og:title" content="PerfLoad Multiuser">
+  <meta property="og:description" content="PerfLoad now supports multiple users, so more than one person can use the same self-hosted PerfLoad HTTP load testing tool.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://perfload.io/cloud.html">
+  <meta property="og:url" content="https://perfload.io/multiuser/">
   <meta property="og:image" content="https://perfload.io/assets/branding/perfload-thumbnail-1280x720.png">
   <meta property="og:image:width" content="1280">
   <meta property="og:image:height" content="720">
   <meta property="og:image:alt" content="PerfLoad: no-script HTTP load testing with Docker, Chrome and k6">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://perfload.io/assets/branding/perfload-thumbnail-1280x720.png">
-  <link rel="canonical" href="https://perfload.io/cloud.html">
+  <link rel="canonical" href="https://perfload.io/multiuser/">
   <link rel="icon" type="image/png" href="/assets/favicon.png">
   <style>
     :root {
@@ -133,6 +133,38 @@
       font-size: 14px;
       border-top: 1px solid var(--border);
     }
+    ol {
+      padding-left: 20px;
+    }
+    h3 {
+      font-size: 17px;
+      margin-top: 24px;
+      color: var(--text);
+    }
+    .prompt {
+      margin: 0;
+      color: var(--text);
+      font-style: italic;
+    }
+    .label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .card.wide {
+      padding: 4px;
+      overflow: hidden;
+    }
+    .card.wide iframe {
+      display: block;
+    }
+    @media (min-width: 1000px) {
+      .card.wide { margin-left: -60px; margin-right: -60px; }
+    }
   </style>
   <link rel="stylesheet" href="/assets/theme.css">
 </head>
@@ -142,8 +174,8 @@
     <span style="color: var(--muted); font-size: 14px;">No <span class="no-icon">script<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9"/><line x1="20" y1="80" x2="80" y2="20" stroke="var(--accent)" stroke-width="9"/></svg></span> HTTP load testing</span>
     <nav>
       <a href="/installation.html">Installation</a>
-      <a href="/mcp/">MCP <span class="soon-pill">Coming Soon</span></a>
-      <a href="/cloud.html">Cloud <span class="soon-pill">Coming Soon</span></a>
+      <a href="/mcp/">MCP <span class="new-pill">New</span></a>
+      <a href="/multiuser/">Multiuser <span class="new-pill">New</span></a>
       <a href="/extension.html">Chrome Extension</a>
       <button type="button" class="theme-toggle" role="switch" aria-checked="true" aria-label="Toggle dark mode" data-theme-toggle>
         <span class="theme-toggle__icon theme-toggle__icon--sun" aria-hidden="true">&#9728;&#xFE0E;</span>
@@ -154,35 +186,8 @@
   </header>
 
   <main>
-    <h1>PerfLoad Cloud <span class="badge">Coming soon</span></h1>
-    <p>
-      Cloud-hosted orchestration for PerfLoad, without giving up control of your network.
-      The dashboard, scheduling, and reporting run in PerfLoad's cloud — but the runner
-      that actually sends the requests deploys inside <strong>your own VPC</strong>, giving
-      it last-mile access to internal and private test targets that aren't reachable from
-      the public internet. Same curl-first, no-script workflow you already use — nothing
-      to expose publicly, no scripts to write.
-    </p>
-
-    <h2>What's coming</h2>
-    <ul>
-      <li>A hosted dashboard across projects and teams — no infrastructure to run yourself</li>
-      <li>A lightweight runner you deploy into your own VPC with a single command, for
-        last-mile access to internal/private endpoints</li>
-      <li>Centralized results and comparative reports across every run, from every runner</li>
-      <li>Still built on <a href="https://k6.io" target="_blank" rel="noopener">k6</a> under the hood</li>
-    </ul>
-
-    <h2>Get notified when it ships</h2>
-    <div class="card">
-      <iframe src="https://docs.google.com/forms/d/1PCUszsEsFrAmjnXOmTLEDTvICTmMXAAixcNfMwS7t3s/viewform?embedded=true">Loading…</iframe>
-    </div>
-
-    <h2>Support</h2>
-    <p>
-      Questions about PerfLoad Cloud — reach out at
-      <a href="mailto:support@perfload.io">support@perfload.io</a>.
-    </p>
+    <h1>PerfLoad Multiuser <span class="badge">New</span></h1>
+    <p>PerfLoad now supports multiple users.</p>
   </main>
 
   <footer>
