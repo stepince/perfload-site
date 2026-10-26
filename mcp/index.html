@@ -166,6 +166,38 @@
     @media (min-width: 1000px) {
       .card.wide { margin-left: -60px; margin-right: -60px; }
     }
+    pre {
+      background: #1a1e2e;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      overflow-x: auto;
+      font-size: 13px;
+      margin: 8px 0 16px;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      font-size: inherit;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 16px;
+      font-size: 14px;
+    }
+    th {
+      text-align: left;
+      color: var(--muted);
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -241,6 +273,53 @@
       <li><strong>Regression Detection</strong> &mdash; compare test runs to identify potential performance regressions</li>
       <li><strong>Automated Workflows</strong> &mdash; integrate performance testing into AI-assisted development and CI/CD workflows</li>
     </ul>
+
+    <h2>Turn it on</h2>
+    <p>
+      MCP is off by default. Set one environment variable on the container and PerfLoad serves an
+      MCP endpoint at <code>/mcp</code> (Streamable HTTP):
+    </p>
+    <pre><code>docker run -d --name perfload \
+  -p 3000:3000 \
+  -v perfload-runs:/app/runs \
+  -e PERFLOAD_MCP_ENABLED=true \
+  perfload/perfload-runner:latest</code></pre>
+    <p>
+      On a private machine that is all you need. For a server others can reach, also turn on
+      <a href="/multiuser/">Multiuser</a> (<code>PERFLOAD_AUTH_ENABLED=true</code>) so MCP requests
+      are authenticated; without it, anyone who can reach the server can start load tests.
+    </p>
+
+    <h2>Connect your AI agent</h2>
+    <p>
+      With Multiuser on, sign in and create a token under <em>Account &amp; API keys</em>
+      (it is shown once). Then add PerfLoad to your agent.
+    </p>
+    <h3>Claude Code</h3>
+    <pre><code>claude mcp add --transport http perfload http://localhost:3000/mcp \
+  --header "Authorization: Bearer $PERFLOAD_TOKEN"</code></pre>
+    <p>Omit the <code>--header</code> line if authentication is off.</p>
+    <h3>Cursor</h3>
+    <p>Add to <code>.cursor/mcp.json</code>:</p>
+    <pre><code>{ "mcpServers": { "perfload": {
+  "url": "http://localhost:3000/mcp",
+  "headers": { "Authorization": "Bearer ${env:PERFLOAD_TOKEN}" } } } }</code></pre>
+    <p>
+      Then ask your agent to list your tests, or try the example prompt above. Never commit tokens.
+      Over a network, use HTTPS; plain HTTP is only accepted on localhost.
+    </p>
+
+    <h2>Key settings</h2>
+    <table>
+      <thead><tr><th>Variable</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>PERFLOAD_MCP_ENABLED</code></td><td>Default <code>false</code>. Set <code>true</code> to turn MCP on.</td></tr>
+        <tr><td><code>PERFLOAD_MCP_MAX_VUS</code></td><td>Per-run virtual user cap for runs started over MCP. Default <code>100</code>.</td></tr>
+        <tr><td><code>PERFLOAD_MCP_MAX_DURATION_SEC</code></td><td>Per-run duration cap. Default <code>600</code>.</td></tr>
+        <tr><td><code>PERFLOAD_MCP_RATE_LIMIT</code></td><td>Requests per minute per user. Default <code>120</code>.</td></tr>
+        <tr><td><code>PERFLOAD_MCP_ALLOWED_TARGETS</code></td><td>Comma-separated hostnames allowed even if they resolve to private addresses.</td></tr>
+      </tbody>
+    </table>
 
     <h2>Related</h2>
     <p>
