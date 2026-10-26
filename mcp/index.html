@@ -198,6 +198,40 @@
       color: var(--text);
       vertical-align: top;
     }
+    .code-block {
+      position: relative;
+    }
+    .code-block pre {
+      padding-right: 56px;
+    }
+    .code-block .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: #1a1e2e;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0;
+      cursor: pointer;
+    }
+    .copy-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+    .copy-btn:hover {
+      color: var(--text);
+      border-color: var(--accent);
+    }
+    .copy-btn.copied {
+      color: #34d399;
+      border-color: #34d399;
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -283,11 +317,16 @@
 
     <h3>Single-user MCP</h3>
     <p>For a private machine or one person. No sign-in and no token.</p>
-    <pre><code>docker run -d --name perfload \
+    <div class="code-block">
+      <pre><code>docker run -d --name perfload \
   -p 3000:3000 \
   -v perfload-runs:/app/runs \
   -e PERFLOAD_MCP_ENABLED=true \
   perfload/perfload-runner:latest</code></pre>
+      <button class="copy-btn" type="button" aria-label="Copy">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
+    </div>
     <p>Connect your agent with just the URL:</p>
     <pre><code>claude mcp add --transport http perfload http://localhost:3000/mcp</code></pre>
     <p>
@@ -303,7 +342,8 @@
       For a team on a shared server. Each person signs in and connects with a personal token, and
       the agent only sees that person's tests and runs.
     </p>
-    <pre><code>docker run -d --name perfload \
+    <div class="code-block">
+      <pre><code>docker run -d --name perfload \
   -p 3000:3000 \
   -v perfload-runs:/app/runs \
   -e PERFLOAD_AUTH_ENABLED=true \
@@ -311,6 +351,10 @@
   -e PERFLOAD_ADMIN_EMAIL=you@example.com \
   -e PERFLOAD_MCP_ENABLED=true \
   perfload/perfload-runner:latest</code></pre>
+      <button class="copy-btn" type="button" aria-label="Copy">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
+    </div>
     <p>
       Sign in (see <a href="/multiuser/">Multiuser</a> for the first-administrator setup), open
       <em>Account &amp; API keys</em> and create a token. It is shown once. Then connect your agent with it:
@@ -372,5 +416,6 @@ claude mcp add --transport http perfload https://YOUR_PERFLOAD_HOST/mcp \
     &copy; 2026 PerfLoad &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a>
   </footer>
   <script src="/assets/theme.js"></script>
+  <script src="/assets/landing.js"></script>
 </body>
 </html>
