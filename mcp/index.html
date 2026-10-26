@@ -276,38 +276,59 @@
 
     <h2>Turn it on</h2>
     <p>
-      MCP is off by default. Set one environment variable on the container and PerfLoad serves an
-      MCP endpoint at <code>/mcp</code> (Streamable HTTP):
+      MCP is off by default. Set <code>PERFLOAD_MCP_ENABLED=true</code> and PerfLoad serves an MCP
+      endpoint at <code>/mcp</code> (Streamable HTTP). It works in both single-user and
+      <a href="/multiuser/">Multiuser</a> mode.
     </p>
+
+    <h3>Single-user MCP</h3>
+    <p>For a private machine or one person. No sign-in and no token.</p>
     <pre><code>docker run -d --name perfload \
   -p 3000:3000 \
   -v perfload-runs:/app/runs \
   -e PERFLOAD_MCP_ENABLED=true \
   perfload/perfload-runner:latest</code></pre>
+    <p>Connect your agent with just the URL:</p>
+    <pre><code>claude mcp add --transport http perfload http://localhost:3000/mcp</code></pre>
     <p>
-      On a private machine that is all you need. For a server others can reach, also turn on
-      <a href="/multiuser/">Multiuser</a> (<code>PERFLOAD_AUTH_ENABLED=true</code>) so MCP requests
-      are authenticated; without it, anyone who can reach the server can start load tests.
+      Cursor (<code>.cursor/mcp.json</code>):
+    </p>
+    <pre><code>{ "mcpServers": { "perfload": { "url": "http://localhost:3000/mcp" } } }</code></pre>
+    <p>
+      Anyone who can reach the server can start load tests, so keep this to a machine only you can reach.
     </p>
 
-    <h2>Connect your AI agent</h2>
+    <h3>Multiuser MCP</h3>
     <p>
-      With Multiuser on, sign in and create a token under <em>Account &amp; API keys</em>
-      (it is shown once). Then add PerfLoad to your agent.
+      For a team on a shared server. Each person signs in and connects with a personal token, and
+      the agent only sees that person's tests and runs.
     </p>
-    <h3>Claude Code</h3>
-    <pre><code>claude mcp add --transport http perfload http://localhost:3000/mcp \
+    <pre><code>docker run -d --name perfload \
+  -p 3000:3000 \
+  -v perfload-runs:/app/runs \
+  -e PERFLOAD_AUTH_ENABLED=true \
+  -e PERFLOAD_AUTH_PROVIDERS=local \
+  -e PERFLOAD_ADMIN_EMAIL=you@example.com \
+  -e PERFLOAD_MCP_ENABLED=true \
+  perfload/perfload-runner:latest</code></pre>
+    <p>
+      Sign in (see <a href="/multiuser/">Multiuser</a> for the first-administrator setup), open
+      <em>Account &amp; API keys</em> and create a token. It is shown once. Then connect your agent with it:
+    </p>
+    <pre><code>export PERFLOAD_TOKEN=pl_...
+claude mcp add --transport http perfload https://YOUR_PERFLOAD_HOST/mcp \
   --header "Authorization: Bearer $PERFLOAD_TOKEN"</code></pre>
-    <p>Omit the <code>--header</code> line if authentication is off.</p>
-    <h3>Cursor</h3>
-    <p>Add to <code>.cursor/mcp.json</code>:</p>
+    <p>
+      Cursor (<code>.cursor/mcp.json</code>):
+    </p>
     <pre><code>{ "mcpServers": { "perfload": {
-  "url": "http://localhost:3000/mcp",
+  "url": "https://YOUR_PERFLOAD_HOST/mcp",
   "headers": { "Authorization": "Bearer ${env:PERFLOAD_TOKEN}" } } } }</code></pre>
     <p>
-      Then ask your agent to list your tests, or try the example prompt above. Never commit tokens.
-      Over a network, use HTTPS; plain HTTP is only accepted on localhost.
+      Never commit tokens. Over a network, use HTTPS; plain HTTP is only accepted on localhost.
     </p>
+
+    <p>Then ask your agent to list your tests, or try the example prompt above.</p>
 
     <h2>Key settings</h2>
     <table>
